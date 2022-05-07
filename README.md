@@ -1,1 +1,1 @@
-# spring-boot-wu
+Java Spring Boot backend projects on Webuni
