@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "airport")
-public class AirportConfigProperties {
+public class AirportConfigurationProperties {
 	
 	// --- attributes ---------------------------------------------------------
 	
@@ -13,7 +13,7 @@ public class AirportConfigProperties {
 	
 	// --- constructors -------------------------------------------------------
 	
-	public AirportConfigProperties() {
+	public AirportConfigurationProperties() {
 		discount = new Discount();
 	}
 	

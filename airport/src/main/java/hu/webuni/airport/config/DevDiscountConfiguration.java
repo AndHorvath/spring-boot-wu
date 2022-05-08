@@ -9,7 +9,7 @@ import hu.webuni.airport.service.DiscountService;
 
 @Configuration
 @Profile("!prod")
-public class DiscountConfiguration {
+public class DevDiscountConfiguration {
 	
 	@Bean
 	public DiscountService discountService() {
