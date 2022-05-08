@@ -9,5 +9,4 @@ class AirportApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
