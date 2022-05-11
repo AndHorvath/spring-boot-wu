@@ -25,7 +25,7 @@ public class TopEmployeeService implements EmployeeService {
 	@Override
 	public int getPayRaisePercent(Employee employee) {
 		Map<Double, Integer> percentsToLimits = getPercentsToLimits();
-		for (Double limit : percentsToLimits.keySet()) {
+		for (double limit : percentsToLimits.keySet()) {
 			if (isEmploymentLongerThanGivenYears(employee, limit)) {
 				return percentsToLimits.get(limit);
 			}

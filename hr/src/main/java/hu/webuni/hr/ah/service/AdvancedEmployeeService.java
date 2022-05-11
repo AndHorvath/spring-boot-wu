@@ -33,7 +33,7 @@ public class AdvancedEmployeeService implements EmployeeService {
 		
 		Map<Double, Integer> percentsToLimits = createPercentsToLimits(limits, percents);
 		int baseValue = getBaseValue(percents);
-		for (Double limit : percentsToLimits.keySet()) {
+		for (double limit : percentsToLimits.keySet()) {
 			if (isEmploymentLongerThanGivenYears(employee, limit)) {
 				return percentsToLimits.get(limit);
 			}

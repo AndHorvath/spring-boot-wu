@@ -42,7 +42,7 @@ public class HrConfigurationProperties {
 			topConfig = new Top();
 		}
 		
-		public Default getDefaultConfig() {	return defaultConfig; }
+		public Default getDefaultConfig() { return defaultConfig; }
 		public Smart getSmartConfig() {	return smartConfig;	}
 		public Advanced getAdvancedConfig() { return advancedConfig; }
 		public Top getTopConfig() { return topConfig; }
@@ -95,7 +95,7 @@ public class HrConfigurationProperties {
 			percentsToLimits = new TreeMap<>(Comparator.reverseOrder());
 		}
 
-		public Map<Double, Integer> getPercentsToLimits() {	return percentsToLimits; }
+		public Map<Double, Integer> getPercentsToLimits() { return percentsToLimits; }
 		
 		public void setPercentsToLimits(Map<Double, Integer> percentsToLimits) {
 			this.percentsToLimits.putAll(percentsToLimits);

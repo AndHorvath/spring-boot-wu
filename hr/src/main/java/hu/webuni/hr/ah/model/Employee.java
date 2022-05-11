@@ -16,7 +16,6 @@ public class Employee {
 	// --- constructors -------------------------------------------------------
 	
 	public Employee(Long id, String name, LocalDateTime dateOfEntry, String position, int salary) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.dateOfEntry = dateOfEntry;
