@@ -18,7 +18,7 @@ public class HrApplication implements CommandLineRunner {
 	// --- attributes ---------------------------------------------------------
 	
 	@Autowired
-	SalaryService salaryService;
+	private SalaryService salaryService;
 	
 	// --- getters and setters ------------------------------------------------
 	
