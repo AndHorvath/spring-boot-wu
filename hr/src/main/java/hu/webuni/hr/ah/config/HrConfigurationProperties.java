@@ -43,7 +43,7 @@ public class HrConfigurationProperties {
 		}
 		
 		public Default getDefaultConfig() { return defaultConfig; }
-		public Smart getSmartConfig() {	return smartConfig;	}
+		public Smart getSmartConfig() {	return smartConfig; }
 		public Advanced getAdvancedConfig() { return advancedConfig; }
 		public Top getTopConfig() { return topConfig; }
 	}
