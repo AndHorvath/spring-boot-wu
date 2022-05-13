@@ -32,7 +32,7 @@ public class AdvancedEmployeeService implements EmployeeService {
 		validateConfigurationProperies(limits, percents);
 		
 		Map<Double, Integer> percentsToLimits = createPercentsToLimits(limits, percents);
-		int baseValue = getBaseValue(percents);
+		int baseValue = getBaseValue();
 		for (double limit : percentsToLimits.keySet()) {
 			if (isEmploymentLongerThanGivenYears(employee, limit)) {
 				return percentsToLimits.get(limit);
@@ -52,9 +52,9 @@ public class AdvancedEmployeeService implements EmployeeService {
 	}
 	
 	private void validateConfigurationProperies(List<Double> limits, List<Integer> percents) {
-		if (percents.size() != limits.size() + 1) {
+		if (percents.size() != limits.size()) {
 			throw new IllegalStateException(
-				"Number of percentage values must be equal to number of limit values plus 1."
+				"Number of percentage values must be equal to number of limit values."
 			);
 		}
 	}
@@ -67,7 +67,7 @@ public class AdvancedEmployeeService implements EmployeeService {
 		return percentsToLimits;
 	}
 	
-	private int getBaseValue(List<Integer> percents) {
-		return percents.get(percents.size() - 1);
+	private int getBaseValue() {
+		return configurationProperties.getPayRaise().getAdvancedConfig().getPercent().getBaseValue();
 	}
 }

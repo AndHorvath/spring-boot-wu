@@ -25,10 +25,12 @@ hr.payRaise:
       - 15
       - 10
       - 5
-      - 0
+      baseValue: 0
   topConfig:
     percentsToLimits:
       10.0: 20
       5.0: 15
       2.5: 10
       0.0: 5
+    percent:
+      baseValue: 0

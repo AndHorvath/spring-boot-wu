@@ -89,12 +89,15 @@ public class HrConfigurationProperties {
 	
 	public static class Top {
 		
+		private Percent percent;
 		private Map<Double, Integer> percentsToLimits;
 		
 		public Top() {
+			percent = new Percent();
 			percentsToLimits = new TreeMap<>(Comparator.reverseOrder());
 		}
 
+		public Percent getPercent() { return percent; }
 		public Map<Double, Integer> getPercentsToLimits() { return percentsToLimits; }
 		
 		public void setPercentsToLimits(Map<Double, Integer> percentsToLimits) {
