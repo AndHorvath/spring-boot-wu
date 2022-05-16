@@ -4,15 +4,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import hu.webuni.hr.ah.service.DefaultEmployeeService;
 import hu.webuni.hr.ah.service.EmployeeService;
+import hu.webuni.hr.ah.service.SmartEmployeeService;
 
 @Configuration
-@Profile("!smart & !advanced & !top")
-public class DefaultEmloyeeConfiguration {
+@Profile("smart")
+public class SmartEmployeeConfiguration {
 	
 	@Bean
 	public EmployeeService employeeService() {
-		return new DefaultEmployeeService();
+		return new SmartEmployeeService();
 	}
 }

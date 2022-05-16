@@ -32,20 +32,18 @@ public class HrApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		createTestEmployees().forEach(employee -> createEmployeeOutput(employee));
+		createTestEmployees().forEach(this::createEmployeeOutput);
 	}
 	
 	// --- private methods ----------------------------------------------------
 	
 	private List<Employee> createTestEmployees() {
-		List<Employee> testEmployees = new ArrayList<>();
-		testEmployees.addAll(List.of(
+		return new ArrayList<>(List.of(
 			new Employee(1L, "EmployeeA", LocalDateTime.of(2010, 10, 20, 0, 0), "PositionA", 1000),
 			new Employee(2L, "EmployeeB", LocalDateTime.of(2015, 10, 20, 0, 0), "PositionB", 1000),
 			new Employee(3L, "EmployeeC", LocalDateTime.of(2018, 10, 20, 0, 0), "PositionC", 1000),
 			new Employee(4L, "EmployeeD", LocalDateTime.of(2020, 10, 20, 0, 0), "PositionD", 1000)
 		));
-		return testEmployees;
 	}
 	
 	private void createEmployeeOutput(Employee employee) {
