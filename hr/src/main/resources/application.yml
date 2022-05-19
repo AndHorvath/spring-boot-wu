@@ -1,36 +1,45 @@
-spring.profiles.active: top
+spring:
+    profiles.active: top
+    thymeleaf:
+        cache: false
+        prefix: file:src/main/resources/templates/
+    mvc.format.date-time: yyyy-MM-dd HH:mm
 
 hr.payRaise:
-  defaultConfig:
-    percent:
-      baseValue: 5
-  smartConfig:
-    limit:
-      highValue: 10.0
-      middleValue: 5.0
-      lowValue: 2.5
-    percent:
-      highValue: 10
-      middleValue: 5
-      lowValue: 2
-      baseValue: 0
-  advancedConfig:
-    limit:
-      arbitraryValues:
-      - 10.0
-      - 5.0
-      - 2.5
-    percent:
-      arbitraryValues:
-      - 15
-      - 10
-      - 5
-      baseValue: 0
-  topConfig:
-    percentsToLimits:
-      10.0: 20
-      5.0: 15
-      2.5: 10
-      0.0: 5
-    percent:
-      baseValue: 0
+    # --- default pay raise configuration -------------------------------------
+    defaultConfig:
+        percent:
+            baseValue: 5
+    # --- smart pay raise configuration ---------------------------------------
+    smartConfig:
+        limit:
+            highValue: 10.0
+            middleValue: 5.0
+            lowValue: 2.5
+        percent:
+            highValue: 10
+            middleValue: 5
+            lowValue: 2
+            baseValue: 0
+    # --- advanced pay raise configuration ------------------------------------
+    advancedConfig:
+        limit:
+            arbitraryValues:
+                - 10.0
+                - 5.0
+                - 2.5
+        percent:
+            arbitraryValues:
+                - 15
+                - 10
+                - 5
+            baseValue: 0
+    # --- top pay raise configuration -----------------------------------------
+    topConfig:
+        percentsToLimits:
+            10.0: 20
+            5.0: 15
+            2.5: 10
+            0.0: 5
+        percent:
+            baseValue: 0

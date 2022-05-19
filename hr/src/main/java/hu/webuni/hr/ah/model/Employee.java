@@ -6,16 +6,17 @@ public class Employee {
 	
 	// --- attributes ---------------------------------------------------------
 	
-	private final Long id;
-	private final String name;
-	private final LocalDateTime dateOfEntry;
-	
+	private long id;
+	private String name;
+	private LocalDateTime dateOfEntry;
 	private String position;
 	private int salary;
 	
 	// --- constructors -------------------------------------------------------
+
+	public Employee() { }
 	
-	public Employee(Long id, String name, LocalDateTime dateOfEntry, String position, int salary) {
+	public Employee(long id, String name, LocalDateTime dateOfEntry, String position, int salary) {
 		this.id = id;
 		this.name = name;
 		this.dateOfEntry = dateOfEntry;
@@ -25,15 +26,18 @@ public class Employee {
 	
 	// --- getters and setters ------------------------------------------------
 
-	public Long getId() { return id; }
+	public long getId() { return id; }
 	public String getName() { return name; }
 	public LocalDateTime getDateOfEntry() {	return dateOfEntry;	}
 	public String getPosition() { return position; }
 	public int getSalary() { return salary;	}
 
+	public void setId(long id) { this.id = id; }
+	public void setName(String name) { this.name = name; }
+	public void setDateOfEntry(LocalDateTime dateOfEntry) { this.dateOfEntry = dateOfEntry; }
 	public void setPosition(String position) { this.position = position; }
 	public void setSalary(int salary) { this.salary = salary; }
-	
+
 	// --- public methods -----------------------------------------------------
 
 	@Override

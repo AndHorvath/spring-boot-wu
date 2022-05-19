@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.webuni.hr.ah.model.TestEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,19 +33,10 @@ public class HrApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		createTestEmployees().forEach(this::createEmployeeOutput);
+		TestEmployee.initializeList().forEach(this::createEmployeeOutput);
 	}
 	
 	// --- private methods ----------------------------------------------------
-	
-	private List<Employee> createTestEmployees() {
-		return new ArrayList<>(List.of(
-			new Employee(1L, "EmployeeA", LocalDateTime.of(2010, 10, 20, 0, 0), "PositionA", 1000),
-			new Employee(2L, "EmployeeB", LocalDateTime.of(2015, 10, 20, 0, 0), "PositionB", 1000),
-			new Employee(3L, "EmployeeC", LocalDateTime.of(2018, 10, 20, 0, 0), "PositionC", 1000),
-			new Employee(4L, "EmployeeD", LocalDateTime.of(2020, 10, 20, 0, 0), "PositionD", 1000)
-		));
-	}
 	
 	private void createEmployeeOutput(Employee employee) {
 		System.out.print(employee.toString());
