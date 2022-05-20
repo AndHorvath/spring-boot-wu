@@ -42,10 +42,10 @@ public class EmployeeController {
         return employeeDto != null ? ResponseEntity.ok(employeeDto) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/filtered")
-    public List<EmployeeDto> getEmployeeOverSalaryLimit(@RequestParam int limit) {
+    @GetMapping(params = "salaryLimit")
+    public List<EmployeeDto> getEmployeesOverSalaryLimit(@RequestParam int salaryLimit) {
         return employeeDtos.values().stream()
-            .filter(employeeDto -> employeeDto.getSalary() > limit)
+            .filter(employeeDto -> employeeDto.getSalary() > salaryLimit)
             .toList();
     }
 
