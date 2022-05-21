@@ -1,3 +1,5 @@
+# --- spring configuration ----------------------------------------------------
+
 spring:
     profiles.active: top
     thymeleaf:
@@ -5,12 +7,18 @@ spring:
         prefix: file:src/main/resources/templates/
     mvc.format.date-time: yyyy-MM-dd HH:mm
 
+# --- pay raise configuration -------------------------------------------------
+
 hr.payRaise:
+
     # --- default pay raise configuration -------------------------------------
+
     defaultConfig:
         percent:
             baseValue: 5
+
     # --- smart pay raise configuration ---------------------------------------
+
     smartConfig:
         limit:
             highValue: 10.0
@@ -21,7 +29,9 @@ hr.payRaise:
             middleValue: 5
             lowValue: 2
             baseValue: 0
+
     # --- advanced pay raise configuration ------------------------------------
+
     advancedConfig:
         limit:
             arbitraryValues:
@@ -34,7 +44,9 @@ hr.payRaise:
                 - 10
                 - 5
             baseValue: 0
+
     # --- top pay raise configuration -----------------------------------------
+
     topConfig:
         percentsToLimits:
             10.0: 20
