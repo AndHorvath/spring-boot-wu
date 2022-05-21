@@ -8,20 +8,20 @@ import hu.webuni.hr.ah.model.Employee;
 
 @Service
 public class DefaultEmployeeService implements EmployeeService {
-	
-	// --- attributes ---------------------------------------------------------
-	
-	@Autowired
-	private HrConfigurationProperties configurationProperties;
-	
-	// --- getters and setters ------------------------------------------------
-	
-	public HrConfigurationProperties getConfigurationProperties() { return configurationProperties; }
-	
-	// --- public methods -----------------------------------------------------
 
-	@Override
-	public int getPayRaisePercent(Employee employee) {
-		return configurationProperties.getPayRaise().getDefaultConfig().getPercent().getBaseValue();
-	}
+    // --- attributes ---------------------------------------------------------
+
+    @Autowired
+    private HrConfigurationProperties configurationProperties;
+
+    // --- getters and setters ------------------------------------------------
+
+    public HrConfigurationProperties getConfigurationProperties() { return configurationProperties; }
+
+    // --- public methods -----------------------------------------------------
+
+    @Override
+    public int getPayRaisePercent(Employee employee) {
+        return configurationProperties.getPayRaise().getDefaultConfig().getPercent().getBaseValue();
+    }
 }
