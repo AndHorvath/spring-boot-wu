@@ -19,9 +19,7 @@ public class HrApplication implements CommandLineRunner {
 
     // --- getters and setters ------------------------------------------------
 
-    public SalaryService getSalaryService() {
-        return salaryService;
-    }
+    public SalaryService getSalaryService() { return salaryService; }
 
     // --- public methods -----------------------------------------------------
 

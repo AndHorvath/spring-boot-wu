@@ -10,9 +10,9 @@ import hu.webuni.hr.ah.service.EmployeeService;
 @Configuration
 @Profile("advanced")
 public class AdvancedEmployeeConfiguration {
-	
-	@Bean
-	public EmployeeService employeeService() {
-		return new AdvancedEmployeeService();
-	}
+
+    @Bean
+    public EmployeeService employeeService() {
+        return new AdvancedEmployeeService();
+    }
 }

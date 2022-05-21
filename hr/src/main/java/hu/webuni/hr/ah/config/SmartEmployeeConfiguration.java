@@ -10,9 +10,9 @@ import hu.webuni.hr.ah.service.SmartEmployeeService;
 @Configuration
 @Profile("smart")
 public class SmartEmployeeConfiguration {
-	
-	@Bean
-	public EmployeeService employeeService() {
-		return new SmartEmployeeService();
-	}
+
+    @Bean
+    public EmployeeService employeeService() {
+        return new SmartEmployeeService();
+    }
 }

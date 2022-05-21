@@ -10,9 +10,9 @@ import hu.webuni.hr.ah.service.TopEmployeeService;
 @Configuration
 @Profile("top")
 public class TopEmployeeConfiguration {
-	
-	@Bean
-	public EmployeeService employeeService() {
-		return new TopEmployeeService();
-	}
+
+    @Bean
+    public EmployeeService employeeService() {
+        return new TopEmployeeService();
+    }
 }
