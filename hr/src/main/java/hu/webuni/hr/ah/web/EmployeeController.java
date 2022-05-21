@@ -51,8 +51,9 @@ public class EmployeeController {
 
     @PostMapping
     public EmployeeDto addEmployee(@RequestBody EmployeeDto employeeDto) {
-        employeeDtos.put(employeeDto.getId(), employeeDto);
-        return employeeDto;
+        long id = employeeDto.getId();
+        employeeDtos.put(id, employeeDto);
+        return employeeDtos.get(id);
     }
 
     @PutMapping("/{id}")

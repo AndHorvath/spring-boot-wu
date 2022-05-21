@@ -1,11 +1,20 @@
-# --- spring configuration ----------------------------------------------------
+# --- spring properties -------------------------------------------------------
 
 spring:
     profiles.active: top
+
+    # --- thymeleaf properties ------------------------------------------------
+
     thymeleaf:
         cache: false
         prefix: file:src/main/resources/templates/
-    mvc.format.date-time: yyyy-MM-dd HH:mm
+
+    # --- mvc properties ------------------------------------------------------
+
+    mvc.format:
+        date: yyyy-MM-dd
+        time: HH:mm
+        date-time: yyyy-MM-dd HH:mm
 
 # --- pay raise configuration -------------------------------------------------
 
