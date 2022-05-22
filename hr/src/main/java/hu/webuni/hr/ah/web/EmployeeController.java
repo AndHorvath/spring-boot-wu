@@ -6,7 +6,6 @@ import hu.webuni.hr.ah.model.TestEmployee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +48,14 @@ public class EmployeeController {
             .toList();
     }
 
+    @GetMapping(params = "initTest")
+    private List<EmployeeDto> initializeTestData(@RequestParam boolean initTest) {
+        if (initTest) {
+            initializeTestData();
+        }
+        return employeeDtos.values().stream().toList();
+    }
+
     @PostMapping
     public EmployeeDto addEmployee(@RequestBody EmployeeDto employeeDto) {
         long id = employeeDto.getId();
@@ -65,16 +72,29 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDtos.get(id));
     }
 
+    @DeleteMapping
+    public void deleteEmployees() {
+        employeeDtos.clear();
+    }
+
     @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable long id) {
+    public void deleteEmployeeById(@PathVariable long id) {
         employeeDtos.remove(id);
     }
 
     // --- private methods ----------------------------------------------------
 
     private void initializeTestData() {
-        employeeDtos = new HashMap<>();
+        initializeEmployeeDtos();
         TestEmployee.initializeList().forEach(this::updateEmployeeDtos);
+    }
+
+    private void initializeEmployeeDtos() {
+        if (employeeDtos == null) {
+            employeeDtos = new HashMap<>();
+        } else {
+            employeeDtos.clear();
+        }
     }
 
     private void updateEmployeeDtos(Employee employee) {
