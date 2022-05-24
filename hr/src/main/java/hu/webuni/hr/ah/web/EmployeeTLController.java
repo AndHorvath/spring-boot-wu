@@ -54,10 +54,10 @@ public class EmployeeTLController {
         return "redirect:/employees";
     }
 
-    // --- "/employees/update" endpoints --------------------------------------
+    // --- "/update" endpoints ------------------------------------------------
 
     @GetMapping("/employees/update/{id}")
-    public String getEmployeeForUpdateById(@PathVariable long id, Map<String, Object> model) {
+    public String getEmployeeForUpdateById(@PathVariable long id, Map<String, Employee> model) {
         Employee employeeToUpdate = getEmployeeById(id);
         model.put("employeeToUpdate", employeeToUpdate);
         return "update";
@@ -79,7 +79,7 @@ public class EmployeeTLController {
         return employees.stream()
             .filter(employee -> employee.getId() == id)
             .findAny()
-            .orElseThrow(getNoEmployeeException());
+            .orElseThrow(createNoEmployeeException());
     }
 
     private int getIndexByEmployeeId(long id) {
@@ -87,11 +87,11 @@ public class EmployeeTLController {
             employees.stream()
                 .filter(employee -> employee.getId() == id)
                 .findAny()
-                .orElseThrow(getNoEmployeeException())
+                .orElseThrow(createNoEmployeeException())
         );
     }
 
-    private Supplier<IllegalStateException> getNoEmployeeException() {
+    private Supplier<IllegalStateException> createNoEmployeeException() {
         return () -> new IllegalStateException("No employee with specified id in memory.");
     }
 }
