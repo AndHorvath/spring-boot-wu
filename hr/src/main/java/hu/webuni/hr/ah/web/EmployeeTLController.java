@@ -57,7 +57,7 @@ public class EmployeeTLController {
     // --- "/employees/update" endpoints --------------------------------------
 
     @GetMapping("/employees/update/{id}")
-    public String getEmployeeByForUpdateById(@PathVariable long id, Map<String, Object> model) {
+    public String getEmployeeForUpdateById(@PathVariable long id, Map<String, Object> model) {
         Employee employeeToUpdate = getEmployeeById(id);
         model.put("employeeToUpdate", employeeToUpdate);
         return "update";
