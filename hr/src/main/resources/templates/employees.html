@@ -4,20 +4,56 @@
     <head>
         <meta charset="UTF-8">
         <title>Human Resources application</title>
+
+        <style>
+            table { width: 50%; margin: 40px 0px 40px; }
+            th { text-align: left; border-bottom: 1px solid; }
+            form { width: 25%; }
+            input { width: 50%; float: right; border: 1px solid; margin: -1px; text-align: right; }
+            input[type=submit] { width: 25%; }
+            a { text-decoration: none; }
+        </style>
     </head>
 
     <body>
         <h1>List of employees</h1>
 
-        <ul>
-            <li th:each="employee : ${employees}">
-                <span th:text="${employee.id}">id</span>
-                <span th:text="${employee.name}">name</span>
-                <span th:text="${employee.dateOfEntry}">date of entry</span>
-                <span th:text="${employee.position}">position</span>
-                <span th:text="${employee.salary}">salary</span>
-            </li>
-        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Date of entry</th>
+                    <th>Position</th>
+                    <th>Salary</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.id}">id</td>
+
+                    <td>
+                        <a th:href="@{employees/update/{id}(id=${employee.id})}">
+                            <span th:text="${employee.name}">name</span>
+                        </a>
+                    </td>
+
+                    <td th:text="${employee.dateOfEntry}">date of entry</td>
+                    <td th:text="${employee.position}">position</td>
+                    <td th:text="${employee.salary}">salary</td>
+
+                    <td>
+                        <form th:action="@{employees/{id}(id=${employee.id})}" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Add new employee</h3>
 
         <form th:action="@{/employees}" method="post" th:object="${newEmployee}">
             Id: <input th:field="*{id}"><br>

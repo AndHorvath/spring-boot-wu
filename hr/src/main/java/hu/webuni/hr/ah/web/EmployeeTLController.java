@@ -3,11 +3,11 @@ package hu.webuni.hr.ah.web;
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestEmployee;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Controller
 public class EmployeeTLController {
@@ -26,12 +26,14 @@ public class EmployeeTLController {
 
     public List<Employee> getEmployees() { return employees; }
 
-    // --- public methods -----------------------------------------------------
+    // --- "/" endpoints ------------------------------------------------------
 
     @GetMapping("/")
     public String home() {
         return "index";
     }
+
+    // --- "/employees" endpoints ---------------------------------------------
 
     @GetMapping("/employees")
     public String listEmployees(Map<String, Object> model) {
@@ -46,9 +48,50 @@ public class EmployeeTLController {
         return "redirect:employees";
     }
 
+    @PostMapping("/employees/{id}")
+    public String deleteEmployee(@PathVariable long id) {
+        employees.remove(getEmployeeById(id));
+        return "redirect:/employees";
+    }
+
+    // --- "/employees/update" endpoints --------------------------------------
+
+    @GetMapping("/employees/update/{id}")
+    public String getEmployeeByForUpdateById(@PathVariable long id, Map<String, Object> model) {
+        Employee employeeToUpdate = getEmployeeById(id);
+        model.put("employeeToUpdate", employeeToUpdate);
+        return "update";
+    }
+
+    @PostMapping("/employees/update")
+    public String updateEmployeeById(Employee employeeToUpdate) {
+        employees.set(getIndexByEmployeeId(employeeToUpdate.getId()), employeeToUpdate);
+        return "redirect:/employees";
+    }
+
     // --- private methods ----------------------------------------------------
 
     private void initializeTestData() {
         employees = TestEmployee.initializeList();
+    }
+
+    private Employee getEmployeeById(long id) {
+        return employees.stream()
+            .filter(employee -> employee.getId() == id)
+            .findAny()
+            .orElseThrow(getNoEmployeeException());
+    }
+
+    private int getIndexByEmployeeId(long id) {
+        return employees.indexOf(
+            employees.stream()
+                .filter(employee -> employee.getId() == id)
+                .findAny()
+                .orElseThrow(getNoEmployeeException())
+        );
+    }
+
+    private Supplier<IllegalStateException> getNoEmployeeException() {
+        return () -> new IllegalStateException("No employee with specified id in memory.");
     }
 }

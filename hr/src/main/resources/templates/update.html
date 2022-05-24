@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Human Resources application</title>
+
+        <style>
+            form { width: 25%; margin-top: 40px }
+            input { width: 50%; float: right; border: 1px solid; margin: -1px; text-align: right; }
+            input[type=submit] { width: 25%; }
+            input:read-only { background: #efefef }
+        </style>
+    </head>
+
+    <body>
+        <h1>Update employee's data</h1>
+
+        <form th:action="@{/employees/update}" th:object="${employeeToUpdate}" method="post">
+            Id: <input th:field="*{id}" readonly><br>
+            Name: <input th:field="*{name}"><br>
+            Date of entry: <input th:field="*{dateOfEntry}"><br>
+            Position: <input th:field="*{position}"><br>
+            Salary: <input th:field="*{salary}"><br><br>
+            Submit: <input type="submit" value="Update data">
+        </form>
+    </body>
+</html>
