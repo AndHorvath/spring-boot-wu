@@ -1,5 +1,7 @@
 package hu.webuni.hr.ah.model;
 
+import hu.webuni.hr.ah.dto.EmployeeDto;
+
 import java.time.LocalDateTime;
 
 public class Employee {
@@ -39,6 +41,10 @@ public class Employee {
     public void setSalary(int salary) { this.salary = salary; }
 
     // --- public methods -----------------------------------------------------
+
+    public EmployeeDto toDto() {
+        return new EmployeeDto(id, name, dateOfEntry, position, salary);
+    }
 
     @Override
     public String toString() {

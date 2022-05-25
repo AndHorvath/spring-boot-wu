@@ -1,12 +1,11 @@
 package hu.webuni.hr.ah.web;
 
 import hu.webuni.hr.ah.dto.EmployeeDto;
-import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestEmployee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +20,7 @@ public class EmployeeController {
     // --- constructors -------------------------------------------------------
 
     public EmployeeController() {
+        employeeDtos = new LinkedHashMap<>();
         initializeTestData();
     }
 
@@ -48,11 +48,9 @@ public class EmployeeController {
             .toList();
     }
 
-    @GetMapping(params = "initTest")
-    private List<EmployeeDto> initializeTestData(@RequestParam boolean initTest) {
-        if (initTest) {
-            initializeTestData();
-        }
+    @GetMapping("/initTest")
+    public List<EmployeeDto> getTestData() {
+        initializeTestData();
         return employeeDtos.values().stream().toList();
     }
 
@@ -64,7 +62,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
         if (!employeeDtos.containsKey(id)) {
             return ResponseEntity.notFound().build();
         }
@@ -86,29 +84,17 @@ public class EmployeeController {
 
     private void initializeTestData() {
         initializeEmployeeDtos();
-        TestEmployee.initializeList().forEach(this::updateEmployeeDtos);
+        TestEmployee.initializeDtoList().forEach(this::updateEmployeeDtos);
     }
 
     private void initializeEmployeeDtos() {
-        if (employeeDtos == null) {
-            employeeDtos = new HashMap<>();
-        } else {
+        if (!employeeDtos.isEmpty()) {
             employeeDtos.clear();
         }
     }
 
-    private void updateEmployeeDtos(Employee employee) {
-        employeeDtos.put(employee.getId(), createEmployeeDto(employee));
-    }
-
-    private EmployeeDto createEmployeeDto(Employee employee) {
-        return new EmployeeDto(
-            employee.getId(),
-            employee.getName(),
-            employee.getDateOfEntry(),
-            employee.getPosition(),
-            employee.getSalary()
-        );
+    private void updateEmployeeDtos(EmployeeDto employeeDto) {
+        employeeDtos.put(employeeDto.getId(), employeeDto);
     }
 
     private EmployeeDto createEmployeeDto(long id, EmployeeDto employeeDto) {

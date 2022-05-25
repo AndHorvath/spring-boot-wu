@@ -1,5 +1,7 @@
 package hu.webuni.hr.ah.model;
 
+import hu.webuni.hr.ah.dto.EmployeeDto;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,5 +15,9 @@ public class TestEmployee {
             new Employee(3, "EmployeeC", LocalDateTime.of(2018, 10, 20, 0, 0), "PositionC", 1200),
             new Employee(4, "EmployeeD", LocalDateTime.of(2020, 10, 20, 0, 0), "PositionD", 1100)
         ));
+    }
+
+    public static List<EmployeeDto> initializeDtoList() {
+        return initializeList().stream().map(Employee::toDto).toList();
     }
 }

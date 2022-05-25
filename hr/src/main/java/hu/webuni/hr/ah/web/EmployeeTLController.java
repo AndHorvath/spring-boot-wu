@@ -65,7 +65,8 @@ public class EmployeeTLController {
 
     @PostMapping("/employees/update")
     public String updateEmployeeById(Employee employeeToUpdate) {
-        employees.set(getIndexByEmployeeId(employeeToUpdate.getId()), employeeToUpdate);
+        int indexToUpdate = getIndexByEmployeeId(employeeToUpdate.getId());
+        employees.set(indexToUpdate, employeeToUpdate);
         return "redirect:/employees";
     }
 
