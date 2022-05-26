@@ -1,12 +1,14 @@
 package hu.webuni.hr.ah.web;
 
 import hu.webuni.hr.ah.dto.CompanyDto;
+import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.model.DataView;
 import hu.webuni.hr.ah.model.TestCompany;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,20 +32,11 @@ public class CompanyController {
 
     public Map<String, CompanyDto> getCompanyDtos() { return companyDtos; }
 
-    // --- public methods -----------------------------------------------------
+    // --- simple company endpoints -------------------------------------------
 
     @GetMapping
     public MappingJacksonValue getCompanies() {
         return getCompanies(null);
-    }
-
-    @GetMapping(params = "fullView")
-    public MappingJacksonValue getCompanies(@RequestParam(required = false) Boolean fullView) {
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(getCompanyList());
-        if (fullView == null || !fullView) {
-            mappingJacksonValue.setSerializationView(DataView.BaseDataView.class);
-        }
-        return mappingJacksonValue;
     }
 
     @GetMapping("/{registrationNumber}")
@@ -84,6 +77,46 @@ public class CompanyController {
     @DeleteMapping("/{registrationNumber}")
     public void deleteCompanyByRegistrationNumber(@PathVariable String registrationNumber) {
         companyDtos.remove(registrationNumber);
+    }
+
+    // --- company view endpoints ---------------------------------------------
+
+    @GetMapping(params = "fullView")
+    public MappingJacksonValue getCompanies(@RequestParam(required = false) Boolean fullView) {
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(getCompanyList());
+        if (fullView == null || !fullView) {
+            mappingJacksonValue.setSerializationView(DataView.BaseDataView.class);
+        }
+        return mappingJacksonValue;
+    }
+
+    // --- company employee list endpoints ------------------------------------
+
+    @PostMapping("/{registrationNumber}/addEmployee")
+    public ResponseEntity<CompanyDto> addEmployeeToCompany(
+        @PathVariable String registrationNumber, @RequestBody EmployeeDto employeeDto) {
+
+        if (!companyDtos.containsKey(registrationNumber)) {
+            return ResponseEntity.notFound().build();
+        }
+        companyDtos.get(registrationNumber).addEmployee(employeeDto);
+        return ResponseEntity.ok(companyDtos.get(registrationNumber));
+    }
+
+    @PutMapping("/{registrationNumber}/updateEmployees")
+    public ResponseEntity<CompanyDto> updateEmployeeListInCompany(
+        @PathVariable String registrationNumber, @RequestBody List<EmployeeDto> employeeDtos) {
+
+        if (!companyDtos.containsKey(registrationNumber)) {
+            return ResponseEntity.notFound().build();
+        }
+        companyDtos.get(registrationNumber).setEmployees(employeeDtos);
+        return ResponseEntity.ok(companyDtos.get(registrationNumber));
+    }
+
+    @DeleteMapping("/{registrationNumber}/{employeeId}")
+    public void deleteEmployeeInCompanyById(@PathVariable String registrationNumber, @PathVariable long employeeId) {
+        companyDtos.get(registrationNumber).removeEmployeeById(employeeId);
     }
 
     // --- private methods ----------------------------------------------------

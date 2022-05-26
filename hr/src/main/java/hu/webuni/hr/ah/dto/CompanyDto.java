@@ -3,7 +3,7 @@ package hu.webuni.hr.ah.dto;
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.model.DataView;
 
-import java.util.List;
+import java.util.*;
 
 public class CompanyDto {
 
@@ -39,4 +39,15 @@ public class CompanyDto {
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
     public void setEmployees(List<EmployeeDto> employees) { this.employees = employees; }
+
+    // --- public methods -----------------------------------------------------
+
+    public void addEmployee (EmployeeDto employeeDto) {
+        employees = new ArrayList<>(employees);
+        employees.add(employeeDto);
+    }
+
+    public void removeEmployeeById(long id) {
+        employees.removeIf(employeeDto -> employeeDto.getId() == id);
+    }
 }
