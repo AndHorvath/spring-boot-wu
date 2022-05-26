@@ -1,15 +1,23 @@
 package hu.webuni.hr.ah.dto;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import hu.webuni.hr.ah.model.DataView;
+
 import java.util.List;
 
 public class CompanyDto {
 
     // --- attributes ---------------------------------------------------------
 
+    @JsonView(DataView.BaseDataView.class)
     private final String registrationNumber;
 
+    @JsonView(DataView.BaseDataView.class)
     private String name;
+
+    @JsonView(DataView.BaseDataView.class)
     private String address;
+
     private List<EmployeeDto> employees;
 
     // --- constructors -------------------------------------------------------
