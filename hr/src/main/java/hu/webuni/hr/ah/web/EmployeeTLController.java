@@ -26,14 +26,14 @@ public class EmployeeTLController {
 
     public List<Employee> getEmployees() { return employees; }
 
-    // --- "/" endpoints ------------------------------------------------------
+    // --- home endpoints -----------------------------------------------------
 
     @GetMapping("/")
     public String home() {
         return "index";
     }
 
-    // --- "/employees" endpoints ---------------------------------------------
+    // --- employee list endpoints --------------------------------------------
 
     @GetMapping("/employees")
     public String listEmployees(Map<String, Object> model) {
@@ -54,7 +54,7 @@ public class EmployeeTLController {
         return "redirect:/employees";
     }
 
-    // --- "/update" endpoints ------------------------------------------------
+    // --- employee update endpoints ------------------------------------------
 
     @GetMapping("/employees/update/{id}")
     public String getEmployeeForUpdateById(@PathVariable long id, Map<String, Employee> model) {
