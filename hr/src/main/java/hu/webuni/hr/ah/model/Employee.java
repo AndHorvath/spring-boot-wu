@@ -26,6 +26,14 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee(Employee employee) {
+        id = employee.id;
+        name = employee.name;
+        dateOfEntry = employee.dateOfEntry;
+        position = employee.position;
+        salary = employee.salary;
+    }
+
     // --- getters and setters ------------------------------------------------
 
     public long getId() { return id; }
