@@ -20,10 +20,6 @@ public class SalaryController {
     @Autowired
     SalaryService salaryService;
 
-    // --- getters and setters ------------------------------------------------
-
-    public SalaryService getSalaryService() { return salaryService; }
-
     // --- public methods -----------------------------------------------------
 
     @PutMapping

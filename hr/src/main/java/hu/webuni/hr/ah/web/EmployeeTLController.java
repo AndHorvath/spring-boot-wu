@@ -22,10 +22,6 @@ public class EmployeeTLController {
         initializeTestData();
     }
 
-    // --- getters and setters ------------------------------------------------
-
-    public List<Employee> getEmployees() { return employees; }
-
     // --- home endpoints -----------------------------------------------------
 
     @GetMapping("/")

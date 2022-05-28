@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +26,6 @@ public class CompanyController {
         companyDtos = new LinkedHashMap<>();
         initializeTestData();
     }
-
-    // --- getters and setters ------------------------------------------------
-
-    public Map<String, CompanyDto> getCompanyDtos() { return companyDtos; }
 
     // --- simple company endpoints -------------------------------------------
 

@@ -24,10 +24,6 @@ public class EmployeeController {
         initializeTestData();
     }
 
-    // --- getters and setters ------------------------------------------------
-
-    public Map<Long, EmployeeDto> getEmployeeDtos() { return employeeDtos; }
-
     // --- public methods -----------------------------------------------------
 
     @GetMapping
