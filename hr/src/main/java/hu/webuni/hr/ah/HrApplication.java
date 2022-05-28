@@ -17,10 +17,6 @@ public class HrApplication implements CommandLineRunner {
     @Autowired
     private SalaryService salaryService;
 
-    // --- getters and setters ------------------------------------------------
-
-    public SalaryService getSalaryService() { return salaryService; }
-
     // --- public methods -----------------------------------------------------
 
     public static void main(String[] args) {
