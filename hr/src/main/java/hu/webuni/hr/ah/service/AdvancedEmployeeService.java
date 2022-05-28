@@ -19,10 +19,6 @@ public class AdvancedEmployeeService implements EmployeeService {
     @Autowired
     private HrConfigurationProperties configurationProperties;
 
-    // --- getters and setters ------------------------------------------------
-
-    public HrConfigurationProperties getConfigurationProperties() { return configurationProperties; }
-
     // --- public methods -----------------------------------------------------
 
     @Override
