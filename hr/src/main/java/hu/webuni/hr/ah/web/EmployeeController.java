@@ -44,7 +44,7 @@ public class EmployeeController {
             .toList();
     }
 
-    @GetMapping("/initTest")
+    @GetMapping("/test")
     public List<EmployeeDto> getTestData() {
         initializeTestData();
         return employeeDtos.values().stream().toList();
