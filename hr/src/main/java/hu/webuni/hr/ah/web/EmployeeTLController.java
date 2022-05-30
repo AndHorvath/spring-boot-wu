@@ -5,6 +5,7 @@ import hu.webuni.hr.ah.model.TestEmployee;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -19,6 +20,7 @@ public class EmployeeTLController {
     // --- constructors -------------------------------------------------------
 
     public EmployeeTLController() {
+        employees = new ArrayList<>();
         initializeTestData();
     }
 
@@ -38,16 +40,16 @@ public class EmployeeTLController {
         return "employees";
     }
 
+    @GetMapping("/employees/{id}")
+    public String deleteEmployee(@PathVariable long id) {
+        employees.removeIf(employee -> employee.getId() == id);
+        return "redirect:/employees";
+    }
+
     @PostMapping("/employees")
     public String addEmployee(Employee newEmployee) {
         employees.add(newEmployee);
         return "redirect:employees";
-    }
-
-    @PostMapping("/employees/{id}")
-    public String deleteEmployee(@PathVariable long id) {
-        employees.remove(getEmployeeById(id));
-        return "redirect:/employees";
     }
 
     // --- employee update endpoints ------------------------------------------
@@ -66,6 +68,20 @@ public class EmployeeTLController {
         return "redirect:/employees";
     }
 
+    // --- employee test endpoints --------------------------------------------
+
+    @GetMapping("/employees/test")
+    public String deleteEmployees() {
+        employees.clear();
+        return "redirect:/employees";
+    }
+
+    @PostMapping("/employees/test")
+    public String fillTestData() {
+        initializeTestData();
+        return "redirect:/employees";
+    }
+
     // --- private methods ----------------------------------------------------
 
     private void initializeTestData() {
@@ -80,12 +96,7 @@ public class EmployeeTLController {
     }
 
     private int getIndexByEmployeeId(long id) {
-        return employees.indexOf(
-            employees.stream()
-                .filter(employee -> employee.getId() == id)
-                .findAny()
-                .orElseThrow(createNoEmployeeException())
-        );
+        return employees.indexOf(getEmployeeById(id));
     }
 
     private Supplier<IllegalStateException> createNoEmployeeException() {

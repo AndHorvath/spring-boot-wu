@@ -6,12 +6,18 @@
         <title>Human Resources application</title>
 
         <style>
-            table { width: 50%; margin: 40px 0px 40px; }
+            h1 { margin-bottom: 40px; }
+            h3 { margin-top: 40px; }
+            table { width: 50%; }
             th { text-align: left; border-bottom: 1px solid; }
             form { width: 25%; }
             input { width: 50%; float: right; border: 1px solid; margin: -1px; text-align: right; }
             input[type=submit] { width: 25%; }
             a { text-decoration: none; }
+
+            table.maintain { table-layout: fixed; }
+            form.maintain { width: 100%; }
+            button.maintain { width: 100%; text-align: center; }
         </style>
     </head>
 
@@ -45,7 +51,7 @@
                     <td th:text="${employee.salary}">salary</td>
 
                     <td>
-                        <form th:action="@{employees/{id}(id=${employee.id})}" method="post">
+                        <form th:action="@{employees/{id}(id=${employee.id})}" method="get">
                             <button type="submit">Delete</button>
                         </form>
                     </td>
@@ -63,5 +69,25 @@
             Salary: <input th:field="*{salary}"><br><br>
             Submit: <input type="submit" value="Add employee">
         </form>
+
+        <h3>Maintenance</h3>
+
+        <table class="maintain">
+            <tbody>
+                <tr>
+                    <td>
+                        <form class="maintain" th:action="@{employees/test}" method="get">
+                            <button class="maintain" type="submit">Clear list</button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <form class="maintain" th:action="@{employees/test}" method="post">
+                            <button class="maintain" type="submit">Fill test data</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>
