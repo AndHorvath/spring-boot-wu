@@ -40,7 +40,7 @@ public class CompanyController {
         return companyDto != null ? ResponseEntity.ok(companyDto) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/initTest")
+    @GetMapping("/test")
     public List<CompanyDto> getTestData() {
         initializeTestData();
         return companyDtos.values().stream().toList();
@@ -87,7 +87,7 @@ public class CompanyController {
 
     // --- company employee list endpoints ------------------------------------
 
-    @PostMapping("/{registrationNumber}/addEmployee")
+    @PostMapping("/{registrationNumber}/employees")
     public ResponseEntity<CompanyDto> addEmployeeToCompany(
         @PathVariable String registrationNumber, @RequestBody EmployeeDto employeeDto) {
 
@@ -98,7 +98,7 @@ public class CompanyController {
         return ResponseEntity.ok(companyDtos.get(registrationNumber));
     }
 
-    @PutMapping("/{registrationNumber}/updateEmployees")
+    @PutMapping("/{registrationNumber}/employees")
     public ResponseEntity<CompanyDto> updateEmployeeListInCompany(
         @PathVariable String registrationNumber, @RequestBody List<EmployeeDto> employeeDtos) {
 
@@ -109,7 +109,7 @@ public class CompanyController {
         return ResponseEntity.ok(companyDtos.get(registrationNumber));
     }
 
-    @DeleteMapping("/{registrationNumber}/{employeeId}")
+    @DeleteMapping("/{registrationNumber}/employees/{employeeId}")
     public void deleteEmployeeInCompanyById(@PathVariable String registrationNumber, @PathVariable long employeeId) {
         companyDtos.get(registrationNumber).removeEmployeeById(employeeId);
     }
