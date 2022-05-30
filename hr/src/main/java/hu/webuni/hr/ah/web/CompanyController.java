@@ -4,9 +4,10 @@ import hu.webuni.hr.ah.dto.CompanyDto;
 import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.model.DataView;
 import hu.webuni.hr.ah.model.TestCompany;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,9 +35,9 @@ public class CompanyController {
     }
 
     @GetMapping("/{registrationNumber}")
-    public ResponseEntity<CompanyDto> getCompanyByRegistrationNumber(@PathVariable String registrationNumber) {
-        CompanyDto companyDto = companyDtos.get(registrationNumber);
-        return companyDto != null ? ResponseEntity.ok(companyDto) : ResponseEntity.notFound().build();
+    public CompanyDto getCompanyByRegistrationNumber(@PathVariable String registrationNumber) {
+        validateParameter(registrationNumber);
+        return companyDtos.get(registrationNumber);
     }
 
     @GetMapping("/test")
@@ -53,14 +54,10 @@ public class CompanyController {
     }
 
     @PutMapping("/{registrationNumber}")
-    public ResponseEntity<CompanyDto> updateCompany(
-        @PathVariable String registrationNumber, @RequestBody CompanyDto companyDto) {
-
-        if (!companyDtos.containsKey(registrationNumber)) {
-            return ResponseEntity.notFound().build();
-        }
+    public CompanyDto updateCompany(@PathVariable String registrationNumber, @RequestBody CompanyDto companyDto) {
+        validateParameter(registrationNumber);
         companyDtos.put(registrationNumber, createCompanyDto(registrationNumber, companyDto));
-        return ResponseEntity.ok(companyDtos.get(registrationNumber));
+        return companyDtos.get(registrationNumber);
     }
 
     @DeleteMapping
@@ -87,29 +84,26 @@ public class CompanyController {
     // --- company employee list endpoints ------------------------------------
 
     @PostMapping("/{registrationNumber}/employees")
-    public ResponseEntity<CompanyDto> addEmployeeToCompany(
+    public CompanyDto addEmployeeToCompany(
         @PathVariable String registrationNumber, @RequestBody EmployeeDto employeeDto) {
 
-        if (!companyDtos.containsKey(registrationNumber)) {
-            return ResponseEntity.notFound().build();
-        }
+        validateParameter(registrationNumber);
         companyDtos.get(registrationNumber).addEmployee(employeeDto);
-        return ResponseEntity.ok(companyDtos.get(registrationNumber));
+        return companyDtos.get(registrationNumber);
     }
 
     @PutMapping("/{registrationNumber}/employees")
-    public ResponseEntity<CompanyDto> updateEmployeeListInCompany(
+    public CompanyDto updateEmployeeListInCompany(
         @PathVariable String registrationNumber, @RequestBody List<EmployeeDto> employeeDtos) {
 
-        if (!companyDtos.containsKey(registrationNumber)) {
-            return ResponseEntity.notFound().build();
-        }
+        validateParameter(registrationNumber);
         companyDtos.get(registrationNumber).setEmployees(employeeDtos);
-        return ResponseEntity.ok(companyDtos.get(registrationNumber));
+        return companyDtos.get(registrationNumber);
     }
 
     @DeleteMapping("/{registrationNumber}/employees/{employeeId}")
     public void deleteEmployeeInCompanyById(@PathVariable String registrationNumber, @PathVariable long employeeId) {
+        validateParameter(registrationNumber);
         companyDtos.get(registrationNumber).removeEmployeeById(employeeId);
     }
 
@@ -123,6 +117,12 @@ public class CompanyController {
     private void initializeCompanyDtos() {
         if (!companyDtos.isEmpty()) {
             companyDtos.clear();
+        }
+    }
+
+    private void validateParameter(String registrationNumber) {
+        if (!companyDtos.containsKey(registrationNumber)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 

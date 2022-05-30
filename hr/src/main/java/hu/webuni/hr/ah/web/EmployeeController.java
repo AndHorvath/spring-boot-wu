@@ -2,8 +2,9 @@ package hu.webuni.hr.ah.web;
 
 import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.model.TestEmployee;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,9 +32,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable long id) {
-        EmployeeDto employeeDto = employeeDtos.get(id);
-        return employeeDto != null ? ResponseEntity.ok(employeeDto) : ResponseEntity.notFound().build();
+    public EmployeeDto getEmployeeById(@PathVariable long id) {
+        validateParameter(id);
+        return employeeDtos.get(id);
     }
 
     @GetMapping(params = "salaryLimit")
@@ -57,12 +58,10 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
-        if (!employeeDtos.containsKey(id)) {
-            return ResponseEntity.notFound().build();
-        }
+    public EmployeeDto updateEmployee(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
+        validateParameter(id);
         employeeDtos.put(id, createEmployeeDto(id, employeeDto));
-        return ResponseEntity.ok(employeeDtos.get(id));
+        return employeeDtos.get(id);
     }
 
     @DeleteMapping
@@ -85,6 +84,12 @@ public class EmployeeController {
     private void initializeEmployeeDtos() {
         if (!employeeDtos.isEmpty()) {
             employeeDtos.clear();
+        }
+    }
+
+    private void validateParameter(long id) {
+        if (!employeeDtos.containsKey(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
