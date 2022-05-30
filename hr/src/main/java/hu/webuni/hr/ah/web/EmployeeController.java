@@ -21,7 +21,6 @@ public class EmployeeController {
 
     public EmployeeController() {
         employeeDtos = new LinkedHashMap<>();
-        initializeTestData();
     }
 
     // --- public methods -----------------------------------------------------

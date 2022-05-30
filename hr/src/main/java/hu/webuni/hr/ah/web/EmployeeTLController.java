@@ -21,7 +21,6 @@ public class EmployeeTLController {
 
     public EmployeeTLController() {
         employees = new ArrayList<>();
-        initializeTestData();
     }
 
     // --- home endpoints -----------------------------------------------------

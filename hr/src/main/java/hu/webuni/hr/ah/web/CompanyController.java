@@ -24,7 +24,6 @@ public class CompanyController {
 
     public CompanyController() {
         companyDtos = new LinkedHashMap<>();
-        initializeTestData();
     }
 
     // --- simple company endpoints -------------------------------------------

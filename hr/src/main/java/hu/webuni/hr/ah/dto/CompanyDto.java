@@ -48,6 +48,7 @@ public class CompanyDto {
     }
 
     public void removeEmployeeById(long id) {
+        employees = new ArrayList<>(employees);
         employees.removeIf(employeeDto -> employeeDto.getId() == id);
     }
 }
