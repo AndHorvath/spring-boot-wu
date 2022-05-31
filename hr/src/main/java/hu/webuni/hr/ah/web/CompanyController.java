@@ -1,5 +1,6 @@
 package hu.webuni.hr.ah.web;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.dto.CompanyDto;
 import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.model.DataView;
@@ -29,12 +30,12 @@ public class CompanyController {
 
     // --- simple company endpoints -------------------------------------------
 
-    @GetMapping
-    public MappingJacksonValue getCompanies() {
-        return getCompanies(null);
+    @GetMapping(params = "full=true")
+    public List<CompanyDto> getCompanies() {
+        return getCompanyList();
     }
 
-    @GetMapping("/{registrationNumber}")
+    @GetMapping(value = "/{registrationNumber}", params = "full=true")
     public CompanyDto getCompanyByRegistrationNumber(@PathVariable String registrationNumber) {
         validateParameter(registrationNumber);
         return companyDtos.get(registrationNumber);
@@ -72,13 +73,19 @@ public class CompanyController {
 
     // --- company view endpoints ---------------------------------------------
 
-    @GetMapping(params = "fullView")
-    public MappingJacksonValue getCompanies(@RequestParam(required = false) Boolean fullView) {
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(getCompanyList());
-        if (fullView == null || !fullView) {
-            mappingJacksonValue.setSerializationView(DataView.BaseDataView.class);
-        }
-        return mappingJacksonValue;
+    @GetMapping
+    @JsonView(DataView.BaseDataView.class)
+    public List<CompanyDto> getCompanies(@RequestParam(required = false) Boolean full) {
+        return getCompanyList();
+    }
+
+    @GetMapping("/{registrationNumber}")
+    @JsonView(DataView.BaseDataView.class)
+    public CompanyDto getCompanyByRegistrationNumber(
+        @PathVariable String registrationNumber, @RequestParam(required = false) Boolean full) {
+
+        validateParameter(registrationNumber);
+        return companyDtos.get(registrationNumber);
     }
 
     // --- company employee list endpoints ------------------------------------
