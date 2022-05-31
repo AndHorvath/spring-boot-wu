@@ -6,7 +6,6 @@ import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.model.DataView;
 import hu.webuni.hr.ah.model.TestCompany;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
