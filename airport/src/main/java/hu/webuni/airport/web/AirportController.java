@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import hu.webuni.airport.dto.AirportDto;
+import hu.webuni.airport.service.NonUniqueIataException;
 
 @RestController
 @RequestMapping("/api/airports")
@@ -43,28 +48,30 @@ public class AirportController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<AirportDto> getById(@PathVariable long id) {
+	public AirportDto getById(@PathVariable long id) {
 		AirportDto airportDto = airports.get(id);
-		return airportDto != null ?
-			ResponseEntity.ok(airportDto) : ResponseEntity.notFound().build();
+		if (airportDto == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
+		return airportDto;
 	}
 	
 	@PostMapping
-	public AirportDto createAirport(@RequestBody AirportDto airportDto) {
+	public AirportDto createAirport(@RequestBody @Valid AirportDto airportDto) {
+		checkUniqueIata(airportDto);
 		airports.put(airportDto.getId(), airportDto);
 		return airportDto;
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<AirportDto> modifyAirport(
-		@PathVariable long id, @RequestBody AirportDto airportDto) {
-		
+	public AirportDto modifyAirport(@PathVariable long id, @RequestBody @Valid AirportDto airportDto) {		
 		if (!airports.containsKey(id)) {
-			return ResponseEntity.notFound().build();
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
+		checkUniqueIata(airportDto);
 		airportDto.setId(id);
 		airports.put(id, airportDto);
-		return ResponseEntity.ok(airportDto);
+		return airportDto;
 	}
 	
 	@DeleteMapping("/{id}")
@@ -79,5 +86,14 @@ public class AirportController {
 			1L, new AirportDto(1, "Ferenc Liszt Airport", "BUD"),
 			2L, new AirportDto(2, "Flughafen Berlin-Schönefeld", "SXF")
 		));
+	}
+	
+	private void checkUniqueIata(AirportDto airportDtoToCheck) {
+		Optional<AirportDto> airportWithSameIata = airports.values().stream()
+			.filter(airportDto -> airportDto.getIata().equals(airportDtoToCheck.getIata()))
+			.findAny();
+		if (airportWithSameIata.isPresent() && airportWithSameIata.get().getId() != airportDtoToCheck.getId()) {
+			throw new NonUniqueIataException(airportDtoToCheck.getIata());
+		}
 	}
 }
