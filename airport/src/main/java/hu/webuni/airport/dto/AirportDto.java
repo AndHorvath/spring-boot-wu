@@ -1,11 +1,16 @@
 package hu.webuni.airport.dto;
 
+import javax.validation.constraints.Size;
+
 public class AirportDto {
 	
 	// --- attributes ---------------------------------------------------------
 	
 	private long id;
+	
+	@Size(min = 3, max = 40)
 	private String name;
+	
 	private String iata;
 	
 	// --- constructors -------------------------------------------------------
