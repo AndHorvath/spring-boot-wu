@@ -10,6 +10,9 @@ public class CompanyDto {
     // --- attributes ---------------------------------------------------------
 
     @JsonView(DataView.BaseDataView.class)
+    private final long id;
+
+    @JsonView(DataView.BaseDataView.class)
     private final String registrationNumber;
 
     @JsonView(DataView.BaseDataView.class)
@@ -22,7 +25,8 @@ public class CompanyDto {
 
     // --- constructors -------------------------------------------------------
 
-    public CompanyDto(String registrationNumber, String name, String address, List<EmployeeDto> employees) {
+    public CompanyDto(long id, String registrationNumber, String name, String address, List<EmployeeDto> employees) {
+        this.id = id;
         this.registrationNumber = registrationNumber;
         this.name = name;
         this.address = address;
@@ -31,6 +35,7 @@ public class CompanyDto {
 
     // --- getters and setters ------------------------------------------------
 
+    public long getId() { return id; }
     public String getRegistrationNumber() { return registrationNumber; }
     public String getName() { return name; }
     public String getAddress() { return address; }
@@ -47,8 +52,8 @@ public class CompanyDto {
         employees.add(employeeDto);
     }
 
-    public void removeEmployeeById(long id) {
+    public void removeEmployeeById(long employeeId) {
         employees = new ArrayList<>(employees);
-        employees.removeIf(employeeDto -> employeeDto.getId() == id);
+        employees.removeIf(employeeDto -> employeeDto.getId() == employeeId);
     }
 }

@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -19,12 +17,12 @@ public class CompanyController {
 
     // --- attributes ---------------------------------------------------------
 
-    private Map<String, CompanyDto> companyDtos;
+    private Map<Long, CompanyDto> companyDtos;
 
     // --- constructors -------------------------------------------------------
 
     public CompanyController() {
-        companyDtos = new LinkedHashMap<>();
+        companyDtos = new TreeMap<>();
     }
 
     // --- simple company endpoints -------------------------------------------
@@ -34,10 +32,10 @@ public class CompanyController {
         return getCompanyList();
     }
 
-    @GetMapping(value = "/{registrationNumber}", params = "full=true")
-    public CompanyDto getCompanyByRegistrationNumber(@PathVariable String registrationNumber) {
-        validateParameter(registrationNumber);
-        return companyDtos.get(registrationNumber);
+    @GetMapping(value = "/{id}", params = "full=true")
+    public CompanyDto getCompanyById(@PathVariable long id) {
+        validateParameter(id);
+        return companyDtos.get(id);
     }
 
     @GetMapping("/test")
@@ -48,16 +46,16 @@ public class CompanyController {
 
     @PostMapping
     public CompanyDto addCompany(@RequestBody CompanyDto companyDto) {
-        String registrationNumber = companyDto.getRegistrationNumber();
-        companyDtos.put(registrationNumber, companyDto);
-        return companyDtos.get(registrationNumber);
+        long id = companyDto.getId();
+        companyDtos.put(id, companyDto);
+        return companyDtos.get(id);
     }
 
-    @PutMapping("/{registrationNumber}")
-    public CompanyDto updateCompany(@PathVariable String registrationNumber, @RequestBody CompanyDto companyDto) {
-        validateParameter(registrationNumber);
-        companyDtos.put(registrationNumber, createCompanyDto(registrationNumber, companyDto));
-        return companyDtos.get(registrationNumber);
+    @PutMapping("/{id}")
+    public CompanyDto updateCompany(@PathVariable long id, @RequestBody CompanyDto companyDto) {
+        validateParameter(id);
+        companyDtos.put(id, createCompanyDto(id, companyDto));
+        return companyDtos.get(id);
     }
 
     @DeleteMapping
@@ -65,9 +63,9 @@ public class CompanyController {
         companyDtos.clear();
     }
 
-    @DeleteMapping("/{registrationNumber}")
-    public void deleteCompanyByRegistrationNumber(@PathVariable String registrationNumber) {
-        companyDtos.remove(registrationNumber);
+    @DeleteMapping("/{id}")
+    public void deleteCompanyById(@PathVariable long id) {
+        companyDtos.remove(id);
     }
 
     // --- company view endpoints ---------------------------------------------
@@ -78,39 +76,33 @@ public class CompanyController {
         return getCompanyList();
     }
 
-    @GetMapping("/{registrationNumber}")
+    @GetMapping("/{id}")
     @JsonView(DataView.BaseDataView.class)
-    public CompanyDto getCompanyByRegistrationNumber(
-        @PathVariable String registrationNumber, @RequestParam(required = false) Boolean full) {
-
-        validateParameter(registrationNumber);
-        return companyDtos.get(registrationNumber);
+    public CompanyDto getCompanyById(@PathVariable long id, @RequestParam(required = false) Boolean full) {
+        validateParameter(id);
+        return companyDtos.get(id);
     }
 
     // --- company employee list endpoints ------------------------------------
 
-    @PostMapping("/{registrationNumber}/employees")
-    public CompanyDto addEmployeeToCompany(
-        @PathVariable String registrationNumber, @RequestBody EmployeeDto employeeDto) {
-
-        validateParameter(registrationNumber);
-        companyDtos.get(registrationNumber).addEmployee(employeeDto);
-        return companyDtos.get(registrationNumber);
+    @PostMapping("/{id}/employees")
+    public CompanyDto addEmployeeToCompany(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
+        validateParameter(id);
+        companyDtos.get(id).addEmployee(employeeDto);
+        return companyDtos.get(id);
     }
 
-    @PutMapping("/{registrationNumber}/employees")
-    public CompanyDto updateEmployeeListInCompany(
-        @PathVariable String registrationNumber, @RequestBody List<EmployeeDto> employeeDtos) {
-
-        validateParameter(registrationNumber);
-        companyDtos.get(registrationNumber).setEmployees(employeeDtos);
-        return companyDtos.get(registrationNumber);
+    @PutMapping("/{id}/employees")
+    public CompanyDto updateEmployeeListInCompany(@PathVariable long id, @RequestBody List<EmployeeDto> employeeDtos) {
+        validateParameter(id);
+        companyDtos.get(id).setEmployees(employeeDtos);
+        return companyDtos.get(id);
     }
 
-    @DeleteMapping("/{registrationNumber}/employees/{employeeId}")
-    public void deleteEmployeeInCompanyById(@PathVariable String registrationNumber, @PathVariable long employeeId) {
-        validateParameter(registrationNumber);
-        companyDtos.get(registrationNumber).removeEmployeeById(employeeId);
+    @DeleteMapping("/{companyId}/employees/{employeeId}")
+    public void deleteEmployeeInCompanyById(@PathVariable long companyId, @PathVariable long employeeId) {
+        validateParameter(companyId);
+        companyDtos.get(companyId).removeEmployeeById(employeeId);
     }
 
     // --- private methods ----------------------------------------------------
@@ -126,19 +118,20 @@ public class CompanyController {
         }
     }
 
-    private void validateParameter(String registrationNumber) {
-        if (!companyDtos.containsKey(registrationNumber)) {
+    private void validateParameter(long id) {
+        if (!companyDtos.containsKey(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
     private void updateCompanyDtos(CompanyDto companyDto) {
-        companyDtos.put(companyDto.getRegistrationNumber(), companyDto);
+        companyDtos.put(companyDto.getId(), companyDto);
     }
 
-    private CompanyDto createCompanyDto(String registrationNumber, CompanyDto companyDto) {
+    private CompanyDto createCompanyDto(long id, CompanyDto companyDto) {
         return new CompanyDto(
-            registrationNumber,
+            id,
+            companyDto.getRegistrationNumber(),
             companyDto.getName(),
             companyDto.getAddress(),
             companyDto.getEmployees()
