@@ -1,3 +1,11 @@
+# --- server configurations ---------------------------------------------------
+
+server.error.include-message: always
+
+# --- logging configurations --------------------------------------------------
+
+logging.level.hu.webuni.hr.ah.validation.CustomExceptionHandler: error
+
 # --- spring properties -------------------------------------------------------
 
 spring:

@@ -1,5 +1,6 @@
 package hu.webuni.hr.ah.dto;
 
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 public class EmployeeDto {
@@ -7,10 +8,17 @@ public class EmployeeDto {
     // --- attributes ---------------------------------------------------------
 
     private final long id;
+
+    @NotBlank
     private final String name;
+
+    @Past
     private final LocalDateTime dateOfEntry;
 
+    @NotBlank
     private String position;
+
+    @Positive
     private int salary;
 
     // --- constructors -------------------------------------------------------

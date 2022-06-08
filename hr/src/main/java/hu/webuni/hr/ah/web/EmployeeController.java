@@ -2,10 +2,11 @@ package hu.webuni.hr.ah.web;
 
 import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.model.TestEmployee;
-import org.springframework.http.HttpStatus;
+import hu.webuni.hr.ah.validation.DtoIdentifierValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,9 @@ public class EmployeeController {
     // --- attributes ---------------------------------------------------------
 
     private Map<Long, EmployeeDto> employeeDtos;
+
+    @Autowired
+    private DtoIdentifierValidator dtoIdentifierValidator;
 
     // --- constructors -------------------------------------------------------
 
@@ -51,14 +55,14 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeDto addEmployee(@RequestBody EmployeeDto employeeDto) {
+    public EmployeeDto addEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
         long id = employeeDto.getId();
         employeeDtos.put(id, employeeDto);
         return employeeDtos.get(id);
     }
 
     @PutMapping("/{id}")
-    public EmployeeDto updateEmployee(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
+    public EmployeeDto updateEmployee(@PathVariable long id, @RequestBody @Valid EmployeeDto employeeDto) {
         validateParameter(id);
         employeeDtos.put(id, createEmployeeDto(id, employeeDto));
         return employeeDtos.get(id);
@@ -88,9 +92,7 @@ public class EmployeeController {
     }
 
     private void validateParameter(long id) {
-        if (!employeeDtos.containsKey(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        dtoIdentifierValidator.validateDtoIdentifierExistence(employeeDtos, id);
     }
 
     private void updateEmployeeDtos(EmployeeDto employeeDto) {
