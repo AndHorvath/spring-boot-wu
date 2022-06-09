@@ -7,7 +7,7 @@ import hu.webuni.hr.ah.config.HrConfigurationProperties;
 import hu.webuni.hr.ah.model.Employee;
 
 @Service
-public class DefaultEmployeeService implements EmployeeService {
+public class DefaultEmployeeService extends AbstractEmployeeService {
 
     // --- attributes ---------------------------------------------------------
 

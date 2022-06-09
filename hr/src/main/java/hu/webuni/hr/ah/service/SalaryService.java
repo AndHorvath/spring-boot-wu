@@ -1,5 +1,6 @@
 package hu.webuni.hr.ah.service;
 
+import hu.webuni.hr.ah.model.SalaryCondition;
 import org.springframework.stereotype.Service;
 
 import hu.webuni.hr.ah.model.Employee;
@@ -28,5 +29,20 @@ public class SalaryService {
         int payRaisePercent = employeeService.getPayRaisePercent(employee);
 
         employee.setSalary((int) (salary * (1 + payRaisePercent / 100.0)));
+    }
+
+    public SalaryCondition getEmployeesSalaryCondition(Employee employee) {
+        SalaryCondition salaryCondition = new SalaryCondition(employee);
+        salaryCondition.setPayRaisePercent(employeeService.getPayRaisePercent(employee));
+        salaryCondition.setRaisedSalary(getRaisedSalary(employee));
+        return salaryCondition;
+    }
+
+    // --- private methods ----------------------------------------------------
+
+    public int getRaisedSalary(Employee employee) {
+        Employee auxEmployee = new Employee(employee);
+        setSalaryOfEmployee(auxEmployee);
+        return auxEmployee.getSalary();
     }
 }

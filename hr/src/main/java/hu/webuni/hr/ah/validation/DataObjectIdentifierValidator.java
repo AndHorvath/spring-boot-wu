@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class DtoIdentifierValidator {
+public class DataObjectIdentifierValidator {
 
-    public void validateDtoIdentifierExistence(Map<Long, ?> dtoMap, long id) {
-        if (!dtoMap.containsKey(id)) {
+    public void validateIdentifierExistence(Map<Long, ?> dataObjectMap, long id) {
+        if (!dataObjectMap.containsKey(id)) {
             throw new NonExistingIdentifierException(id);
         }
     }
