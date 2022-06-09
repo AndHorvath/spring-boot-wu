@@ -13,11 +13,11 @@ public class Company {
 
     private String name;
     private String address;
-    private List<EmployeeDto> employees;
+    private List<Employee> employees;
 
     // --- constructors -------------------------------------------------------
 
-    public Company(long id, String registrationNumber, String name, String address, List<EmployeeDto> employees) {
+    public Company(long id, String registrationNumber, String name, String address, List<Employee> employees) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.name = name;
@@ -31,9 +31,9 @@ public class Company {
     public String getRegistrationNumber() { return registrationNumber; }
     public String getName() { return name; }
     public String getAddress() { return address; }
-    public List<EmployeeDto> getEmployees() { return employees; }
+    public List<Employee> getEmployees() { return employees; }
 
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
-    public void setEmployees(List<EmployeeDto> employees) { this.employees = employees; }
+    public void setEmployees(List<Employee> employees) { this.employees = employees; }
 }
