@@ -48,16 +48,4 @@ public class CompanyDto {
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
     public void setEmployees(List<EmployeeDto> employees) { this.employees = employees; }
-
-    // --- public methods -----------------------------------------------------
-
-    public void addEmployee (EmployeeDto employeeDto) {
-        employees = new ArrayList<>(employees);
-        employees.add(employeeDto);
-    }
-
-    public void removeEmployeeById(long employeeId) {
-        employees = new ArrayList<>(employees);
-        employees.removeIf(employeeDto -> employeeDto.getId() == employeeId);
-    }
 }

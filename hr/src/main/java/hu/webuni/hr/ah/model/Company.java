@@ -2,6 +2,7 @@ package hu.webuni.hr.ah.model;
 
 import hu.webuni.hr.ah.dto.EmployeeDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Company {
@@ -36,4 +37,16 @@ public class Company {
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
     public void setEmployees(List<Employee> employees) { this.employees = employees; }
+
+    // public methods ---------------------------------------------------------
+
+    public void addEmployee(Employee employee) {
+        employees = new ArrayList<>(employees);
+        employees.add(employee);
+    }
+
+    public void removeEmployeeById(long employeeId) {
+        employees = new ArrayList<>(employees);
+        employees.removeIf(employee -> employee.getId() == employeeId);
+    }
 }
