@@ -18,7 +18,7 @@ public class SalaryController {
     // --- attributes ---------------------------------------------------------
 
     @Autowired
-    SalaryService salaryService;
+    private SalaryService salaryService;
 
     // --- public methods -----------------------------------------------------
 
