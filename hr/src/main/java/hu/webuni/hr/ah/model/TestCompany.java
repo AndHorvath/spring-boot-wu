@@ -15,8 +15,4 @@ public class TestCompany {
             new Company(4, "DD-4", "CompanyD", "AddressD", TestEmployee.initializeDtoList().stream().limit(4).toList())
         ));
     }
-
-    public static List<CompanyDto> initializeDtoList() {
-        return initializeList().stream().map(Company::toDto).toList();
-    }
 }

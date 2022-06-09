@@ -37,10 +37,4 @@ public class Company {
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
     public void setEmployees(List<EmployeeDto> employees) { this.employees = employees; }
-
-    // --- public methods -----------------------------------------------------
-
-    public CompanyDto toDto() {
-        return new CompanyDto(id, registrationNumber, name, address, employees);
-    }
 }
