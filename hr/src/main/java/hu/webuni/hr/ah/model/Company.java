@@ -1,6 +1,5 @@
 package hu.webuni.hr.ah.model;
 
-import hu.webuni.hr.ah.dto.CompanyDto;
 import hu.webuni.hr.ah.dto.EmployeeDto;
 
 import java.util.List;
