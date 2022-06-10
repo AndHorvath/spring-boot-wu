@@ -24,12 +24,12 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Employee(Employee employee) {
-        id = employee.id;
-        name = employee.name;
-        dateOfEntry = employee.dateOfEntry;
-        position = employee.position;
-        salary = employee.salary;
+    public Employee(Employee other) {
+        id = other.id;
+        name = other.name;
+        dateOfEntry = other.dateOfEntry;
+        position = other.position;
+        salary = other.salary;
     }
 
     // --- getters and setters ------------------------------------------------
