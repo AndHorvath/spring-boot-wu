@@ -354,6 +354,7 @@ class EmployeeControllerIT {
             return webTestClient.put()
                 .uri(BASE_URI + uriExtension).bodyValue(employee)
                 .exchange()
+                .expectStatus().isBadRequest()
                 .expectBody(Object.class).returnResult().getResponseBody();
         } else {
             throw new IllegalArgumentException("Invalid status parameter");
