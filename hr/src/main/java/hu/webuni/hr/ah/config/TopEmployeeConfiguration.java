@@ -9,9 +9,10 @@ import hu.webuni.hr.ah.service.TopEmployeeService;
 
 @Configuration
 @Profile("top")
-public class TopEmployeeConfiguration {
+public class TopEmployeeConfiguration implements EmployeeConfiguration {
 
     @Bean
+    @Override
     public EmployeeService employeeService() {
         return new TopEmployeeService();
     }

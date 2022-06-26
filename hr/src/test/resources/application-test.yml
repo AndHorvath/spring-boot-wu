@@ -1,0 +1,48 @@
+# --- pay raise test configuration -------------------------------------------------
+
+hr.payRaise:
+
+    # --- default pay raise test configuration -------------------------------------
+
+    defaultConfig:
+        percent:
+            baseValue: 6
+
+    # --- smart pay raise test configuration ---------------------------------------
+
+    smartConfig:
+        limit:
+            highValue: 10.0
+            middleValue: 5.0
+            lowValue: 2.5
+        percent:
+            highValue: 10
+            middleValue: 5
+            lowValue: 3
+            baseValue: 0
+
+    # --- advanced pay raise test configuration ------------------------------------
+
+    advancedConfig:
+        limit:
+            arbitraryValues:
+                - 10.0
+                - 5.0
+                - 2.5
+        percent:
+            arbitraryValues:
+                - 10
+                - 5
+                - 3
+            baseValue: 0
+
+    # --- top pay raise test configuration -----------------------------------
+
+    topConfig:
+        percentsToLimits:
+            10.0: 10
+            5.0: 5
+            2.5: 2
+            0.0: 1
+        percent:
+            basevalue: 0

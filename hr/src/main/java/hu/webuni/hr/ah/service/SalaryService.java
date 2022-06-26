@@ -18,10 +18,6 @@ public class SalaryService {
         this.employeeService = employeeService;
     }
 
-    // --- getters and setters ------------------------------------------------
-
-    public EmployeeService getEmployeeService() { return employeeService; }
-
     // --- public methods -----------------------------------------------------
 
     public void setSalaryOfEmployee(Employee employee) {
@@ -40,7 +36,7 @@ public class SalaryService {
 
     // --- private methods ----------------------------------------------------
 
-    public int getRaisedSalary(Employee employee) {
+    private int getRaisedSalary(Employee employee) {
         Employee auxEmployee = new Employee(employee);
         setSalaryOfEmployee(auxEmployee);
         return auxEmployee.getSalary();

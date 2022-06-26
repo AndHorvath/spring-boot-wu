@@ -10,6 +10,9 @@ public class SalaryConditionDto {
 
     // --- constructors -------------------------------------------------------
 
+
+    public SalaryConditionDto() { }
+
     public SalaryConditionDto(EmployeeDto employee) {
         this.employee = employee;
     }

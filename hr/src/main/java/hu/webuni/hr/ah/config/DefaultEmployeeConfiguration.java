@@ -9,9 +9,10 @@ import hu.webuni.hr.ah.service.EmployeeService;
 
 @Configuration
 @Profile("!smart & !advanced & !top")
-public class DefaultEmployeeConfiguration {
+public class DefaultEmployeeConfiguration implements EmployeeConfiguration {
 
     @Bean
+    @Override
     public EmployeeService employeeService() {
         return new DefaultEmployeeService();
     }

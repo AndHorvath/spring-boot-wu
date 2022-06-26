@@ -18,7 +18,7 @@ public class CompanyService {
 
     // --- attributes ---------------------------------------------------------
 
-    private Map<Long , Company> companies;
+    private Map<Long, Company> companies;
 
     @Autowired
     private DataObjectIdentifierValidator identifierValidator;
@@ -46,15 +46,16 @@ public class CompanyService {
     }
 
     public Company saveCompany(Company company) {
+        validateParameter(company);
         long id = company.getId();
         companies.put(id, company);
         return companies.get(id);
     }
 
-    public Company updateCompany(long id, Company company) {
-        validateParameter(id, company);
-        companies.put(id, createCompany(id, company));
-        return companies.get(id);
+    public Company updateCompany(long idToUpdate, Company company) {
+        validateParameters(idToUpdate, company);
+        companies.put(idToUpdate, createCompany(idToUpdate, company));
+        return companies.get(idToUpdate);
     }
 
     public void deleteCompanies() {
@@ -88,9 +89,9 @@ public class CompanyService {
         return companies.values().stream().toList();
     }
 
-    private void validateParameter(long id, Company company) {
+    private void validateParameters(long id, Company company) {
         validateParameter(id);
-        validateParameter(company);
+        validateParameter(id, company);
     }
 
     private void validateParameter(long id) {
@@ -98,20 +99,25 @@ public class CompanyService {
     }
 
     private void validateParameter(Company company) {
+        validateParameter(company.getId(), company);
+    }
+
+    private void validateParameter(long idToUpdate, Company company) {
         Optional<Company> companyOfSameRegistrationNumber = companies.values().stream()
-            .filter(savedCompany -> isOfSameRegistrationNumber(savedCompany, company))
+            .filter(savedCompany -> isOfSameRegistrationNumber(savedCompany, company, idToUpdate))
             .findAny();
         if (companyOfSameRegistrationNumber.isPresent()) {
             throw new NonUniqueIdentifierException(company);
         }
     }
 
-    private boolean isOfSameRegistrationNumber(Company company, Company other) {
-        return company.getRegistrationNumber().equals(other.getRegistrationNumber()) && isNotUpdate(company, other);
+    private boolean isOfSameRegistrationNumber(Company savedCompany, Company company, long idToUpdate) {
+        return savedCompany.getRegistrationNumber().equals(company.getRegistrationNumber())
+            && isNotUpdate(savedCompany, idToUpdate);
     }
 
-    private boolean isNotUpdate(Company company, Company other) {
-        return company.getId() != other.getId();
+    private boolean isNotUpdate(Company savedCompany, long idToUpdate) {
+        return savedCompany.getId() != idToUpdate;
     }
 
     private void initializeTestData() {

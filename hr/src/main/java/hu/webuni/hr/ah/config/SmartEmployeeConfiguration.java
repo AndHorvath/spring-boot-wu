@@ -9,9 +9,10 @@ import hu.webuni.hr.ah.service.SmartEmployeeService;
 
 @Configuration
 @Profile("smart")
-public class SmartEmployeeConfiguration {
+public class SmartEmployeeConfiguration implements EmployeeConfiguration {
 
     @Bean
+    @Override
     public EmployeeService employeeService() {
         return new SmartEmployeeService();
     }

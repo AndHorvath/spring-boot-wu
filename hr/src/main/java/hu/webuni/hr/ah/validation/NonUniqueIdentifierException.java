@@ -5,6 +5,6 @@ import hu.webuni.hr.ah.model.Company;
 public class NonUniqueIdentifierException extends InvalidIdentifierException {
 
     public NonUniqueIdentifierException(Company company) {
-        super("Specified company registration number already exists: " + company.getRegistrationNumber());
+        super("Specified registration number already exists: " + company.getRegistrationNumber());
     }
 }
