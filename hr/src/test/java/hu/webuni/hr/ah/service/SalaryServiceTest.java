@@ -32,11 +32,11 @@ class SalaryServiceTest {
     @BeforeEach
     void setUp() {
         employee = new Employee(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        when(employeeService.getPayRaisePercent(employee)).thenReturn(15);
     }
 
     @Test
     void testSetSalaryOfEmployee() {
+        when(employeeService.getPayRaisePercent(employee)).thenReturn(15);
         salaryService.setSalaryOfEmployee(employee);
 
         assertThat(employee.getSalary()).isEqualTo(1150);
@@ -44,7 +44,6 @@ class SalaryServiceTest {
 
     @Test
     void testGetEmployeesSalaryCondition() {
-        reset(employeeService);
         salaryServiceForArbitraryEmployeeInstances = new SalaryService(arbitraryEmployee -> 15);
         salaryCondition = salaryServiceForArbitraryEmployeeInstances.getEmployeesSalaryCondition(employee);
 
