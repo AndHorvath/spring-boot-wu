@@ -57,17 +57,18 @@ public class AirportController {
 	
 	@PutMapping("/{id}")
 	public AirportDto modifyAirport(@PathVariable long id, @RequestBody @Valid AirportDto airportDto) {
-		Airport airportToUpdate = airportService.findById(id);
-		if (airportToUpdate == null) {
+		if (airportService.findById(id) == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 		airportDto.setId(id);
-		Airport airportToSave = airportService.save(airportMapper.dtoToAirport(airportDto));
-		return airportMapper.airportToDto(airportToSave);
+		return airportMapper.airportToDto(airportService.update(airportMapper.dtoToAirport(airportDto)));
 	}
 	
 	@DeleteMapping("/{id}")
 	public void deleteAirport(@PathVariable long id) {
+		if (airportService.findById(id) == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
 		airportService.delete(id);
 	}
 }
