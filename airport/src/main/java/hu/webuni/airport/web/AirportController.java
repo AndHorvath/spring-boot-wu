@@ -1,6 +1,8 @@
 package hu.webuni.airport.web;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.function.Supplier;
 
 import javax.validation.Valid;
 
@@ -42,10 +44,7 @@ public class AirportController {
 	
 	@GetMapping("/{id}")
 	public AirportDto getById(@PathVariable long id) {
-		Airport airport = airportService.findById(id);
-		if (airport == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
+		Airport airport = airportService.findById(id).orElseThrow(callNotFoundException());	
 		return airportMapper.airportToDto(airport);
 	}
 	
@@ -57,18 +56,26 @@ public class AirportController {
 	
 	@PutMapping("/{id}")
 	public AirportDto modifyAirport(@PathVariable long id, @RequestBody @Valid AirportDto airportDto) {
-		if (airportService.findById(id) == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
 		airportDto.setId(id);
-		return airportMapper.airportToDto(airportService.update(airportMapper.dtoToAirport(airportDto)));
+		try {
+			return airportMapper.airportToDto(airportService.update(airportMapper.dtoToAirport(airportDto)));
+		} catch (NoSuchElementException exception) {
+			throw callNotFoundException().get();
+		}
 	}
 	
 	@DeleteMapping("/{id}")
 	public void deleteAirport(@PathVariable long id) {
-		if (airportService.findById(id) == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		try {
+			airportService.delete(id);
+		} catch (NoSuchElementException exception) {
+			throw callNotFoundException().get();
 		}
-		airportService.delete(id);
+	}
+	
+	// --- private methods ----------------------------------------------------
+	
+	private Supplier<ResponseStatusException> callNotFoundException() {
+		return () -> new ResponseStatusException(HttpStatus.NOT_FOUND); 
 	}
 }
