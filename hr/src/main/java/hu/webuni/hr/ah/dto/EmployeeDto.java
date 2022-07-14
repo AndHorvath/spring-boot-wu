@@ -7,7 +7,7 @@ public class EmployeeDto {
 
     // --- attributes ---------------------------------------------------------
 
-    private final long id;
+    private final Long id;
 
     @NotBlank
     private final String name;
@@ -23,7 +23,7 @@ public class EmployeeDto {
 
     // --- constructors -------------------------------------------------------
 
-    public EmployeeDto(long id, String name, LocalDateTime dateOfEntry, String position, int salary) {
+    public EmployeeDto(Long id, String name, LocalDateTime dateOfEntry, String position, int salary) {
         this.id = id;
         this.name = name;
         this.dateOfEntry = dateOfEntry;
@@ -33,7 +33,7 @@ public class EmployeeDto {
 
     // --- getters and setters ------------------------------------------------
 
-    public long getId() { return id; }
+    public Long getId() { return id; }
     public String getName() { return name; }
     public LocalDateTime getDateOfEntry() {	return dateOfEntry;	}
     public String getPosition() { return position; }

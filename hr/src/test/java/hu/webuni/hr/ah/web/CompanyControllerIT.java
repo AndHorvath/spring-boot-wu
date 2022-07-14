@@ -61,14 +61,14 @@ class CompanyControllerIT {
 
     @BeforeEach
     void setUp() {
-        employee = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        employeeInvalidNameA = new EmployeeDto(1, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        employeeInvalidNameB = new EmployeeDto(1, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        employeeInvalidDateOfEntry = new EmployeeDto(1, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000);
-        employeeInvalidPositionA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000);
-        employeeInvalidPositionB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000);
-        employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0);
-        employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100);
+        employee = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employeeInvalidNameA = new EmployeeDto(1L, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employeeInvalidNameB = new EmployeeDto(1L, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employeeInvalidDateOfEntry = new EmployeeDto(1L, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000);
+        employeeInvalidPositionA = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000);
+        employeeInvalidPositionB = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000);
+        employeeInvalidSalaryA = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0);
+        employeeInvalidSalaryB = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100);
 
         company = new CompanyDto(1, "AA-11", "Company", "Address", List.of(employee));
 
@@ -83,7 +83,7 @@ class CompanyControllerIT {
         companyInvalidEmployeeSalaryA = createCompanyWithEmployees(company, List.of(employeeInvalidSalaryA));
         companyInvalidEmployeeSalaryB = createCompanyWithEmployees(company, List.of(employeeInvalidSalaryB));
 
-        dummyEmployee = new EmployeeDto(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1);
+        dummyEmployee = new EmployeeDto(0L, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1);
         dummyCompany = new CompanyDto(0, "DDDDD", "D", "D", List.of(dummyEmployee));
         dummyCompanyBaseData = new CompanyDto(0, "DDDDD", "D", "D", null);
     }

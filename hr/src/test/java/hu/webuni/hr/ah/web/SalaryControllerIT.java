@@ -37,18 +37,18 @@ class SalaryControllerIT {
 
     @BeforeEach
     void setUp() {
-        employee = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1400);
+        employee = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1400);
 
-        employeeInvalidNameA = new EmployeeDto(1, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1400);
-        employeeInvalidNameB = new EmployeeDto(1, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1400);
+        employeeInvalidNameA = new EmployeeDto(1L, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1400);
+        employeeInvalidNameB = new EmployeeDto(1L, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1400);
 
-        employeeInvalidDateOfEntry = new EmployeeDto(1, "Employee", LocalDateTime.now().plusYears(1), "Position", 1400);
+        employeeInvalidDateOfEntry = new EmployeeDto(1L, "Employee", LocalDateTime.now().plusYears(1), "Position", 1400);
 
-        employeeInvalidPositionA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1400);
-        employeeInvalidPositionB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1400);
+        employeeInvalidPositionA = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1400);
+        employeeInvalidPositionB = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1400);
 
-        employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0);
-        employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100);
+        employeeInvalidSalaryA = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0);
+        employeeInvalidSalaryB = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100);
     }
 
     @Test
