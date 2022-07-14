@@ -24,6 +24,19 @@ spring:
         time: HH:mm
         date-time: yyyy-MM-dd HH:mm
 
+    # --- datasource properties -----------------------------------------------
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/hr
+        username: postgres
+        password: root
+
+    # --- jpa properties ------------------------------------------------------
+
+    jpa:
+        show-sql: true
+        hibernate.ddl-auto: update
+
 # --- pay raise configuration -------------------------------------------------
 
 hr.payRaise:

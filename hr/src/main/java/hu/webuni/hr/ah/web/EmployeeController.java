@@ -45,16 +45,12 @@ public class EmployeeController {
 
     @PostMapping
     public EmployeeDto addEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
-        return employeeMapper.employeeToDto(
-            employeeService.saveEmployee(employeeMapper.dtoToEmployee(employeeDto))
-        );
+        return employeeMapper.employeeToDto(employeeService.saveEmployee(employeeMapper.dtoToEmployee(employeeDto)));
     }
 
     @PutMapping("/{id}")
     public EmployeeDto updateEmployee(@PathVariable long id, @RequestBody @Valid EmployeeDto employeeDto) {
-        return employeeMapper.employeeToDto(
-            employeeService.updateEmployee(id, employeeMapper.dtoToEmployee(employeeDto))
-        );
+        return employeeMapper.employeeToDto(employeeService.updateEmployee(id, employeeMapper.dtoToEmployee(employeeDto)));
     }
 
     @DeleteMapping

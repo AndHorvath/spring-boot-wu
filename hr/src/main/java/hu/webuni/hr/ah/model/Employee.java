@@ -1,12 +1,19 @@
 package hu.webuni.hr.ah.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
+@Entity
 public class Employee {
 
     // --- attributes ---------------------------------------------------------
 
+    @Id
+    @GeneratedValue
     private long id;
+
     private String name;
     private LocalDateTime dateOfEntry;
     private String position;

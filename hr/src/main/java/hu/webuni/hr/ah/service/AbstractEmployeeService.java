@@ -2,93 +2,85 @@ package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestEmployee;
+import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
+import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public abstract class AbstractEmployeeService implements EmployeeService {
 
     // --- attributes ---------------------------------------------------------
 
-    private Map<Long, Employee> employees;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private DataObjectIdentifierValidator identifierValidator;
 
-    // --- constructors -------------------------------------------------------
-
-    public AbstractEmployeeService() {
-        employees = new TreeMap<>();
-    }
-
     // --- public methods -----------------------------------------------------
 
     public List<Employee> getEmployees() {
-        return getEmployeeList();
+        return employeeRepository.findAll();
     }
 
     public Employee getEmployeeById(long id) {
-        validateParameter(id);
-        return employees.get(id);
+        return employeeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
 
     public List<Employee> getEmployeesOverSalaryLimit(int salaryLimit) {
-        return employees.values().stream()
-            .filter(employee -> employee.getSalary() > salaryLimit)
-            .toList();
+        return employeeRepository.findBySalaryGreaterThan(salaryLimit);
     }
 
+    @Transactional
     public List<Employee> getTestData() {
         initializeTestData();
-        return getEmployeeList();
+        return getEmployees();
     }
 
+    @Transactional
     public Employee saveEmployee(Employee employee) {
-        long id = employee.getId();
-        employees.put(id, employee);
-        return employees.get(id);
+        return employeeRepository.save(employee);
     }
 
+    @Transactional
     public Employee updateEmployee(long id, Employee employee) {
         validateParameter(id);
-        employees.put(id, createEmployee(id, employee));
-        return employees.get(id);
+        return employeeRepository.save(createEmployee(id, employee));
     }
 
+    @Transactional
     public void deleteEmployees() {
-        employees.clear();
+        employeeRepository.deleteAll();
     }
 
+    @Transactional
     public void deleteEmployeeById(long id) {
-        employees.remove(id);
+        validateParameter(id);
+        employeeRepository.deleteById(id);
     }
 
     // --- private methods ----------------------------------------------------
 
-    private List<Employee> getEmployeeList() {
-        return employees.values().stream().toList();
-    }
-
     private void validateParameter(long id) {
-        identifierValidator.validateIdentifierExistence(employees, id);
+        identifierValidator.validateIdentifierExistence(employeeRepository, id);
     }
 
     private void initializeTestData() {
-        initializeEmployees();
-        TestEmployee.initializeList().forEach(this::updateEmployees);
+        initializeRepository();
+        TestEmployee.initializeList().forEach(this::updateRepository);
     }
 
-    private void initializeEmployees() {
-        if (!employees.isEmpty()) {
-            employees.clear();
+    private void initializeRepository() {
+        if (!employeeRepository.findAll().isEmpty()) {
+            employeeRepository.deleteAll();
         }
     }
 
-    private void updateEmployees(Employee employee) {
-        employees.put(employee.getId(), employee);
+    private void updateRepository(Employee employee) {
+        employeeRepository.save(employee);
     }
 
     private Employee createEmployee(long id, Employee employee) {
