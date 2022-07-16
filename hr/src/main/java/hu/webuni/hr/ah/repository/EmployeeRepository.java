@@ -15,7 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByNameStartingWithIgnoreCase(String nameStart);
 
-    //language=SQL
     @Query("SELECT e FROM Employee e WHERE UPPER(e.name) LIKE UPPER(:nameFragment)")
     List<Employee> findByNameContainingIgnoreCase(String nameFragment);
 
