@@ -8,6 +8,7 @@ import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public abstract class AbstractEmployeeService implements EmployeeService {
@@ -32,6 +33,18 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     public List<Employee> getEmployeesOverSalaryLimit(int salaryLimit) {
         return employeeRepository.findBySalaryGreaterThan(salaryLimit);
+    }
+
+    public List<Employee> getEmployeesByPosition(String position) {
+        return employeeRepository.findByPosition(position);
+    }
+
+    public List<Employee> getEmployeesByNameStart(String nameStart) {
+        return employeeRepository.findByNameContainingIgnoreCase(createStartingFragmentForQuery(nameStart));
+    }
+
+    public List<Employee> getEmployeesByDateOfEntry(LocalDateTime lowerDateLimit, LocalDateTime upperDateLimit) {
+        return employeeRepository.findByDateOfEntryBetween(lowerDateLimit, upperDateLimit);
     }
 
     @Transactional
@@ -91,5 +104,9 @@ public abstract class AbstractEmployeeService implements EmployeeService {
             employee.getPosition(),
             employee.getSalary()
         );
+    }
+
+    private String createStartingFragmentForQuery(String nameStart) {
+        return nameStart + "%";
     }
 }

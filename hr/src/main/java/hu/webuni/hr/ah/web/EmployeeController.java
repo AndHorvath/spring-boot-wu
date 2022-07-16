@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -36,6 +37,22 @@ public class EmployeeController {
     @GetMapping(params = "salaryLimit")
     public List<EmployeeDto> getEmployeesOverSalaryLimit(@RequestParam int salaryLimit) {
         return employeeMapper.employeesToDtos(employeeService.getEmployeesOverSalaryLimit(salaryLimit));
+    }
+
+    @GetMapping(params = "position")
+    public List<EmployeeDto> getEmployeesByPosition(@RequestParam String position) {
+        return employeeMapper.employeesToDtos(employeeService.getEmployeesByPosition(position));
+    }
+
+    @GetMapping(params = "nameStart")
+    public List<EmployeeDto> getEmployeesByNameStart(@RequestParam String nameStart) {
+        return employeeMapper.employeesToDtos(employeeService.getEmployeesByNameStart(nameStart));
+    }
+
+    @GetMapping(params = {"lowerDateLimit", "upperDateLimit"})
+    public List<EmployeeDto> getEmployeesByDateOfEntry(@RequestParam LocalDateTime lowerDateLimit,
+                                                       @RequestParam LocalDateTime upperDateLimit) {
+        return employeeMapper.employeesToDtos(employeeService.getEmployeesByDateOfEntry(lowerDateLimit, upperDateLimit));
     }
 
     @GetMapping("/test")
