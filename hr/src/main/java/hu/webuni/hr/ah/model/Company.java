@@ -11,7 +11,7 @@ public class Company {
 
     @Id
     @GeneratedValue
-    private final long id;
+    private final Long id;
 
     private final String registrationNumber;
 
@@ -23,7 +23,7 @@ public class Company {
 
     // --- constructors -------------------------------------------------------
 
-    public Company(long id, String registrationNumber, String name, String address, List<Employee> employees) {
+    public Company(Long id, String registrationNumber, String name, String address, List<Employee> employees) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.name = name;
@@ -33,7 +33,7 @@ public class Company {
 
     // --- getters and setters ------------------------------------------------
 
-    public long getId() { return id; }
+    public Long getId() { return id; }
     public String getRegistrationNumber() { return registrationNumber; }
     public String getName() { return name; }
     public String getAddress() { return address; }

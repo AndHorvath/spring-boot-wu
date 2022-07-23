@@ -7,10 +7,10 @@ public class TestCompany {
 
     public static List<Company> initializeList() {
         return new ArrayList<>(List.of(
-            new Company(1, "AA-11", "CompanyA", "AddressA", new ArrayList<>()),
-            new Company(2, "BB-22", "CompanyB", "AddressB", new ArrayList<>()),
-            new Company(3, "CC-33", "CompanyC", "AddressC", new ArrayList<>()),
-            new Company(4, "DD-44", "CompanyD", "AddressD", new ArrayList<>())
+            new Company(1L, "AA-11", "CompanyA", "AddressA", new ArrayList<>()),
+            new Company(2L, "BB-22", "CompanyB", "AddressB", new ArrayList<>()),
+            new Company(3L, "CC-33", "CompanyC", "AddressC", new ArrayList<>()),
+            new Company(4L, "DD-44", "CompanyD", "AddressD", new ArrayList<>())
         ));
     }
 }
