@@ -31,7 +31,7 @@ class SalaryServiceTest {
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employee = new Employee(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
     }
 
     @Test

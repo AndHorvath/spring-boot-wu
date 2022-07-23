@@ -27,9 +27,9 @@ class AbstractEmployeeServiceIT {
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employee = new Employee(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
 
-        dummy = new Employee(0L, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1);
+        dummy = new Employee(0L, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
     }
 
     @Test
@@ -138,7 +138,7 @@ class AbstractEmployeeServiceIT {
 
     private void  clearAndSaveDummyEmployeeForId(long id) {
         Employee dummyEmployee = new Employee(
-            id, dummy.getName(), dummy.getDateOfEntry(), dummy.getPosition(), dummy.getSalary()
+            id, dummy.getName(), dummy.getDateOfEntry(), dummy.getPosition(), dummy.getSalary(), null
         );
         employeeService.deleteEmployees();
         employeeService.saveEmployee(dummyEmployee);

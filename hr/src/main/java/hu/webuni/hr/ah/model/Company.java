@@ -1,17 +1,24 @@
 package hu.webuni.hr.ah.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Company {
 
     // --- attributes ---------------------------------------------------------
 
+    @Id
+    @GeneratedValue
     private final long id;
+
     private final String registrationNumber;
 
     private String name;
     private String address;
+
+    @OneToMany(mappedBy = "company")
     private List<Employee> employees;
 
     // --- constructors -------------------------------------------------------
@@ -36,15 +43,23 @@ public class Company {
     public void setAddress(String address) { this.address = address; }
     public void setEmployees(List<Employee> employees) { this.employees = employees; }
 
-    // public methods ---------------------------------------------------------
+    // --- public methods -----------------------------------------------------
 
     public void addEmployee(Employee employee) {
-        employees = new ArrayList<>(employees);
+        employee.setCompany(this);
         employees.add(employee);
     }
 
     public void removeEmployeeById(long employeeId) {
-        employees = new ArrayList<>(employees);
+        updateEmployeeBeforeRemove(employeeId);
         employees.removeIf(employee -> employee.getId() == employeeId);
+    }
+
+    // --- private methods ----------------------------------------------------
+
+    private void updateEmployeeBeforeRemove(long employeeId) {
+        employees.forEach(
+            employee -> { if (employee.getId() == employeeId) { employee.setCompany(null); } }
+        );
     }
 }

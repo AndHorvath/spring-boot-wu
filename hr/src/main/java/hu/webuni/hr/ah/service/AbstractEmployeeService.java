@@ -102,7 +102,8 @@ public abstract class AbstractEmployeeService implements EmployeeService {
             employee.getName(),
             employee.getDateOfEntry(),
             employee.getPosition(),
-            employee.getSalary()
+            employee.getSalary(),
+            employee.getCompany()
         );
     }
 
