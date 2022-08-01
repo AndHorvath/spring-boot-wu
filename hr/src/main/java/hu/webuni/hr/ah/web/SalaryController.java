@@ -6,10 +6,7 @@ import hu.webuni.hr.ah.mapper.EmployeeMapper;
 import hu.webuni.hr.ah.mapper.SalaryConditionMapper;
 import hu.webuni.hr.ah.service.SalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,6 +26,11 @@ public class SalaryController {
     private EmployeeMapper employeeMapper;
 
     // --- public methods -----------------------------------------------------
+
+    @GetMapping("/{id}")
+    public SalaryConditionDto getSalaryResultById(@PathVariable long id) {
+        return salaryConditionMapper.salaryConditionToDto(salaryService.getEmployeesSalaryConditionById(id));
+    }
 
     @PutMapping
     public SalaryConditionDto getSalaryResult(@RequestBody @Valid EmployeeDto employeeDto) {

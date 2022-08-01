@@ -52,7 +52,9 @@ public class EmployeeController {
     @GetMapping(params = {"lowerDateLimit", "upperDateLimit"})
     public List<EmployeeDto> getEmployeesByDateOfEntry(@RequestParam LocalDateTime lowerDateLimit,
                                                        @RequestParam LocalDateTime upperDateLimit) {
-        return employeeMapper.employeesToDtos(employeeService.getEmployeesByDateOfEntry(lowerDateLimit, upperDateLimit));
+        return employeeMapper.employeesToDtos(
+            employeeService.getEmployeesByDateOfEntry(lowerDateLimit, upperDateLimit)
+        );
     }
 
     @GetMapping("/test")
@@ -67,7 +69,9 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public EmployeeDto updateEmployee(@PathVariable long id, @RequestBody @Valid EmployeeDto employeeDto) {
-        return employeeMapper.employeeToDto(employeeService.updateEmployee(id, employeeMapper.dtoToEmployee(employeeDto)));
+        return employeeMapper.employeeToDto(
+            employeeService.updateEmployee(id, employeeMapper.dtoToEmployee(employeeDto))
+        );
     }
 
     @DeleteMapping

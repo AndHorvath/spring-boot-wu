@@ -13,7 +13,7 @@ class EmployeeTest {
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(1L, "Employee", LocalDateTime.of(2020, 10, 10, 20, 20), "Position", 1000, null);
+        employee = new Employee(1, "Employee", LocalDateTime.of(2020, 10, 10, 20, 20), "Position", 1000, null);
     }
 
     @Test

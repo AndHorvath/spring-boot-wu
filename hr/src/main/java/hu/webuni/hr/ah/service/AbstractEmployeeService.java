@@ -59,9 +59,10 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     @Transactional
-    public Employee updateEmployee(long id, Employee employee) {
-        validateParameter(id);
-        return employeeRepository.save(createEmployee(id, employee));
+    public Employee updateEmployee(long idToUpdate, Employee employee) {
+        validateParameter(idToUpdate);
+        prepareEmployeeForUpdate(idToUpdate, employee);
+        return employeeRepository.save(employee.createCopyWithId(idToUpdate));
     }
 
     @Transactional
@@ -83,7 +84,7 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     private void initializeTestData() {
         initializeRepository();
-        TestEmployee.initializeList().forEach(this::updateRepository);
+        TestEmployee.initializeList().forEach(this::saveEmployee);
     }
 
     private void initializeRepository() {
@@ -92,22 +93,11 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         }
     }
 
-    private void updateRepository(Employee employee) {
-        employeeRepository.save(employee);
-    }
-
-    private Employee createEmployee(long id, Employee employee) {
-        return new Employee(
-            id,
-            employee.getName(),
-            employee.getDateOfEntry(),
-            employee.getPosition(),
-            employee.getSalary(),
-            employee.getCompany()
-        );
-    }
-
     private String createStartingFragmentForQuery(String nameStart) {
         return nameStart + "%";
+    }
+
+    private void prepareEmployeeForUpdate(long idToUpdate, Employee employee) {
+        employee.setCompany(getEmployeeById(idToUpdate).getCompany());
     }
 }

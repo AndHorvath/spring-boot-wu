@@ -27,6 +27,10 @@ public class SalaryService {
         employee.setSalary((int) (salary * (1 + payRaisePercent / 100.0)));
     }
 
+    public SalaryCondition getEmployeesSalaryConditionById(long id) {
+        return getEmployeesSalaryCondition(((AbstractEmployeeService) employeeService).getEmployeeById(id));
+    }
+
     public SalaryCondition getEmployeesSalaryCondition(Employee employee) {
         SalaryCondition salaryCondition = new SalaryCondition(employee);
         salaryCondition.setPayRaisePercent(employeeService.getPayRaisePercent(employee));

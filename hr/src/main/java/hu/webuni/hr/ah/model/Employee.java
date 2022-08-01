@@ -1,9 +1,6 @@
 package hu.webuni.hr.ah.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +10,7 @@ public class Employee {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     private String name;
     private LocalDateTime dateOfEntry;
@@ -27,7 +24,14 @@ public class Employee {
 
     public Employee() { }
 
-    public Employee(Long id, String name, LocalDateTime dateOfEntry, String position, int salary, Company company) {
+    public Employee(String name, LocalDateTime dateOfEntry, String position, int salary) {
+        this.name = name;
+        this.dateOfEntry = dateOfEntry;
+        this.position = position;
+        this.salary = salary;
+    }
+
+    public Employee(long id, String name, LocalDateTime dateOfEntry, String position, int salary, Company company) {
         this.id = id;
         this.name = name;
         this.dateOfEntry = dateOfEntry;
@@ -47,14 +51,14 @@ public class Employee {
 
     // --- getters and setters ------------------------------------------------
 
-    public Long getId() { return id; }
+    public long getId() { return id; }
     public String getName() { return name; }
     public LocalDateTime getDateOfEntry() { return dateOfEntry; }
     public String getPosition() { return position; }
     public int getSalary() { return salary; }
     public Company getCompany() { return company; }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(long id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setDateOfEntry(LocalDateTime dateOfEntry) { this.dateOfEntry = dateOfEntry; }
     public void setPosition(String position) { this.position = position; }
@@ -62,6 +66,16 @@ public class Employee {
     public void setCompany(Company company) { this.company = company; }
 
     // --- public methods -----------------------------------------------------
+
+    public Employee createCopyWithId(long id) {
+        return new Employee(
+            id,
+            this.name,
+            this.dateOfEntry,
+            this.position,
+            this.salary,
+            this.company);
+    }
 
     @Override
     public String toString() {

@@ -3,91 +3,83 @@ package hu.webuni.hr.ah.service;
 import hu.webuni.hr.ah.model.Company;
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestCompany;
+import hu.webuni.hr.ah.repository.CompanyRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
+import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import hu.webuni.hr.ah.validation.NonUniqueIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 
 @Service
 public class CompanyService {
 
     // --- attributes ---------------------------------------------------------
 
-    private Map<Long, Company> companies;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Autowired
     private DataObjectIdentifierValidator identifierValidator;
 
-    // --- constructors -------------------------------------------------------
-
-    public CompanyService() {
-        companies = new TreeMap<>();
-    }
-
     // --- public methods -----------------------------------------------------
 
     public List<Company> getCompanies() {
-        return getCompanyList();
+        return companyRepository.findAll();
     }
 
     public Company getCompanyById(long id) {
-        validateParameter(id);
-        return companies.get(id);
+        return companyRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
 
+    @Transactional
     public List<Company> getTestData() {
         initializeTestData();
-        return getCompanyList();
+        return getCompanies();
     }
 
+    @Transactional
     public Company saveCompany(Company company) {
         validateParameter(company);
-        long id = company.getId();
-        companies.put(id, company);
-        return companies.get(id);
+        return companyRepository.save(prepareCompanyForSave(company));
     }
 
+    @Transactional
     public Company updateCompany(long idToUpdate, Company company) {
         validateParameters(idToUpdate, company);
-        companies.put(idToUpdate, createCompany(idToUpdate, company));
-        return companies.get(idToUpdate);
+        return companyRepository.save(prepareCompanyForSave(idToUpdate, company));
     }
 
+    @Transactional
     public void deleteCompanies() {
-        companies.clear();
+        companyRepository.deleteAll();
     }
 
+    @Transactional
     public void deleteCompanyById(long id) {
-        companies.remove(id);
+        validateParameter(id);
+        companyRepository.deleteById(id);
     }
 
+    @Transactional
     public Company saveEmployeeInCompany(long companyId, Employee employee) {
-        validateParameter(companyId);
-        companies.get(companyId).addEmployee(employee);
-        return companies.get(companyId);
+        return companyRepository.save(prepareCompanyForSave(companyId, employee));
     }
 
+    @Transactional
     public Company updateEmployeeListInCompany(long companyId, List<Employee> employees) {
-        validateParameter(companyId);
-        companies.get(companyId).setEmployees(employees);
-        return companies.get(companyId);
+        return companyRepository.save(prepareCompanyForSave(companyId, employees));
     }
 
-    public void deleteEmployeeInCompanyById(long companyId, long employeeId) {
-        validateParameter(companyId);
-        companies.get(companyId).removeEmployeeById(employeeId);
+    @Transactional
+    public Company deleteEmployeeInCompanyById(long companyId, long employeeId) {
+        return companyRepository.save(prepareCompanyForSave(companyId, employeeId));
     }
 
     // --- private methods ----------------------------------------------------
-
-    private List<Company> getCompanyList() {
-        return companies.values().stream().toList();
-    }
 
     private void validateParameters(long id, Company company) {
         validateParameter(id);
@@ -95,7 +87,7 @@ public class CompanyService {
     }
 
     private void validateParameter(long id) {
-        identifierValidator.validateIdentifierExistence(companies, id);
+        identifierValidator.validateIdentifierExistence(companyRepository, id);
     }
 
     private void validateParameter(Company company) {
@@ -103,7 +95,7 @@ public class CompanyService {
     }
 
     private void validateParameter(long idToUpdate, Company company) {
-        Optional<Company> companyOfSameRegistrationNumber = companies.values().stream()
+        Optional<Company> companyOfSameRegistrationNumber = companyRepository.findAll().stream()
             .filter(savedCompany -> isOfSameRegistrationNumber(savedCompany, company, idToUpdate))
             .findAny();
         if (companyOfSameRegistrationNumber.isPresent()) {
@@ -121,27 +113,43 @@ public class CompanyService {
     }
 
     private void initializeTestData() {
-        initializeCompanies();
-        TestCompany.initializeList().forEach(this::updateCompanies);
+        initializeRepository();
+        TestCompany.initializeList().forEach(this::saveCompany);
     }
 
-    private void initializeCompanies() {
-        if (!companies.isEmpty()) {
-            companies.clear();
+    private void initializeRepository() {
+        if (!companyRepository.findAll().isEmpty()) {
+            companyRepository.deleteAll();
         }
     }
 
-    private void updateCompanies(Company company) {
-        companies.put(company.getId(), company);
+    private Company prepareCompanyForSave(Company company) {
+        company.getEmployees().forEach(employee -> employee.setCompany(company));
+        return company;
     }
 
-    private Company createCompany(long id, Company company) {
-        return new Company(
-            id,
-            company.getRegistrationNumber(),
-            company.getName(),
-            company.getAddress(),
-            company.getEmployees()
-        );
+    private Company prepareCompanyForSave(long idToUpdate, Company company) {
+        Company companyWithId = company.createCopyWithId(idToUpdate);
+        companyWithId.getEmployees().forEach(employee -> employee.setCompany(companyWithId));
+        return companyWithId;
+    }
+
+    private Company prepareCompanyForSave(long companyId, Employee employee) {
+        Company companyToUpdate = getCompanyById(companyId);
+        companyToUpdate.addEmployee(employee);
+        return companyToUpdate;
+    }
+
+    private Company prepareCompanyForSave(long companyId, List<Employee> employees) {
+        Company companyToUpdate = getCompanyById(companyId);
+        companyToUpdate.clearEmployeeList();
+        companyToUpdate.addEmployees(employees);
+        return companyToUpdate;
+    }
+
+    private Company prepareCompanyForSave(long companyId, long employeeId) {
+        Company companyToUpdate = getCompanyById(companyId);
+        companyToUpdate.removeEmployeeById(employeeId);
+        return companyToUpdate;
     }
 }

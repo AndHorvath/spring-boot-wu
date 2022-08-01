@@ -61,19 +61,19 @@ class CompanyControllerIT {
 
     @BeforeEach
     void setUp() {
-        employee = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
-        employeeInvalidNameA = new EmployeeDto(1L, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
-        employeeInvalidNameB = new EmployeeDto(1L, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
-        employeeInvalidDateOfEntry = new EmployeeDto(1L, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000, null);
-        employeeInvalidPositionA = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000, null);
-        employeeInvalidPositionB = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000, null);
-        employeeInvalidSalaryA = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0, null);
-        employeeInvalidSalaryB = new EmployeeDto(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100, null);
+        employee = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employeeInvalidNameA = new EmployeeDto(1, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employeeInvalidNameB = new EmployeeDto(1, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employeeInvalidDateOfEntry = new EmployeeDto(1, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000);
+        employeeInvalidPositionA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000);
+        employeeInvalidPositionB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000);
+        employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0);
+        employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100);
 
-        company = new CompanyDto(1L, "AA-11", "Company", "Address", List.of(employee));
+        company = new CompanyDto(1, "AA-11", "Company", "Address", List.of(employee));
 
-        companyInvalidRegistrationNumberA = new CompanyDto(1L, "AA-1", "Company", "Address", List.of(employee));
-        companyInvalidRegistrationNumberB = new CompanyDto(1L, "AA-111", "Company", "Address", List.of(employee));
+        companyInvalidRegistrationNumberA = new CompanyDto(1, "AA-1", "Company", "Address", List.of(employee));
+        companyInvalidRegistrationNumberB = new CompanyDto(1, "AA-111", "Company", "Address", List.of(employee));
 
         companyInvalidEmployeeNameA = createCompanyWithEmployees(company, List.of(employeeInvalidNameA));
         companyInvalidEmployeeNameB = createCompanyWithEmployees(company, List.of(employeeInvalidNameB));
@@ -83,9 +83,9 @@ class CompanyControllerIT {
         companyInvalidEmployeeSalaryA = createCompanyWithEmployees(company, List.of(employeeInvalidSalaryA));
         companyInvalidEmployeeSalaryB = createCompanyWithEmployees(company, List.of(employeeInvalidSalaryB));
 
-        dummyEmployee = new EmployeeDto(0L, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
-        dummyCompany = new CompanyDto(0L, "DDDDD", "D", "D", List.of(dummyEmployee));
-        dummyCompanyBaseData = new CompanyDto(0L, "DDDDD", "D", "D", null);
+        dummyEmployee = new EmployeeDto(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1);
+        dummyCompany = new CompanyDto(0, "DDDDD", "D", "D", List.of(dummyEmployee));
+        dummyCompanyBaseData = new CompanyDto(0, "DDDDD", "D", "D", null);
     }
 
     @Test
@@ -156,7 +156,7 @@ class CompanyControllerIT {
     void testAddCompany_ExistingRegistrationNumberDifferentId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(2L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(2, company.getRegistrationNumber(), "C", "C", List.of());
 
         responseMap = checkInvalidPostRequestAndReturnResponseMap(companyOfSameRegistrationNumber);
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
@@ -168,7 +168,7 @@ class CompanyControllerIT {
     void testAddCompany_ExistingRegistrationNumberIdenticalId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(1L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(1, company.getRegistrationNumber(), "C", "C", List.of());
 
         response = checkValidPostRequestAndReturnResponse(companyOfSameRegistrationNumber);
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
@@ -280,7 +280,7 @@ class CompanyControllerIT {
     void testUpdateCompany_ExistingRegistrationNumberDifferentId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(0L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(0, company.getRegistrationNumber(), "C", "C", List.of());
 
         responseMap = checkInvalidPutRequestAndReturnResponseMap(BAD_REQUEST, companyOfSameRegistrationNumber, "/0");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
@@ -292,7 +292,7 @@ class CompanyControllerIT {
     void testUpdateCompany_ExistingRegistrationNumberIdenticalId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(1L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(1, company.getRegistrationNumber(), "C", "C", List.of());
 
         response = checkValidPutRequestAndReturnResponse(companyOfSameRegistrationNumber ,"/1");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);

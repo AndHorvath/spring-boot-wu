@@ -33,12 +33,12 @@ class CompanyServiceIT {
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(1L, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
+        employee = new Employee(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
 
-        company = new Company(1L, "AA-11", "Company", "Address", List.of(employee));
+        company = new Company(1, "AA-11", "Company", "Address", List.of(employee));
 
-        dummyEmployee = new Employee(0L, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
-        dummyCompany = new Company(0L, "DDDDD", "D", "D", List.of(dummyEmployee));
+        dummyEmployee = new Employee(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
+        dummyCompany = new Company(0, "DDDDD", "D", "D", List.of(dummyEmployee));
     }
 
     @Test
@@ -90,7 +90,7 @@ class CompanyServiceIT {
     void testSaveCompany_ExistingRegistrationNumberDifferentId() {
         clearAndSaveDummyCompanyForId(0);
         companyService.saveCompany(company);
-        companyOfSameRegistrationNumber = new Company(2L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new Company(2, company.getRegistrationNumber(), "C", "C", List.of());
 
         assertThatThrownBy(() -> companyService.saveCompany(companyOfSameRegistrationNumber))
             .isInstanceOf(NonUniqueIdentifierException.class)
@@ -101,7 +101,7 @@ class CompanyServiceIT {
     void testSaveCompany_ExistingRegistrationNumberIdenticalId() {
         clearAndSaveDummyCompanyForId(0);
         companyService.saveCompany(company);
-        companyOfSameRegistrationNumber = new Company(1L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new Company(1, company.getRegistrationNumber(), "C", "C", List.of());
 
         returnValue = companyService.saveCompany(companyOfSameRegistrationNumber);
         returnValueList = companyService.getCompanies();
@@ -133,7 +133,7 @@ class CompanyServiceIT {
     void testUpdateCompany_ExistingRegistrationNumberDifferentId() {
         clearAndSaveDummyCompanyForId(0);
         companyService.saveCompany(company);
-        companyOfSameRegistrationNumber = new Company(0L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new Company(0, company.getRegistrationNumber(), "C", "C", List.of());
 
         assertThatThrownBy(() -> companyService.updateCompany(0, companyOfSameRegistrationNumber))
             .isInstanceOf(NonUniqueIdentifierException.class)
@@ -144,7 +144,7 @@ class CompanyServiceIT {
     void testUpdateCompany_ExistingRegistrationNumberIdenticalId() {
         clearAndSaveDummyCompanyForId(0);
         companyService.saveCompany(company);
-        companyOfSameRegistrationNumber = new Company(1L, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new Company(1, company.getRegistrationNumber(), "C", "C", List.of());
 
         returnValue = companyService.updateCompany(1, companyOfSameRegistrationNumber);
         returnValueList = companyService.getCompanies();

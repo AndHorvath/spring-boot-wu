@@ -12,7 +12,7 @@ public class CompanyDto {
     // --- attributes ---------------------------------------------------------
 
     @JsonView(DataView.BaseDataView.class)
-    private final Long id;
+    private final long id;
 
     @Size(min = 5, max = 5, message = "{companyDto.registrationNumber.size}")
     @JsonView(DataView.BaseDataView.class)
@@ -29,7 +29,7 @@ public class CompanyDto {
 
     // --- constructors -------------------------------------------------------
 
-    public CompanyDto(Long id, String registrationNumber, String name, String address, List<EmployeeDto> employees) {
+    public CompanyDto(long id, String registrationNumber, String name, String address, List<EmployeeDto> employees) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.name = name;
@@ -39,7 +39,7 @@ public class CompanyDto {
 
     // --- getters and setters ------------------------------------------------
 
-    public Long getId() { return id; }
+    public long getId() { return id; }
     public String getRegistrationNumber() { return registrationNumber; }
     public String getName() { return name; }
     public String getAddress() { return address; }

@@ -84,25 +84,22 @@ public class CompanyController {
     // --- company employee list endpoints ------------------------------------
 
     @PostMapping("/{companyId}/employees")
-    public CompanyDto addEmployeeToCompany(
-        @PathVariable long companyId, @RequestBody @Valid EmployeeDto employeeDto) {
-
+    public CompanyDto addEmployeeToCompany(@PathVariable long companyId, @RequestBody @Valid EmployeeDto employeeDto) {
         return companyMapper.companyToDto(
             companyService.saveEmployeeInCompany(companyId, employeeMapper.dtoToEmployee(employeeDto))
         );
     }
 
     @PutMapping("/{companyId}/employees")
-    public CompanyDto updateEmployeeListInCompany(
-        @PathVariable long companyId, @RequestBody @Valid List<EmployeeDto> employeeDtos) {
-
+    public CompanyDto updateEmployeeListInCompany(@PathVariable long companyId,
+                                                  @RequestBody @Valid List<EmployeeDto> employeeDtos) {
         return companyMapper.companyToDto(
             companyService.updateEmployeeListInCompany(companyId, employeeMapper.dtosToEmployees(employeeDtos))
         );
     }
 
     @DeleteMapping("/{companyId}/employees/{employeeId}")
-    public void deleteEmployeeInCompanyById(@PathVariable long companyId, @PathVariable long employeeId) {
-        companyService.deleteEmployeeInCompanyById(companyId, employeeId);
+    public CompanyDto deleteEmployeeInCompanyById(@PathVariable long companyId, @PathVariable long employeeId) {
+        return companyMapper.companyToDto(companyService.deleteEmployeeInCompanyById(companyId, employeeId));
     }
 }
