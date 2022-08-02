@@ -35,6 +35,19 @@ public class CompanyService {
         return companyRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
 
+    public List<Company> getCompaniesWithEmployeesOverSalaryLimit(int salaryLimit) {
+        return companyRepository.findDistinctByEmployeesSalaryGreaterThan(salaryLimit);
+    }
+
+    public List<Company> getCompaniesWithEmployeesOverLimit(long employeeLimit) {
+        return companyRepository.findDistinctByNumberOfEmployeesGreaterThan(employeeLimit);
+    }
+
+    public List<Object[]> getAverageSalariesOfPositionsByCompanyId(long companyId) {
+        validateParameter(companyId);
+        return companyRepository.findAverageSalariesOfPositionsByCompanyId(companyId);
+    }
+
     @Transactional
     public List<Company> setTestData() {
         initializeTestData();

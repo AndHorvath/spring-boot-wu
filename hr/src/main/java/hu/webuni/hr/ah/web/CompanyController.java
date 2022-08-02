@@ -42,6 +42,21 @@ public class CompanyController {
         return companyMapper.companyToDto(companyService.getCompanyById(id));
     }
 
+    @GetMapping(params = "salaryLimit")
+    public List<CompanyDto> getCompaniesWithEmployeesOverSalaryLimit(@RequestParam int salaryLimit) {
+        return companyMapper.companiesToDtos(companyService.getCompaniesWithEmployeesOverSalaryLimit(salaryLimit));
+    }
+
+    @GetMapping(params = "employeeLimit")
+    public List<CompanyDto> getCompaniesWithEmployeesOverLimit(@RequestParam long employeeLimit) {
+        return companyMapper.companiesToDtos(companyService.getCompaniesWithEmployeesOverLimit(employeeLimit));
+    }
+
+    @GetMapping("/{companyId}/averageSalary")
+    public List<Object[]> getAverageSalariesOfPositionsByCompanyId(@PathVariable long companyId) {
+        return companyService.getAverageSalariesOfPositionsByCompanyId(companyId);
+    }
+
     @GetMapping("/test")
     public List<CompanyDto> getTestData() {
         return companyMapper.companiesToDtos(companyService.setTestData());
