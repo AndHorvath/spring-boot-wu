@@ -29,8 +29,8 @@ public class HrApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        TestEmployee.initializeList().forEach(this::createEmployeeOutput);
         initDbService.initializeDatabase();
+        TestEmployee.initializeList().forEach(this::createEmployeeOutput);
     }
 
     // --- private methods ----------------------------------------------------
