@@ -1,6 +1,7 @@
 package hu.webuni.hr.ah;
 
 import hu.webuni.hr.ah.model.TestEmployee;
+import hu.webuni.hr.ah.service.InitDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,9 @@ public class HrApplication implements CommandLineRunner {
     @Autowired
     private SalaryService salaryService;
 
+    @Autowired
+    private InitDbService initDbService;
+
     // --- public methods -----------------------------------------------------
 
     public static void main(String[] args) {
@@ -26,6 +30,7 @@ public class HrApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         TestEmployee.initializeList().forEach(this::createEmployeeOutput);
+        initDbService.initializeDatabase();
     }
 
     // --- private methods ----------------------------------------------------
