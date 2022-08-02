@@ -29,6 +29,6 @@ public class InitDbService {
     }
 
     private void insertTestData() {
-        companyService.getTestData();
+        companyService.setTestData();
     }
 }

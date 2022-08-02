@@ -48,7 +48,7 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     @Transactional
-    public List<Employee> getTestData() {
+    public List<Employee> setTestData() {
         initializeTestData();
         return getEmployees();
     }

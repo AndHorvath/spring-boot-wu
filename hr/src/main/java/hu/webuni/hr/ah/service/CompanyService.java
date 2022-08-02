@@ -36,7 +36,7 @@ public class CompanyService {
     }
 
     @Transactional
-    public List<Company> getTestData() {
+    public List<Company> setTestData() {
         initializeTestData();
         return getCompanies();
     }

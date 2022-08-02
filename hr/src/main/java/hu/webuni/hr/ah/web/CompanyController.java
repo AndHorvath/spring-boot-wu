@@ -44,7 +44,7 @@ public class CompanyController {
 
     @GetMapping("/test")
     public List<CompanyDto> getTestData() {
-        return companyMapper.companiesToDtos(companyService.getTestData());
+        return companyMapper.companiesToDtos(companyService.setTestData());
     }
 
     @PostMapping

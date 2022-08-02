@@ -59,7 +59,7 @@ public class EmployeeController {
 
     @GetMapping("/test")
     public List<EmployeeDto> getTestData() {
-        return employeeMapper.employeesToDtos(employeeService.getTestData());
+        return employeeMapper.employeesToDtos(employeeService.setTestData());
     }
 
     @PostMapping
