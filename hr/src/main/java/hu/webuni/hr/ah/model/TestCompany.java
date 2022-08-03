@@ -9,9 +9,9 @@ public class TestCompany {
     public static List<Company> initializeList() {
         return new ArrayList<>(List.of(
             new Company("AA-11", "CompanyA", "AddressA", createTestEmployeeListOfLengthWithNamePrefix(1, "A.")),
-            new Company("BB-22", "CompanyB", "AddressB", createTestEmployeeListOfLengthWithNamePrefix(2, "B.")),
-            new Company("CC-33", "CompanyC", "AddressC", createTestEmployeeListOfLengthWithNamePrefix(3, "C.")),
-            new Company("DD-44", "CompanyD", "AddressD", createTestEmployeeListOfLengthWithNamePrefix(4, "D."))
+            new Company("BB-22", "CompanyB", "AddressB", createTestEmployeeListOfLengthWithNamePrefix(3, "B.")),
+            new Company("CC-33", "CompanyC", "AddressC", createTestEmployeeListOfLengthWithNamePrefix(6, "C.")),
+            new Company("DD-44", "CompanyD", "AddressD", createTestEmployeeListOfLengthWithNamePrefix(10, "D."))
         ));
     }
 
