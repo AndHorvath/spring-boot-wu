@@ -1,7 +1,6 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Employee;
-import hu.webuni.hr.ah.model.SalaryCondition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,14 +19,10 @@ class SalaryServiceTest {
     @InjectMocks
     SalaryService salaryService;
 
-    SalaryService salaryServiceForArbitraryEmployeeInstances;
-
     @Mock
     EmployeeService employeeService;
 
     Employee employee;
-
-    SalaryCondition salaryCondition;
 
     @BeforeEach
     void setUp() {
@@ -40,15 +35,5 @@ class SalaryServiceTest {
         salaryService.setSalaryOfEmployee(employee);
 
         assertThat(employee.getSalary()).isEqualTo(1150);
-    }
-
-    @Test
-    void testGetEmployeesSalaryCondition() {
-        salaryServiceForArbitraryEmployeeInstances = new SalaryService(arbitraryEmployee -> 15);
-        salaryCondition = salaryServiceForArbitraryEmployeeInstances.getEmployeesSalaryCondition(employee);
-
-        assertThat(salaryCondition.getEmployee()).usingRecursiveComparison().isEqualTo(employee);
-        assertThat(salaryCondition.getPayRaisePercent()).isEqualTo(15);
-        assertThat(salaryCondition.getRaisedSalary()).isEqualTo(1150);
     }
 }

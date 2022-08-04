@@ -1,7 +1,7 @@
 package hu.webuni.hr.ah.web;
 
 import hu.webuni.hr.ah.dto.EmployeeDto;
-import hu.webuni.hr.ah.dto.SalaryConditionDto;
+import hu.webuni.hr.ah.dto.EmployeeSalaryConditionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +54,9 @@ class SalaryControllerIT {
     @Test
     void testGetSalaryResult() {
         response = checkValidPutRequestAndReturnResponse(employee);
-        assertThat(((SalaryConditionDto) response).getEmployee()).usingRecursiveComparison().isEqualTo(employee);
-        assertThat(((SalaryConditionDto) response).getPayRaisePercent()).isEqualTo(10);
-        assertThat(((SalaryConditionDto) response).getRaisedSalary()).isEqualTo(1540);
+        assertThat(((EmployeeSalaryConditionDto) response).getEmployee()).usingRecursiveComparison().isEqualTo(employee);
+        assertThat(((EmployeeSalaryConditionDto) response).getPayRaisePercent()).isEqualTo(10);
+        assertThat(((EmployeeSalaryConditionDto) response).getRaisedSalary()).isEqualTo(1540);
     }
 
     @Test
@@ -101,12 +101,12 @@ class SalaryControllerIT {
 
     // --- private methods ----------------------------------------------------
 
-    private SalaryConditionDto checkValidPutRequestAndReturnResponse(EmployeeDto employee) {
+    private EmployeeSalaryConditionDto checkValidPutRequestAndReturnResponse(EmployeeDto employee) {
         return webTestClient.put()
             .uri(BASE_URI).bodyValue(employee)
             .exchange()
             .expectStatus().isOk()
-            .expectBody(SalaryConditionDto.class).returnResult().getResponseBody();
+            .expectBody(EmployeeSalaryConditionDto.class).returnResult().getResponseBody();
     }
 
     private Object checkInvalidPutRequestAndReturnResponse(EmployeeDto employee) {

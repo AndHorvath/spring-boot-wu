@@ -1,7 +1,7 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Employee;
-import hu.webuni.hr.ah.model.SalaryCondition;
+import hu.webuni.hr.ah.model.EmployeeSalaryCondition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ class SalaryServiceIT {
     Employee employeeC;
     Employee employeeD;
 
-    SalaryCondition salaryCondition;
+    EmployeeSalaryCondition employeeSalaryCondition;
 
     @BeforeEach
     void setUp() {
@@ -49,10 +49,10 @@ class SalaryServiceIT {
 
     @Test
     void testGetEmployeesSalaryCondition() {
-        salaryCondition = salaryService.getEmployeesSalaryCondition(employeeA);
+        employeeSalaryCondition = salaryService.getEmployeesSalaryCondition(employeeA);
 
-        assertThat(salaryCondition.getEmployee()).usingRecursiveComparison().isEqualTo(employeeA);
-        assertThat(salaryCondition.getPayRaisePercent()).isEqualTo(10);
-        assertThat(salaryCondition.getRaisedSalary()).isEqualTo(1540);
+        assertThat(employeeSalaryCondition.getEmployee()).usingRecursiveComparison().isEqualTo(employeeA);
+        assertThat(employeeSalaryCondition.getPayRaisePercent()).isEqualTo(10);
+        assertThat(employeeSalaryCondition.getRaisedSalary()).isEqualTo(1540);
     }
 }

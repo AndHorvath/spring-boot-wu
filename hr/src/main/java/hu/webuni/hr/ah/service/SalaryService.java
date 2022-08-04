@@ -1,24 +1,24 @@
 package hu.webuni.hr.ah.service;
 
-import hu.webuni.hr.ah.model.SalaryCondition;
+import hu.webuni.hr.ah.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hu.webuni.hr.ah.model.Employee;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SalaryService {
 
     // --- attributes ---------------------------------------------------------
 
+    @Autowired
     private EmployeeService employeeService;
 
-    // --- constructors -------------------------------------------------------
+    @Autowired
+    private CompanyService companyService;
 
-    public SalaryService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
-    // --- public methods -----------------------------------------------------
+    // --- employee salary methods --------------------------------------------
 
     public void setSalaryOfEmployee(Employee employee) {
         int salary = employee.getSalary();
@@ -27,15 +27,23 @@ public class SalaryService {
         employee.setSalary((int) (salary * (1 + payRaisePercent / 100.0)));
     }
 
-    public SalaryCondition getEmployeesSalaryConditionById(long id) {
+    public EmployeeSalaryCondition getEmployeesSalaryConditionById(long id) {
         return getEmployeesSalaryCondition(((AbstractEmployeeService) employeeService).getEmployeeById(id));
     }
 
-    public SalaryCondition getEmployeesSalaryCondition(Employee employee) {
-        SalaryCondition salaryCondition = new SalaryCondition(employee);
-        salaryCondition.setPayRaisePercent(employeeService.getPayRaisePercent(employee));
-        salaryCondition.setRaisedSalary(getRaisedSalary(employee));
-        return salaryCondition;
+    public EmployeeSalaryCondition getEmployeesSalaryCondition(Employee employee) {
+        EmployeeSalaryCondition employeeSalaryCondition = new EmployeeSalaryCondition(employee);
+        employeeSalaryCondition.setPayRaisePercent(employeeService.getPayRaisePercent(employee));
+        employeeSalaryCondition.setRaisedSalary(getRaisedSalary(employee));
+        return employeeSalaryCondition;
+    }
+
+    // --- company salary methods ---------------------------------------------
+
+    public CompanySalaryCondition getCompanySalaryConditionById(long id) {
+        Company company = companyService.getCompanyById(id);
+        List<Object[]> averageSalariesOfPositions = companyService.getAverageSalariesOfPositionsByCompanyId(id);
+        return createSalaryCondition(company, averageSalariesOfPositions);
     }
 
     // --- private methods ----------------------------------------------------
@@ -44,5 +52,21 @@ public class SalaryService {
         Employee auxEmployee = new Employee(employee);
         setSalaryOfEmployee(auxEmployee);
         return auxEmployee.getSalary();
+    }
+
+    private CompanySalaryCondition createSalaryCondition(Company company, List<Object[]> averageSalariesOfPositions) {
+        return new CompanySalaryCondition(company, createPositionSalaryConditions(averageSalariesOfPositions));
+    }
+
+    private List<PositionSalaryCondition> createPositionSalaryConditions(List<Object[]> averageSalariesOfPositions) {
+        List<PositionSalaryCondition> positionSalaryConditions = new ArrayList<>();
+        try {
+            averageSalariesOfPositions.forEach(averageSalaryOfPosition -> positionSalaryConditions.add(
+                new PositionSalaryCondition((String) averageSalaryOfPosition[0], (double) averageSalaryOfPosition[1])
+            ));
+        } catch (ClassCastException exception) {
+            throw new IllegalStateException("Unexpected response type");
+        }
+        return positionSalaryConditions;
     }
 }

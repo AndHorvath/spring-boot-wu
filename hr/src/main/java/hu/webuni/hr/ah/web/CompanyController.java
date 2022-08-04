@@ -52,11 +52,6 @@ public class CompanyController {
         return companyMapper.companiesToDtos(companyService.getCompaniesWithEmployeesOverLimit(employeeLimit));
     }
 
-    @GetMapping("/{companyId}/averageSalary")
-    public List<Object[]> getAverageSalariesOfPositionsByCompanyId(@PathVariable long companyId) {
-        return companyService.getAverageSalariesOfPositionsByCompanyId(companyId);
-    }
-
     @GetMapping("/test")
     public List<CompanyDto> getTestData() {
         return companyMapper.companiesToDtos(companyService.setTestData());

@@ -1,6 +1,6 @@
 package hu.webuni.hr.ah.dto;
 
-public class SalaryConditionDto {
+public class EmployeeSalaryConditionDto {
 
     // --- attributes ---------------------------------------------------------
 
@@ -10,11 +10,10 @@ public class SalaryConditionDto {
 
     // --- constructors -------------------------------------------------------
 
-
-    public SalaryConditionDto() { }
-
-    public SalaryConditionDto(EmployeeDto employee) {
+    public EmployeeSalaryConditionDto(EmployeeDto employee, int payRaisePercent, int raisedSalary) {
         this.employee = employee;
+        this.payRaisePercent = payRaisePercent;
+        this.raisedSalary = raisedSalary;
     }
 
     // --- getters and setters ------------------------------------------------
@@ -22,8 +21,4 @@ public class SalaryConditionDto {
     public EmployeeDto getEmployee() { return employee; }
     public int getPayRaisePercent() { return payRaisePercent; }
     public int getRaisedSalary() { return raisedSalary; }
-
-    public void setEmployee(EmployeeDto employee) { this.employee = employee; }
-    public void setPayRaisePercent(int payRaisePercent) { this.payRaisePercent = payRaisePercent; }
-    public void setRaisedSalary(int raisedSalary) { this.raisedSalary = raisedSalary; }
 }

@@ -1,6 +1,6 @@
 package hu.webuni.hr.ah.model;
 
-public class SalaryCondition {
+public class EmployeeSalaryCondition {
 
     // --- attributes ---------------------------------------------------------
 
@@ -10,7 +10,7 @@ public class SalaryCondition {
 
     // --- constructors -------------------------------------------------------
 
-    public SalaryCondition(Employee employee) {
+    public EmployeeSalaryCondition(Employee employee) {
         this.employee = employee;
     }
 
