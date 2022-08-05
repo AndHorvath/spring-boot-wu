@@ -40,7 +40,7 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     public List<Employee> getEmployeesByNameStart(String nameStart) {
-        return employeeRepository.findByNameContainingIgnoreCase(createStartingFragmentForQuery(nameStart));
+        return employeeRepository.findByNameStartingWithIgnoreCase(nameStart);
     }
 
     public List<Employee> getEmployeesByDateOfEntry(LocalDateTime lowerDateLimit, LocalDateTime upperDateLimit) {
@@ -91,10 +91,6 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         if (!employeeRepository.findAll().isEmpty()) {
             employeeRepository.deleteAll();
         }
-    }
-
-    private String createStartingFragmentForQuery(String nameStart) {
-        return nameStart + "%";
     }
 
     private void prepareEmployeeForUpdate(long idToUpdate, Employee employee) {
