@@ -13,9 +13,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SalaryConditionMapper {
 
+    // --- employee salary condition mappings ---------------------------------
+
     EmployeeSalaryConditionDto employeeSalaryConditionToDto(EmployeeSalaryCondition employeeSalaryCondition);
 
+    // --- company salary condition mappings ----------------------------------
+
     CompanySalaryConditionDto companySalaryConditionToDto(CompanySalaryCondition companySalaryCondition);
+
+    // --- position salary condition mappings ---------------------------------
 
     PositionSalaryConditionDto positionSalaryConditionToDto(PositionSalaryCondition positionSalaryCondition);
 
