@@ -1,6 +1,6 @@
-package hu.webuni.hr.ah.model;
+package hu.webuni.hr.ah.view;
 
-public class DataView {
+public class PositionDataView {
 
     public interface BaseDataView { }
     public interface CompleteDataView extends BaseDataView { }

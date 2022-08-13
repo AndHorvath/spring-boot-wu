@@ -54,7 +54,7 @@ class AbstractEmployeeServiceIT {
 
         assertThatThrownBy(() -> employeeService.getEmployeeById(0))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 0");
+            .hasMessage("No entry with specified ID in database: 0");
     }
 
     @Test
@@ -111,7 +111,7 @@ class AbstractEmployeeServiceIT {
 
         assertThatThrownBy(() -> employeeService.updateEmployee(1, employee))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 1");
+            .hasMessage("No entry with specified ID in database: 1");
     }
 
     @Test

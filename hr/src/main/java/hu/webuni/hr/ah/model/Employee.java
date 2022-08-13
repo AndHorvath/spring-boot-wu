@@ -17,7 +17,7 @@ public class Employee {
     private String position;
     private int salary;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Company company;
 
     // --- constructors -------------------------------------------------------
@@ -74,7 +74,15 @@ public class Employee {
             this.dateOfEntry,
             this.position,
             this.salary,
-            this.company);
+            this.company
+        );
+    }
+
+    public void deleteEmployment() {
+        dateOfEntry = null;
+        position = null;
+        salary = 0;
+        company = null;
     }
 
     @Override

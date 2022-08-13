@@ -2,7 +2,8 @@ package hu.webuni.hr.ah.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
-import hu.webuni.hr.ah.model.DataView;
+import hu.webuni.hr.ah.view.CompanyDataView;
+import hu.webuni.hr.ah.view.PositionDataView;
 
 import java.util.List;
 
@@ -10,11 +11,11 @@ public class CompanySalaryConditionDto {
 
     // --- attributes ---------------------------------------------------------
 
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(CompanyDataView.BaseDataView.class)
     private CompanyDto company;
 
     @JsonProperty("salaryConditions")
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(PositionDataView.CompleteDataView.class)
     private List<PositionSalaryConditionDto> positionSalaryConditions;
 
     // --- constructors -------------------------------------------------------

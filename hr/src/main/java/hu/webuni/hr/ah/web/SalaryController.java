@@ -6,8 +6,8 @@ import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.dto.EmployeeSalaryConditionDto;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
 import hu.webuni.hr.ah.mapper.SalaryConditionMapper;
-import hu.webuni.hr.ah.model.DataView;
 import hu.webuni.hr.ah.service.SalaryService;
+import hu.webuni.hr.ah.view.SalaryDataView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +31,7 @@ public class SalaryController {
     // --- employee salary endpoints ------------------------------------------
 
     @PutMapping("/employee")
+    @JsonView(SalaryDataView.EmployeeBaseDataView.class)
     public EmployeeSalaryConditionDto getEmployeeSalaryResult(@RequestBody @Valid EmployeeDto employeeDto) {
         return salaryConditionMapper.employeeSalaryConditionToDto(
             salaryService.getEmployeesSalaryCondition(employeeMapper.dtoToEmployee(employeeDto))
@@ -38,6 +39,7 @@ public class SalaryController {
     }
 
     @GetMapping("/employee/{id}")
+    @JsonView(SalaryDataView.EmployeeCompleteDataView.class)
     public EmployeeSalaryConditionDto getEmployeeSalaryResultById(@PathVariable long id) {
         return salaryConditionMapper.employeeSalaryConditionToDto(salaryService.getEmployeesSalaryConditionById(id));
     }
@@ -45,7 +47,7 @@ public class SalaryController {
     // --- company salary endpoints -------------------------------------------
 
     @GetMapping("/company/{id}")
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(SalaryDataView.CompanyCompleteDataView.class)
     public CompanySalaryConditionDto getCompanySalaryResultById(@PathVariable long id) {
         return salaryConditionMapper.companySalaryConditionToDto(salaryService.getCompanySalaryConditionById(id));
     }

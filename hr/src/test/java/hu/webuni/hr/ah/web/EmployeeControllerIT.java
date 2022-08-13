@@ -18,10 +18,10 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EmployeeControllerIT {
 
-    private final String BASE_URI = "/api/employees";
+    private static final String BASE_URI = "/api/employees";
 
-    private final HttpStatus NOT_FOUND = HttpStatus.NOT_FOUND;
-    private final HttpStatus BAD_REQUEST = HttpStatus.BAD_REQUEST;
+    private static final HttpStatus NOT_FOUND = HttpStatus.NOT_FOUND;
+    private static final HttpStatus BAD_REQUEST = HttpStatus.BAD_REQUEST;
 
     @Autowired
     WebTestClient webTestClient;
@@ -43,20 +43,20 @@ class EmployeeControllerIT {
 
     @BeforeEach
     void setUp() {
-        employee = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employee = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
 
-        employeeInvalidNameA = new EmployeeDto(1, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        employeeInvalidNameB = new EmployeeDto(1, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
+        employeeInvalidNameA = new EmployeeDto(1, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
+        employeeInvalidNameB = new EmployeeDto(1, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
 
-        employeeInvalidDateOfEntry = new EmployeeDto(1, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000);
+        employeeInvalidDateOfEntry = new EmployeeDto(1, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000, null);
 
-        employeeInvalidPositionA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000);
-        employeeInvalidPositionB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000);
+        employeeInvalidPositionA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000, null);
+        employeeInvalidPositionB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000, null);
 
-        employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0);
-        employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100);
+        employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0, null);
+        employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100, null);
 
-        dummy = new EmployeeDto(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1);
+        dummy = new EmployeeDto(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
     }
 
     @Test
@@ -80,7 +80,7 @@ class EmployeeControllerIT {
         clearAndLoadDummyEmployeeForId(1);
 
         responseMap = checkInvalidGetRequestAndReturnResponseMap("/0");
-        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in memory: 0");
+        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in database: 0");
     }
 
     @Test
@@ -199,7 +199,7 @@ class EmployeeControllerIT {
 
         responseMap = checkInvalidPutRequestAndReturnResponseMap(NOT_FOUND, employee, "/1");
         responseList = checkValidGetRequestAndReturnResponseList();
-        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in memory: 1");
+        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in database: 1");
         assertThat(responseList).usingRecursiveComparison().isEqualTo(List.of(dummy));
     }
 
@@ -399,7 +399,7 @@ class EmployeeControllerIT {
 
     private void clearAndLoadDummyEmployeeForId(long id) {
         EmployeeDto dummyEmployee = new EmployeeDto(
-            id, dummy.getName(), dummy.getDateOfEntry(), dummy.getPosition(), dummy.getSalary()
+            id, dummy.getName(), dummy.getDateOfEntry(), dummy.getPosition(), dummy.getSalary(), null
         );
         webTestClient.delete().uri(BASE_URI).exchange();
         webTestClient.post().uri(BASE_URI).bodyValue(dummyEmployee).exchange();

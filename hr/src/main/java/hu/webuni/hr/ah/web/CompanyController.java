@@ -5,7 +5,7 @@ import hu.webuni.hr.ah.dto.CompanyDto;
 import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.mapper.CompanyMapper;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
-import hu.webuni.hr.ah.model.DataView;
+import hu.webuni.hr.ah.view.CompanyDataView;
 import hu.webuni.hr.ah.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -33,36 +33,43 @@ public class CompanyController {
     // --- simple company endpoints -------------------------------------------
 
     @GetMapping(params = "full=true")
+    @JsonView(CompanyDataView.DetailedDataView.class)
     public List<CompanyDto> getCompanies() {
         return companyMapper.companiesToDtos(companyService.getCompanies());
     }
 
     @GetMapping(value = "/{id}", params = "full=true")
+    @JsonView(CompanyDataView.CompleteDataView.class)
     public CompanyDto getCompanyById(@PathVariable long id) {
         return companyMapper.companyToDto(companyService.getCompanyById(id));
     }
 
     @GetMapping(params = "salaryLimit")
+    @JsonView(CompanyDataView.CompleteDataView.class)
     public List<CompanyDto> getCompaniesWithEmployeesOverSalaryLimit(@RequestParam int salaryLimit) {
         return companyMapper.companiesToDtos(companyService.getCompaniesWithEmployeesOverSalaryLimit(salaryLimit));
     }
 
     @GetMapping(params = "employeeLimit")
+    @JsonView(CompanyDataView.DetailedDataView.class)
     public List<CompanyDto> getCompaniesWithEmployeesOverLimit(@RequestParam long employeeLimit) {
         return companyMapper.companiesToDtos(companyService.getCompaniesWithEmployeesOverLimit(employeeLimit));
     }
 
     @GetMapping("/test")
+    @JsonView(CompanyDataView.CompleteDataView.class)
     public List<CompanyDto> getTestData() {
         return companyMapper.companiesToDtos(companyService.setTestData());
     }
 
     @PostMapping
+    @JsonView(CompanyDataView.CompleteDataView.class)
     public CompanyDto addCompany(@RequestBody @Valid CompanyDto companyDto) {
         return companyMapper.companyToDto(companyService.saveCompany(companyMapper.dtoToCompany(companyDto)));
     }
 
     @PutMapping("/{id}")
+    @JsonView(CompanyDataView.CompleteDataView.class)
     public CompanyDto updateCompany(@PathVariable long id, @RequestBody @Valid CompanyDto companyDto) {
         return companyMapper.companyToDto(companyService.updateCompany(id, companyMapper.dtoToCompany(companyDto)));
     }
@@ -77,16 +84,16 @@ public class CompanyController {
         companyService.deleteCompanyById(id);
     }
 
-    // --- company view endpoints ---------------------------------------------
+    // --- company base view endpoints ----------------------------------------
 
     @GetMapping
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(CompanyDataView.BaseDataView.class)
     public List<CompanyDto> getCompanies(@RequestParam(required = false) Boolean full) {
         return companyMapper.companiesToDtos(companyService.getCompanies());
     }
 
     @GetMapping("/{id}")
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(CompanyDataView.BaseDataView.class)
     public CompanyDto getCompanyById(@PathVariable long id, @RequestParam(required = false) Boolean full) {
         return companyMapper.companyToDto(companyService.getCompanyById(id));
     }
@@ -94,6 +101,7 @@ public class CompanyController {
     // --- company employee list endpoints ------------------------------------
 
     @PostMapping("/{companyId}/employees")
+    @JsonView(CompanyDataView.CompleteDataView.class)
     public CompanyDto addEmployeeToCompany(@PathVariable long companyId, @RequestBody @Valid EmployeeDto employeeDto) {
         return companyMapper.companyToDto(
             companyService.saveEmployeeInCompany(companyId, employeeMapper.dtoToEmployee(employeeDto))
@@ -101,6 +109,7 @@ public class CompanyController {
     }
 
     @PutMapping("/{companyId}/employees")
+    @JsonView(CompanyDataView.CompleteDataView.class)
     public CompanyDto updateEmployeeListInCompany(@PathVariable long companyId,
                                                   @RequestBody @Valid List<EmployeeDto> employeeDtos) {
         return companyMapper.companyToDto(
@@ -109,6 +118,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/{companyId}/employees/{employeeId}")
+    @JsonView(CompanyDataView.DetailedDataView.class)
     public CompanyDto deleteEmployeeInCompanyById(@PathVariable long companyId, @PathVariable long employeeId) {
         return companyMapper.companyToDto(companyService.deleteEmployeeInCompanyById(companyId, employeeId));
     }

@@ -1,7 +1,9 @@
 package hu.webuni.hr.ah.service;
 
+import hu.webuni.hr.ah.model.Company;
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestEmployee;
+import hu.webuni.hr.ah.repository.CompanyRepository;
 import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
@@ -17,6 +19,9 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Autowired
     private DataObjectIdentifierValidator identifierValidator;
@@ -55,13 +60,14 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Transactional
     public Employee saveEmployee(Employee employee) {
+        synchronizeCompanyWithDatabase(employee);
         return employeeRepository.save(employee);
     }
 
     @Transactional
     public Employee updateEmployee(long idToUpdate, Employee employee) {
         validateParameter(idToUpdate);
-        prepareEmployeeForUpdate(idToUpdate, employee);
+        synchronizeCompanyWithDatabase(employee);
         return employeeRepository.save(employee.createCopyWithId(idToUpdate));
     }
 
@@ -93,7 +99,17 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         }
     }
 
-    private void prepareEmployeeForUpdate(long idToUpdate, Employee employee) {
-        employee.setCompany(getEmployeeById(idToUpdate).getCompany());
+    private void synchronizeCompanyWithDatabase(Employee employee) {
+        if (hasCompanyWithId(employee)) {
+            employee.setCompany(getCompanyById(employee.getCompany().getId()));
+        }
+    }
+
+    private boolean hasCompanyWithId(Employee employee) {
+        return employee.getCompany() != null && employee.getCompany().getId() != 0;
+    }
+
+    private Company getCompanyById(long id) {
+        return companyRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
 }

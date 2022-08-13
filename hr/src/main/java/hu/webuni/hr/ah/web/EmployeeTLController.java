@@ -99,6 +99,6 @@ public class EmployeeTLController {
     }
 
     private Supplier<IllegalStateException> createNoEmployeeException() {
-        return () -> new IllegalStateException("No employee with specified ID in memory.");
+        return () -> new IllegalStateException("No employee with specified ID in database.");
     }
 }

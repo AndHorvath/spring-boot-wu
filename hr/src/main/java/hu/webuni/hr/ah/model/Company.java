@@ -17,7 +17,7 @@ public class Company {
     private String name;
     private String address;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Employee> employees;
 
     // --- constructors -------------------------------------------------------
@@ -65,12 +65,16 @@ public class Company {
     }
 
     public void removeEmployeeById(long employeeId) {
-        prepareEmployeeForRemove(employeeId);
+        prepareEmployeeForDeletion(employeeId);
         employees.removeIf(employee -> employee.getId() == employeeId);
     }
 
+    public void removeEmployee(Employee employee) {
+        removeEmployeeById(employee.getId());
+    }
+
     public void clearEmployeeList() {
-        employees.forEach(this::prepareEmployeeForRemove);
+        employees.forEach(this::prepareEmployeeForDeletion);
         employees.clear();
     }
 
@@ -90,11 +94,11 @@ public class Company {
         employee.setCompany(this);
     }
 
-    private void prepareEmployeeForRemove(Employee employee) {
-        prepareEmployeeForRemove(employee.getId());
+    private void prepareEmployeeForDeletion(Employee employee) {
+        prepareEmployeeForDeletion(employee.getId());
     }
 
-    private void prepareEmployeeForRemove(long employeeId) {
+    private void prepareEmployeeForDeletion(long employeeId) {
         employees.stream()
             .filter(employee -> employee.getId() == employeeId)
             .forEach(employee -> employee.setCompany(null));

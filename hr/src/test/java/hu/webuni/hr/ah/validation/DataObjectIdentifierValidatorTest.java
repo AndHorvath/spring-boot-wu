@@ -35,6 +35,6 @@ class DataObjectIdentifierValidatorTest {
     void testValidateIdentifierExistence() {
         assertThatThrownBy(() -> validator.validateIdentifierExistence(dataObject, 10))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 10");
+            .hasMessage("No entry with specified ID in database: 10");
     }
 }

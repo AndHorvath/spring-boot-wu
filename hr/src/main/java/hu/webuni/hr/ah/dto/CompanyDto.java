@@ -1,7 +1,7 @@
 package hu.webuni.hr.ah.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import hu.webuni.hr.ah.model.DataView;
+import hu.webuni.hr.ah.view.CompanyDataView;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -11,20 +11,21 @@ public class CompanyDto {
 
     // --- attributes ---------------------------------------------------------
 
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(CompanyDataView.IdentifierView.class)
     private final long id;
 
     @Size(min = 5, max = 5, message = "{companyDto.registrationNumber.size}")
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(CompanyDataView.BaseDataView.class)
     private final String registrationNumber;
 
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(CompanyDataView.BaseDataView.class)
     private String name;
 
-    @JsonView(DataView.BaseDataView.class)
+    @JsonView(CompanyDataView.BaseDataView.class)
     private String address;
 
     @Valid
+    @JsonView(CompanyDataView.DetailedDataView.class)
     private List<EmployeeDto> employees;
 
     // --- constructors -------------------------------------------------------
@@ -44,8 +45,4 @@ public class CompanyDto {
     public String getName() { return name; }
     public String getAddress() { return address; }
     public List<EmployeeDto> getEmployees() { return employees; }
-
-    public void setName(String name) { this.name = name; }
-    public void setAddress(String address) { this.address = address; }
-    public void setEmployees(List<EmployeeDto> employees) { this.employees = employees; }
 }

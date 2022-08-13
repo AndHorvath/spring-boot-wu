@@ -4,6 +4,7 @@ import hu.webuni.hr.ah.model.Company;
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestCompany;
 import hu.webuni.hr.ah.repository.CompanyRepository;
+import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import hu.webuni.hr.ah.validation.NonUniqueIdentifierException;
@@ -23,9 +24,12 @@ public class CompanyService {
     private CompanyRepository companyRepository;
 
     @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
     private DataObjectIdentifierValidator identifierValidator;
 
-    // --- public methods -----------------------------------------------------
+    // --- simple service methods ---------------------------------------------
 
     public List<Company> getCompanies() {
         return companyRepository.findAll();
@@ -68,14 +72,17 @@ public class CompanyService {
 
     @Transactional
     public void deleteCompanies() {
+        getCompanies().forEach(this::prepareCompanyForRemove);
         companyRepository.deleteAll();
     }
 
     @Transactional
     public void deleteCompanyById(long id) {
-        validateParameter(id);
+        prepareCompanyForRemove(id);
         companyRepository.deleteById(id);
     }
+
+    // --- service methods manipulating employee list -------------------------
 
     @Transactional
     public Company saveEmployeeInCompany(long companyId, Employee employee) {
@@ -108,7 +115,7 @@ public class CompanyService {
     }
 
     private void validateParameter(long idToUpdate, Company company) {
-        Optional<Company> companyOfSameRegistrationNumber = companyRepository.findAll().stream()
+        Optional<Company> companyOfSameRegistrationNumber = getCompanies().stream()
             .filter(savedCompany -> isOfSameRegistrationNumber(savedCompany, company, idToUpdate))
             .findAny();
         if (companyOfSameRegistrationNumber.isPresent()) {
@@ -131,38 +138,86 @@ public class CompanyService {
     }
 
     private void initializeRepository() {
-        if (!companyRepository.findAll().isEmpty()) {
-            companyRepository.deleteAll();
+        if (!getCompanies().isEmpty()) {
+            deleteCompanies();
         }
     }
 
     private Company prepareCompanyForSave(Company company) {
+        company.getEmployees().forEach(employee -> synchronizeEmployeeWithDatabase(company, employee));
         company.getEmployees().forEach(employee -> employee.setCompany(company));
         return company;
     }
 
     private Company prepareCompanyForSave(long idToUpdate, Company company) {
+        Company savedCompany = getCompanyById(idToUpdate);
+        savedCompany.clearEmployeeList();
+
         Company companyWithId = company.createCopyWithId(idToUpdate);
+        companyWithId.getEmployees().forEach(employee -> synchronizeEmployeeWithDatabase(companyWithId, employee));
         companyWithId.getEmployees().forEach(employee -> employee.setCompany(companyWithId));
         return companyWithId;
     }
 
     private Company prepareCompanyForSave(long companyId, Employee employee) {
         Company companyToUpdate = getCompanyById(companyId);
+        synchronizeDatabaseWithEmployee(employee);
         companyToUpdate.addEmployee(employee);
         return companyToUpdate;
     }
 
     private Company prepareCompanyForSave(long companyId, List<Employee> employees) {
         Company companyToUpdate = getCompanyById(companyId);
+        prepareCompanyForRemoveEmployments(companyToUpdate);
         companyToUpdate.clearEmployeeList();
+
+        employees.forEach(this::synchronizeDatabaseWithEmployee);
         companyToUpdate.addEmployees(employees);
         return companyToUpdate;
     }
 
     private Company prepareCompanyForSave(long companyId, long employeeId) {
+        Employee employeeToRemove = getEmployeeById(employeeId);
+        employeeToRemove.deleteEmployment();
+
         Company companyToUpdate = getCompanyById(companyId);
-        companyToUpdate.removeEmployeeById(employeeId);
+        companyToUpdate.removeEmployee(employeeToRemove);
         return companyToUpdate;
+    }
+
+    private void prepareCompanyForRemove(long id) {
+        prepareCompanyForRemove(getCompanyById(id));
+    }
+
+    private void prepareCompanyForRemove(Company company) {
+        prepareCompanyForRemoveEmployments(company);
+    }
+
+    private void prepareCompanyForRemoveEmployments(Company company) {
+        company.getEmployees().forEach(Employee::deleteEmployment);
+    }
+
+    private void synchronizeEmployeeWithDatabase(Company company, Employee employee) {
+        List<Employee> employees = company.getEmployees();
+        int employeeIndex = employees.indexOf(employee);
+        long employeeId = employee.getId();
+        if (employeeId != 0) {
+            employees.set(employeeIndex, getEmployeeById(employeeId));
+        }
+    }
+
+    private void synchronizeDatabaseWithEmployee(Employee employee) {
+        long employeeId = employee.getId();
+        if (employeeId != 0) {
+            Employee savedEmployee = getEmployeeById(employeeId);
+            savedEmployee.setName(employee.getName());
+            savedEmployee.setDateOfEntry(employee.getDateOfEntry());
+            savedEmployee.setPosition(employee.getPosition());
+            savedEmployee.setSalary(employee.getSalary());
+        }
+    }
+
+    private Employee getEmployeeById(long id) {
+        return employeeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
 }

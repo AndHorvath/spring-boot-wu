@@ -19,13 +19,13 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CompanyControllerIT {
 
-    private final String BASE_URI = "/api/companies";
-    private final String COMPLETE_VIEW = "?full=true";
-    private final String BASE_VIEW = "?full=false";
+    private static final String BASE_URI = "/api/companies";
+    private static final String COMPLETE_VIEW = "?full=true";
+    private static final String BASE_VIEW = "?full=false";
 
-    private final HttpStatus NOT_FOUND = HttpStatus.NOT_FOUND;
-    private final HttpStatus BAD_REQUEST = HttpStatus.BAD_REQUEST;
-    private final HttpStatus SERVER_ERROR = HttpStatus.INTERNAL_SERVER_ERROR;
+    private static final HttpStatus NOT_FOUND = HttpStatus.NOT_FOUND;
+    private static final HttpStatus BAD_REQUEST = HttpStatus.BAD_REQUEST;
+    private static final HttpStatus SERVER_ERROR = HttpStatus.INTERNAL_SERVER_ERROR;
 
     @Autowired
     WebTestClient webTestClient;
@@ -61,14 +61,14 @@ class CompanyControllerIT {
 
     @BeforeEach
     void setUp() {
-        employee = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        employeeInvalidNameA = new EmployeeDto(1, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        employeeInvalidNameB = new EmployeeDto(1, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000);
-        employeeInvalidDateOfEntry = new EmployeeDto(1, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000);
-        employeeInvalidPositionA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000);
-        employeeInvalidPositionB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000);
-        employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0);
-        employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100);
+        employee = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
+        employeeInvalidNameA = new EmployeeDto(1, null, LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
+        employeeInvalidNameB = new EmployeeDto(1, "", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
+        employeeInvalidDateOfEntry = new EmployeeDto(1, "Employee", LocalDateTime.now().plusYears(1), "Position", 1000, null);
+        employeeInvalidPositionA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000, null);
+        employeeInvalidPositionB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "", 1000, null);
+        employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0, null);
+        employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100, null);
 
         company = new CompanyDto(1, "AA-11", "Company", "Address", List.of(employee));
 
@@ -83,7 +83,7 @@ class CompanyControllerIT {
         companyInvalidEmployeeSalaryA = createCompanyWithEmployees(company, List.of(employeeInvalidSalaryA));
         companyInvalidEmployeeSalaryB = createCompanyWithEmployees(company, List.of(employeeInvalidSalaryB));
 
-        dummyEmployee = new EmployeeDto(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1);
+        dummyEmployee = new EmployeeDto(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
         dummyCompany = new CompanyDto(0, "DDDDD", "D", "D", List.of(dummyEmployee));
         dummyCompanyBaseData = new CompanyDto(0, "DDDDD", "D", "D", null);
     }
@@ -129,7 +129,7 @@ class CompanyControllerIT {
         clearAndLoadDummyCompanyForId(1);
 
         responseMap = checkInvalidGetRequestAndReturnResponseMap("/0");
-        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in memory: 0");
+        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in database: 0");
     }
 
     @Test
@@ -272,7 +272,7 @@ class CompanyControllerIT {
 
         responseMap = checkInvalidPutRequestAndReturnResponseMap(NOT_FOUND, company, "/1");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
-        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in memory: 1");
+        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in database: 1");
         assertThat(responseList).usingRecursiveComparison().isEqualTo(List.of(dummyCompany));
     }
 
@@ -416,7 +416,7 @@ class CompanyControllerIT {
 
         responseMap = checkInvalidPostRequestAndReturnResponseMap(NOT_FOUND, employee, "/1/employees");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
-        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in memory: 1");
+        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in database: 1");
         assertThat(responseList).usingRecursiveComparison().isEqualTo(List.of(dummyCompany));
     }
 
@@ -499,7 +499,7 @@ class CompanyControllerIT {
 
         responseMap = checkInvalidPutRequestAndReturnResponseMap(NOT_FOUND, List.of(employee), "/1/employees");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
-        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in memory: 1");
+        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in database: 1");
         assertThat(responseList).usingRecursiveComparison().isEqualTo(List.of(dummyCompany));
     }
 
@@ -576,7 +576,7 @@ class CompanyControllerIT {
 
         responseMap = checkInvalidDeleteRequestAndReturnResponse("/1/employees/0");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
-        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in memory: 1");
+        assertThat(getErrorFromResponse(responseMap)).isEqualTo("No entry with specified ID in database: 1");
         assertThat(responseList.get(0).getEmployees()).usingRecursiveComparison().isEqualTo(List.of(dummyEmployee, employee));
         assertThat(responseList).usingRecursiveComparison().ignoringFields("employees").isEqualTo(List.of(dummyCompany));
     }

@@ -63,7 +63,7 @@ class CompanyServiceIT {
 
         assertThatThrownBy(() -> companyService.getCompanyById(0))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 0");
+            .hasMessage("No entry with specified ID in database: 0");
     }
 
     @Test
@@ -126,7 +126,7 @@ class CompanyServiceIT {
 
         assertThatThrownBy(() -> companyService.updateCompany(1, company))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 1");
+            .hasMessage("No entry with specified ID in database: 1");
     }
 
     @Test
@@ -189,7 +189,7 @@ class CompanyServiceIT {
 
         assertThatThrownBy(() -> companyService.saveEmployeeInCompany(0, employee))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 0");
+            .hasMessage("No entry with specified ID in database: 0");
     }
 
     @Test
@@ -209,7 +209,7 @@ class CompanyServiceIT {
 
         assertThatThrownBy(() -> companyService.updateEmployeeListInCompany(0, List.of(dummyEmployee, employee)))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 0");
+            .hasMessage("No entry with specified ID in database: 0");
     }
 
     @Test
@@ -230,7 +230,7 @@ class CompanyServiceIT {
 
         assertThatThrownBy(() -> companyService.deleteEmployeeInCompanyById(0, 1))
             .isInstanceOf(NonExistingIdentifierException.class)
-            .hasMessage("No entry with specified ID in memory: 0");
+            .hasMessage("No entry with specified ID in database: 0");
     }
 
     // --- private methods ----------------------------------------------------

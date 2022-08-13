@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    // --- attributes ---------------------------------------------------------
+    // --- constants ----------------------------------------------------------
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomExceptionHandler.class);
 

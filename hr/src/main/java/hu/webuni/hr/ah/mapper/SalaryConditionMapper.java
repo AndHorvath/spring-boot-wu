@@ -1,12 +1,9 @@
 package hu.webuni.hr.ah.mapper;
 
-import hu.webuni.hr.ah.dto.CompanySalaryConditionDto;
-import hu.webuni.hr.ah.dto.EmployeeSalaryConditionDto;
-import hu.webuni.hr.ah.dto.PositionSalaryConditionDto;
-import hu.webuni.hr.ah.model.CompanySalaryCondition;
-import hu.webuni.hr.ah.model.EmployeeSalaryCondition;
-import hu.webuni.hr.ah.model.PositionSalaryCondition;
+import hu.webuni.hr.ah.dto.*;
+import hu.webuni.hr.ah.model.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -26,4 +23,9 @@ public interface SalaryConditionMapper {
     PositionSalaryConditionDto positionSalaryConditionToDto(PositionSalaryCondition positionSalaryCondition);
 
     List<PositionSalaryConditionDto> positionSalaryConditionsToDtos(List<PositionSalaryCondition> positionSalaryConditions);
+
+    // --- helper mappings ----------------------------------------------------
+
+    @Mapping(target = "employees", ignore = true)
+    CompanyDto companyToDto(Company company);
 }
