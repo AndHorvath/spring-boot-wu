@@ -17,7 +17,6 @@ public interface CompanyMapper {
     // --- company mappings ---------------------------------------------------
 
     CompanyDto companyToDto(Company company);
-
     Company dtoToCompany(CompanyDto companyDto);
 
     List<CompanyDto> companiesToDtos(List<Company> companies);
@@ -25,8 +24,9 @@ public interface CompanyMapper {
     // --- company type mappings ----------------------------------------------
 
     CompanyTypeDto companyTypeToDto(CompanyType companyType);
-
     CompanyType dtoToCompanyType(CompanyTypeDto companyTypeDto);
+
+    List<CompanyTypeDto> companyTypesToDtos(List<CompanyType> companyTypes);
 
     // --- helper mappings ----------------------------------------------------
 

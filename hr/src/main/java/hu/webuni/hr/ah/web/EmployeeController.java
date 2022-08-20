@@ -56,7 +56,7 @@ public class EmployeeController {
         return employeeMapper.employeesToDtos(employeeService.getEmployeesByNameStart(nameStart));
     }
 
-    @GetMapping(params = {"lowerDateLimit", "upperDateLimit"})
+    @GetMapping(params = { "lowerDateLimit", "upperDateLimit" })
     @JsonView(EmployeeDataView.DetailedDataView.class)
     public List<EmployeeDto> getEmployeesByDateOfEntry(@RequestParam LocalDateTime lowerDateLimit,
                                                        @RequestParam LocalDateTime upperDateLimit) {

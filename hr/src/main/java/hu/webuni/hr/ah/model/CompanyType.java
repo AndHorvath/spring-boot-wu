@@ -1,33 +1,47 @@
 package hu.webuni.hr.ah.model;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-public enum CompanyType {
-
-    LIMITED_PARTNERSHIP("Limited Partnership"),
-    PRIVATE_LIMITED_COMPANY("Private Limited Partnership"),
-    PRIVATE_COMPANY_LIMITED_BY_SHARES("Private Company Limited by Shares"),
-    PUBLIC_LIMITED_COMPANY("Public Limited Company");
+@Entity
+public class CompanyType {
 
     // --- attributes ---------------------------------------------------------
 
-    private final String value;
+    @Id
+    @GeneratedValue
+    private long id;
+
+    private String name;
 
     // --- constructors -------------------------------------------------------
 
-    CompanyType(String value) {
-        this.value = value;
+    public CompanyType() { }
+
+    public CompanyType(String name) {
+        this.name = name;
+    }
+
+    public CompanyType(long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     // --- getters and setters ------------------------------------------------
 
-    public String getValue() { return value; }
+    public long getId() { return id; }
+    public String getName() { return name; }
+
+    public void setId(long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
 
     // --- public methods -----------------------------------------------------
 
-    public List<String> getAllValues() {
-        return Arrays.stream(values()).map(CompanyType::getValue).collect(Collectors.toList());
+    public CompanyType createCopyWithId(long id) {
+        return new CompanyType(
+            id,
+            this.name
+        );
     }
 }

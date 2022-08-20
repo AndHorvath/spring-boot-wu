@@ -1,9 +1,11 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Company;
+import hu.webuni.hr.ah.model.CompanyType;
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestCompany;
 import hu.webuni.hr.ah.repository.CompanyRepository;
+import hu.webuni.hr.ah.repository.CompanyTypeRepository;
 import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
@@ -22,6 +24,9 @@ public class CompanyService {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private CompanyTypeRepository companyTypeRepository;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -144,12 +149,16 @@ public class CompanyService {
     }
 
     private Company prepareCompanyForSave(Company company) {
+        synchronizeCompanyTypeWithDatabase(company);
+
         company.getEmployees().forEach(employee -> synchronizeEmployeeWithDatabase(company, employee));
         company.getEmployees().forEach(employee -> employee.setCompany(company));
         return company;
     }
 
     private Company prepareCompanyForSave(long idToUpdate, Company company) {
+        synchronizeCompanyTypeWithDatabase(company);
+        
         Company savedCompany = getCompanyById(idToUpdate);
         savedCompany.clearEmployeeList();
 
@@ -197,6 +206,14 @@ public class CompanyService {
         company.getEmployees().forEach(Employee::deleteEmployment);
     }
 
+    private void synchronizeCompanyTypeWithDatabase(Company company) {
+        if (hasCompanyTypeWithId(company)) {
+            company.setCompanyType(getCompanyTypeById(company.getCompanyType().getId()));
+        } else if (hasCompanyTypeWithExistingName(company)) {
+            company.setCompanyType(getCompanyTypeByName(company.getCompanyType().getName()));
+        }
+    }
+
     private void synchronizeEmployeeWithDatabase(Company company, Employee employee) {
         List<Employee> employees = company.getEmployees();
         int employeeIndex = employees.indexOf(employee);
@@ -215,6 +232,26 @@ public class CompanyService {
             savedEmployee.setPosition(employee.getPosition());
             savedEmployee.setSalary(employee.getSalary());
         }
+    }
+
+    private boolean hasCompanyTypeWithId(Company company) {
+        return company.getCompanyType() != null
+            && company.getCompanyType().getId() != 0;
+    }
+
+    private boolean hasCompanyTypeWithExistingName(Company company) {
+        return company.getCompanyType() != null
+            && company.getCompanyType().getName() != null
+            && !company.getCompanyType().getName().isEmpty()
+            && getCompanyTypeByName(company.getCompanyType().getName()) != null;
+    }
+
+    private CompanyType getCompanyTypeById(long id) {
+        return companyTypeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+    }
+
+    private CompanyType getCompanyTypeByName(String name) {
+        return companyTypeRepository.findByName(name);
     }
 
     private Employee getEmployeeById(long id) {

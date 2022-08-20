@@ -14,7 +14,7 @@ public class EmployeeDto {
     private final long id;
 
     @NotBlank
-    @JsonView(EmployeeDataView.BaseDataView.class)
+    @JsonView(EmployeeDataView.IdentifierView.class)
     private final String name;
 
     @Past

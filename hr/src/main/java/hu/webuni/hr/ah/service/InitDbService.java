@@ -12,6 +12,9 @@ public class InitDbService {
     private AbstractEmployeeService employeeService;
 
     @Autowired
+    private CompanyTypeService companyTypeService;
+
+    @Autowired
     private CompanyService companyService;
 
     // --- public methods -----------------------------------------------------
@@ -25,6 +28,7 @@ public class InitDbService {
 
     private void clearDatabase() {
         employeeService.deleteEmployees();
+        companyTypeService.deleteCompanyTypes();
         companyService.deleteCompanies();
     }
 

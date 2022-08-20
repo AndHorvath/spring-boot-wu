@@ -13,9 +13,11 @@ public class Company {
     private long id;
 
     private String registrationNumber;
-
     private String name;
     private String address;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private CompanyType companyType;
 
     @OneToMany(mappedBy = "company", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Employee> employees;
@@ -24,18 +26,22 @@ public class Company {
 
     public Company() { }
 
-    public Company(String registrationNumber, String name, String address, List<Employee> employees) {
+    public Company(String registrationNumber, String name, String address,
+                   CompanyType companyType, List<Employee> employees) {
         this.registrationNumber = registrationNumber;
         this.name = name;
         this.address = address;
+        this.companyType = companyType;
         this.employees = employees;
     }
 
-    public Company(long id, String registrationNumber, String name, String address, List<Employee> employees) {
+    public Company(long id, String registrationNumber, String name, String address,
+                   CompanyType companyType, List<Employee> employees) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.name = name;
         this.address = address;
+        this.companyType = companyType;
         this.employees = employees;
     }
 
@@ -45,12 +51,14 @@ public class Company {
     public String getRegistrationNumber() { return registrationNumber; }
     public String getName() { return name; }
     public String getAddress() { return address; }
+    public CompanyType getCompanyType() { return companyType; }
     public List<Employee> getEmployees() { return employees; }
 
     public void setId(long id) { this.id = id; }
     public void setRegistrationNumber(String registrationNumber) { this.registrationNumber = registrationNumber; }
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
+    public void setCompanyType(CompanyType companyType) { this.companyType = companyType; }
     public void setEmployees(List<Employee> employees) { this.employees = employees; }
 
     // --- public methods -----------------------------------------------------
@@ -84,6 +92,7 @@ public class Company {
             this.registrationNumber,
             this.name,
             this.address,
+            this.companyType,
             this.employees
         );
     }

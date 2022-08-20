@@ -70,10 +70,10 @@ class CompanyControllerIT {
         employeeInvalidSalaryA = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 0, null);
         employeeInvalidSalaryB = new EmployeeDto(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", -100, null);
 
-        company = new CompanyDto(1, "AA-11", "Company", "Address", List.of(employee));
+        company = new CompanyDto(1, "AA-11", "Company", "Address", null, List.of(employee));
 
-        companyInvalidRegistrationNumberA = new CompanyDto(1, "AA-1", "Company", "Address", List.of(employee));
-        companyInvalidRegistrationNumberB = new CompanyDto(1, "AA-111", "Company", "Address", List.of(employee));
+        companyInvalidRegistrationNumberA = new CompanyDto(1, "AA-1", "Company", "Address", null, List.of(employee));
+        companyInvalidRegistrationNumberB = new CompanyDto(1, "AA-111", "Company", "Address", null, List.of(employee));
 
         companyInvalidEmployeeNameA = createCompanyWithEmployees(company, List.of(employeeInvalidNameA));
         companyInvalidEmployeeNameB = createCompanyWithEmployees(company, List.of(employeeInvalidNameB));
@@ -84,8 +84,8 @@ class CompanyControllerIT {
         companyInvalidEmployeeSalaryB = createCompanyWithEmployees(company, List.of(employeeInvalidSalaryB));
 
         dummyEmployee = new EmployeeDto(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
-        dummyCompany = new CompanyDto(0, "DDDDD", "D", "D", List.of(dummyEmployee));
-        dummyCompanyBaseData = new CompanyDto(0, "DDDDD", "D", "D", null);
+        dummyCompany = new CompanyDto(0, "DDDDD", "D", "D", null, List.of(dummyEmployee));
+        dummyCompanyBaseData = new CompanyDto(0, "DDDDD", "D", "D", null, null);
     }
 
     @Test
@@ -156,7 +156,7 @@ class CompanyControllerIT {
     void testAddCompany_ExistingRegistrationNumberDifferentId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(2, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(2, company.getRegistrationNumber(), "C", "C", null, List.of());
 
         responseMap = checkInvalidPostRequestAndReturnResponseMap(companyOfSameRegistrationNumber);
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
@@ -168,7 +168,7 @@ class CompanyControllerIT {
     void testAddCompany_ExistingRegistrationNumberIdenticalId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(1, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(1, company.getRegistrationNumber(), "C", "C", null, List.of());
 
         response = checkValidPostRequestAndReturnResponse(companyOfSameRegistrationNumber);
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
@@ -280,7 +280,7 @@ class CompanyControllerIT {
     void testUpdateCompany_ExistingRegistrationNumberDifferentId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(0, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(0, company.getRegistrationNumber(), "C", "C", null, List.of());
 
         responseMap = checkInvalidPutRequestAndReturnResponseMap(BAD_REQUEST, companyOfSameRegistrationNumber, "/0");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
@@ -292,7 +292,7 @@ class CompanyControllerIT {
     void testUpdateCompany_ExistingRegistrationNumberIdenticalId() {
         clearAndLoadDummyCompanyForId(0);
         checkValidPostRequestAndReturnResponse(company);
-        companyOfSameRegistrationNumber = new CompanyDto(1, company.getRegistrationNumber(), "C", "C", List.of());
+        companyOfSameRegistrationNumber = new CompanyDto(1, company.getRegistrationNumber(), "C", "C", null, List.of());
 
         response = checkValidPutRequestAndReturnResponse(companyOfSameRegistrationNumber ,"/1");
         responseList = checkValidGetRequestAndReturnResponseList(COMPLETE_VIEW);
@@ -759,6 +759,7 @@ class CompanyControllerIT {
             dummyCompany.getRegistrationNumber(),
             dummyCompany.getName(),
             dummyCompany.getAddress(),
+            null,
             dummyCompany.getEmployees()
         );
         webTestClient.delete().uri(BASE_URI).exchange();
@@ -767,7 +768,7 @@ class CompanyControllerIT {
 
     private CompanyDto createCompanyWithEmployees(CompanyDto company, List<EmployeeDto> employees) {
         return new CompanyDto(
-            company.getId(), company.getRegistrationNumber(), company.getName(), company.getAddress(), employees
+            company.getId(), company.getRegistrationNumber(), company.getName(), company.getAddress(), null, employees
         );
     }
 

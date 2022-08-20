@@ -8,10 +8,26 @@ public class TestCompany {
 
     public static List<Company> initializeList() {
         return new ArrayList<>(List.of(
-            new Company("AA-11", "CompanyA", "AddressA", createTestEmployeeListOfLengthWithNamePrefix(1, "A.")),
-            new Company("BB-22", "CompanyB", "AddressB", createTestEmployeeListOfLengthWithNamePrefix(3, "B.")),
-            new Company("CC-33", "CompanyC", "AddressC", createTestEmployeeListOfLengthWithNamePrefix(6, "C.")),
-            new Company("DD-44", "CompanyD", "AddressD", createTestEmployeeListOfLengthWithNamePrefix(10, "D."))
+            new Company(
+                "AA-11", "CompanyA", "AddressA",
+                TestCompanyType.initializeList().get(0),
+                createTestEmployeeListOfLengthWithNamePrefix(1, "A.")
+            ),
+            new Company(
+                "BB-22", "CompanyB", "AddressB",
+                TestCompanyType.initializeList().get(1),
+                createTestEmployeeListOfLengthWithNamePrefix(3, "B.")
+            ),
+            new Company(
+                "CC-33", "CompanyC", "AddressC",
+                TestCompanyType.initializeList().get(2),
+                createTestEmployeeListOfLengthWithNamePrefix(6, "C.")
+            ),
+            new Company(
+                "DD-44", "CompanyD", "AddressD",
+                TestCompanyType.initializeList().get(3),
+                createTestEmployeeListOfLengthWithNamePrefix(10, "D.")
+            )
         ));
     }
 

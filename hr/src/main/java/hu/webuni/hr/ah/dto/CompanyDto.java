@@ -18,11 +18,14 @@ public class CompanyDto {
     @JsonView(CompanyDataView.BaseDataView.class)
     private final String registrationNumber;
 
-    @JsonView(CompanyDataView.BaseDataView.class)
+    @JsonView(CompanyDataView.IdentifierView.class)
     private String name;
 
     @JsonView(CompanyDataView.BaseDataView.class)
     private String address;
+
+    @JsonView(CompanyDataView.BaseDataView.class)
+    private CompanyTypeDto companyType;
 
     @Valid
     @JsonView(CompanyDataView.DetailedDataView.class)
@@ -30,11 +33,13 @@ public class CompanyDto {
 
     // --- constructors -------------------------------------------------------
 
-    public CompanyDto(long id, String registrationNumber, String name, String address, List<EmployeeDto> employees) {
+    public CompanyDto(long id, String registrationNumber, String name, String address,
+                      CompanyTypeDto companyType, List<EmployeeDto> employees) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.name = name;
         this.address = address;
+        this.companyType = companyType;
         this.employees = employees;
     }
 
@@ -44,5 +49,6 @@ public class CompanyDto {
     public String getRegistrationNumber() { return registrationNumber; }
     public String getName() { return name; }
     public String getAddress() { return address; }
+    public CompanyTypeDto getCompanyType() { return companyType; }
     public List<EmployeeDto> getEmployees() { return employees; }
 }

@@ -21,7 +21,7 @@ class CompanyTest {
         employeeA = new Employee(1, "EmployeeA", LocalDateTime.of(2020, 10, 10, 20, 20), "PositionA", 1000, null);
         employeeB = new Employee(2, "EmployeeB", LocalDateTime.of(2020, 10, 20, 10, 20), "PositionB", 1000, null);
 
-        company = new Company(1, "AA-11", "Company", "Address", List.of(employeeA, employeeB));
+        company = new Company(1, "AA-11", "Company", "Address", null, List.of(employeeA, employeeB));
     }
 
     @Test

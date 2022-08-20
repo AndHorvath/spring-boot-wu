@@ -1,23 +1,27 @@
 package hu.webuni.hr.ah.dto;
 
-public enum CompanyTypeDto {
+import com.fasterxml.jackson.annotation.JsonView;
+import hu.webuni.hr.ah.view.CompanyTypeDataView;
 
-    LIMITED_PARTNERSHIP("Limited Partnership"),
-    PRIVATE_LIMITED_COMPANY("Private Limited Partnership"),
-    PRIVATE_COMPANY_LIMITED_BY_SHARES("Private Company Limited by Shares"),
-    PUBLIC_LIMITED_COMPANY("Public Limited Company");
+public class CompanyTypeDto {
 
     // --- attributes ---------------------------------------------------------
 
-    private final String value;
+    @JsonView(CompanyTypeDataView.IdentifierView.class)
+    private final long id;
+
+    @JsonView(CompanyTypeDataView.IdentifierView.class)
+    private String name;
 
     // --- constructors -------------------------------------------------------
 
-    CompanyTypeDto(String value) {
-        this.value = value;
+    public CompanyTypeDto(long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     // --- getters and setters ------------------------------------------------
 
-    public String getValue() { return value; }
+    public long getId() { return id; }
+    public String getName() { return name; }
 }

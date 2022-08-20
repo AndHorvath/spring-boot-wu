@@ -1,9 +1,11 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Company;
+import hu.webuni.hr.ah.model.CompanyType;
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.TestEmployee;
 import hu.webuni.hr.ah.repository.CompanyRepository;
+import hu.webuni.hr.ah.repository.CompanyTypeRepository;
 import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
@@ -22,6 +24,9 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private CompanyTypeRepository companyTypeRepository;
 
     @Autowired
     private DataObjectIdentifierValidator identifierValidator;
@@ -102,14 +107,44 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     private void synchronizeCompanyWithDatabase(Employee employee) {
         if (hasCompanyWithId(employee)) {
             employee.setCompany(getCompanyById(employee.getCompany().getId()));
+        } else if (hasCompanyTypWithId(employee)) {
+            employee.getCompany().setCompanyType(getCompanyTypeById(employee.getCompany().getCompanyType().getId()));
+        } else if (hasCompanyTypeWithExistingName(employee)) {
+            employee.getCompany().setCompanyType(getCompanyTypeByName(employee.getCompany().getCompanyType().getName()));
         }
     }
 
     private boolean hasCompanyWithId(Employee employee) {
-        return employee.getCompany() != null && employee.getCompany().getId() != 0;
+        return employee.getCompany() != null
+            && employee.getCompany().getId() != 0;
+    }
+
+    private boolean hasCompanyType(Employee employee) {
+        return employee.getCompany() != null
+            && employee.getCompany().getCompanyType() != null;
+    }
+
+    private boolean hasCompanyTypWithId(Employee employee) {
+        return hasCompanyType(employee)
+            && employee.getCompany().getCompanyType().getId() != 0;
+    }
+
+    private boolean hasCompanyTypeWithExistingName(Employee employee) {
+        return hasCompanyType(employee)
+            && employee.getCompany().getCompanyType().getName() != null
+            && !employee.getCompany().getCompanyType().getName().isEmpty()
+            && getCompanyTypeByName(employee.getCompany().getCompanyType().getName()) != null;
     }
 
     private Company getCompanyById(long id) {
         return companyRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+    }
+
+    private CompanyType getCompanyTypeById(long id) {
+        return companyTypeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+    }
+
+    private CompanyType getCompanyTypeByName(String name) {
+        return companyTypeRepository.findByName(name);
     }
 }

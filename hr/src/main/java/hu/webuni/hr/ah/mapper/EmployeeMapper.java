@@ -13,11 +13,9 @@ import java.util.List;
 public interface EmployeeMapper {
 
     EmployeeDto employeeToDto(Employee employee);
-
     Employee dtoToEmployee(EmployeeDto employeeDto);
 
     List<EmployeeDto> employeesToDtos(List<Employee> employees);
-
     List<Employee> dtosToEmployees(List<EmployeeDto> employeeDtos);
 
     // --- helper mappings ----------------------------------------------------
