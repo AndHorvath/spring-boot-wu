@@ -10,6 +10,7 @@ import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -35,6 +36,10 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public List<Employee> getEmployeesOrderedBySalaryAndName() {
+        return employeeRepository.findAll(Sort.by("salary").descending().and(Sort.by("name").ascending()));
     }
 
     public Employee getEmployeeById(long id) {

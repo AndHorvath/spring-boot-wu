@@ -10,6 +10,7 @@ import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import hu.webuni.hr.ah.validation.NonUniqueIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,12 @@ public class CompanyTypeService {
 
     public List<CompanyType> getCompanyTypes() {
         return companyTypeRepository.findAll();
+    }
+
+    public List<CompanyType> getCompanyTypesOrderedByProperty(String propertyName, boolean isAscending) {
+        return isAscending ?
+            companyTypeRepository.findAll(Sort.by(propertyName).ascending()) :
+            companyTypeRepository.findAll(Sort.by(propertyName).descending());
     }
 
     public CompanyType getCompanyTypeById(long id) {

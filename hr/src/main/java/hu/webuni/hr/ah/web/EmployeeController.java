@@ -32,6 +32,12 @@ public class EmployeeController {
         return employeeMapper.employeesToDtos(employeeService.getEmployees());
     }
 
+    @GetMapping("/ordered")
+    @JsonView(EmployeeDataView.DetailedDataView.class)
+    public List<EmployeeDto> getEmployeesOrderedBySalaryAndName() {
+        return employeeMapper.employeesToDtos(employeeService.getEmployeesOrderedBySalaryAndName());
+    }
+
     @GetMapping("/{id}")
     @JsonView(EmployeeDataView.CompleteDataView.class)
     public EmployeeDto getEmployeeById(@PathVariable long id) {

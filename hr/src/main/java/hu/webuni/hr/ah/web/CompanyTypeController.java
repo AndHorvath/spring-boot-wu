@@ -38,6 +38,15 @@ public class CompanyTypeController {
         return companyMapper.companyTypesToDtos(companyTypeService.getCompanyTypes());
     }
 
+    @GetMapping(value = "/ordered", params = { "propertyName", "isAscending" })
+    @JsonView(CompanyTypeDataView.CompleteDataView.class)
+    public List<CompanyTypeDto> getCompanyTypesOrderedByProperty(@RequestParam String propertyName,
+                                                                 @RequestParam boolean isAscending) {
+        return companyMapper.companyTypesToDtos(
+            companyTypeService.getCompanyTypesOrderedByProperty(propertyName, isAscending)
+        );
+    }
+
     @GetMapping("/{id}")
     @JsonView(CompanyTypeDataView.CompleteDataView.class)
     public CompanyTypeDto getCompanyTypeById(@PathVariable long id) {
