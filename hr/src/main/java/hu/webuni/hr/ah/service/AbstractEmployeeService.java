@@ -1,15 +1,13 @@
 package hu.webuni.hr.ah.service;
 
-import hu.webuni.hr.ah.model.Company;
-import hu.webuni.hr.ah.model.CompanyType;
-import hu.webuni.hr.ah.model.Employee;
-import hu.webuni.hr.ah.model.TestEmployee;
+import hu.webuni.hr.ah.model.*;
 import hu.webuni.hr.ah.repository.CompanyRepository;
 import hu.webuni.hr.ah.repository.CompanyTypeRepository;
 import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +38,10 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     public List<Employee> getEmployeesOrderedBySalaryAndName() {
         return employeeRepository.findAll(Sort.by("salary").descending().and(Sort.by("name").ascending()));
+    }
+
+    public PageResult<Employee> getEmployeesWithPagination(Pageable pageable) {
+        return new PageResult<>(pageable, employeeRepository.findAll(pageable));
     }
 
     public Employee getEmployeeById(long id) {

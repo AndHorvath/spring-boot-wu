@@ -2,10 +2,14 @@ package hu.webuni.hr.ah.web;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.dto.EmployeeDto;
+import hu.webuni.hr.ah.dto.PageResultDto;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
 import hu.webuni.hr.ah.service.AbstractEmployeeService;
 import hu.webuni.hr.ah.view.EmployeeDataView;
+import hu.webuni.hr.ah.view.PageDataView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,6 +40,12 @@ public class EmployeeController {
     @JsonView(EmployeeDataView.DetailedDataView.class)
     public List<EmployeeDto> getEmployeesOrderedBySalaryAndName() {
         return employeeMapper.employeesToDtos(employeeService.getEmployeesOrderedBySalaryAndName());
+    }
+
+    @GetMapping("/paginated")
+    @JsonView(PageDataView.EmployeeCompleteDataView.class)
+    public PageResultDto<EmployeeDto> getEmployeesWithPagination(@PageableDefault(sort = "id") Pageable pageable) {
+        return employeeMapper.pageResultToDto(employeeService.getEmployeesWithPagination(pageable));
     }
 
     @GetMapping("/{id}")

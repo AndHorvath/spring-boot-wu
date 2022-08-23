@@ -3,11 +3,15 @@ package hu.webuni.hr.ah.web;
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.dto.CompanyDto;
 import hu.webuni.hr.ah.dto.EmployeeDto;
+import hu.webuni.hr.ah.dto.PageResultDto;
 import hu.webuni.hr.ah.mapper.CompanyMapper;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
 import hu.webuni.hr.ah.view.CompanyDataView;
 import hu.webuni.hr.ah.service.CompanyService;
+import hu.webuni.hr.ah.view.PageDataView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +47,12 @@ public class CompanyController {
     public List<CompanyDto> getCompaniesOrderedByProperty(@RequestParam String propertyName,
                                                           @RequestParam boolean isAscending) {
         return companyMapper.companiesToDtos(companyService.getCompaniesOrderedByProperty(propertyName, isAscending));
+    }
+
+    @GetMapping("/paginated")
+    @JsonView(PageDataView.CompanyCompleteDataView.class)
+    public PageResultDto<CompanyDto> getCompaniesWithPagination(@PageableDefault(sort = "id") Pageable pageable) {
+        return companyMapper.pageResultToDto(companyService.getCompaniesWithPagination(pageable));
     }
 
     @GetMapping(value = "/{id}", params = "full=true")

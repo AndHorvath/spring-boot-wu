@@ -2,8 +2,10 @@ package hu.webuni.hr.ah.mapper;
 
 import hu.webuni.hr.ah.dto.CompanyDto;
 import hu.webuni.hr.ah.dto.EmployeeDto;
+import hu.webuni.hr.ah.dto.PageResultDto;
 import hu.webuni.hr.ah.model.Company;
 import hu.webuni.hr.ah.model.Employee;
+import hu.webuni.hr.ah.model.PageResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -17,6 +19,8 @@ public interface EmployeeMapper {
 
     List<EmployeeDto> employeesToDtos(List<Employee> employees);
     List<Employee> dtosToEmployees(List<EmployeeDto> employeeDtos);
+
+    PageResultDto<EmployeeDto> pageResultToDto(PageResult<Employee> pageResult);
 
     // --- helper mappings ----------------------------------------------------
 

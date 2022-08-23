@@ -1,15 +1,13 @@
 package hu.webuni.hr.ah.service;
 
-import hu.webuni.hr.ah.model.Company;
-import hu.webuni.hr.ah.model.CompanyType;
-import hu.webuni.hr.ah.model.Employee;
-import hu.webuni.hr.ah.model.TestCompanyType;
+import hu.webuni.hr.ah.model.*;
 import hu.webuni.hr.ah.repository.CompanyRepository;
 import hu.webuni.hr.ah.repository.CompanyTypeRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import hu.webuni.hr.ah.validation.NonUniqueIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -42,6 +40,10 @@ public class CompanyTypeService {
         return isAscending ?
             companyTypeRepository.findAll(Sort.by(propertyName).ascending()) :
             companyTypeRepository.findAll(Sort.by(propertyName).descending());
+    }
+
+    public PageResult<CompanyType> getCompanyTypesWithPagination(Pageable pageable) {
+        return new PageResult<>(pageable, companyTypeRepository.findAll(pageable));
     }
 
     public CompanyType getCompanyTypeById(long id) {
