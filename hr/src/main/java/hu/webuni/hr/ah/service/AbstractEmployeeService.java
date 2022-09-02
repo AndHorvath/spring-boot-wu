@@ -114,7 +114,7 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     private void synchronizeCompanyWithDatabase(Employee employee) {
         if (hasCompanyWithId(employee)) {
             employee.setCompany(getCompanyById(employee.getCompany().getId()));
-        } else if (hasCompanyTypWithId(employee)) {
+        } else if (hasCompanyTypeWithId(employee)) {
             employee.getCompany().setCompanyType(getCompanyTypeById(employee.getCompany().getCompanyType().getId()));
         } else if (hasCompanyTypeWithExistingName(employee)) {
             employee.getCompany().setCompanyType(getCompanyTypeByName(employee.getCompany().getCompanyType().getName()));
@@ -131,7 +131,7 @@ public abstract class AbstractEmployeeService implements EmployeeService {
             && employee.getCompany().getCompanyType() != null;
     }
 
-    private boolean hasCompanyTypWithId(Employee employee) {
+    private boolean hasCompanyTypeWithId(Employee employee) {
         return hasCompanyType(employee)
             && employee.getCompany().getCompanyType().getId() != 0;
     }

@@ -1,5 +1,6 @@
 package hu.webuni.hr.ah.validation;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,14 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(NonUniqueIdentifierException.class)
     public ResponseEntity<ValidationError> handleNonUniqueIdentifier(NonUniqueIdentifierException exception) {
+        LOGGER.warn(exception.getMessage(), exception);
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(new ValidationError(BAD_REQUEST_CODE, exception.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<ValidationError> handleInvalidFormat(InvalidFormatException exception) {
         LOGGER.warn(exception.getMessage(), exception);
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)

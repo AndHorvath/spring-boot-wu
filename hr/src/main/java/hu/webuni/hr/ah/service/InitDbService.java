@@ -9,6 +9,9 @@ public class InitDbService {
     // --- attributes ---------------------------------------------------------
 
     @Autowired
+    private PositionService positionService;
+
+    @Autowired
     private AbstractEmployeeService employeeService;
 
     @Autowired
@@ -27,6 +30,7 @@ public class InitDbService {
     // --- private methods ----------------------------------------------------
 
     private void clearDatabase() {
+        positionService.deletePositions();
         employeeService.deleteEmployees();
         companyTypeService.deleteCompanyTypes();
         companyService.deleteCompanies();

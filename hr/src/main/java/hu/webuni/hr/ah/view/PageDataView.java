@@ -5,6 +5,9 @@ public class PageDataView {
     public interface BaseDataView { }
     public interface CompleteDataView extends BaseDataView { }
 
+    public interface PositionBaseDataView extends BaseDataView, PositionDataView.CompleteDataView { }
+    public interface PositionCompleteDataView extends CompleteDataView, PositionBaseDataView { }
+
     public interface EmployeeBaseDataView extends BaseDataView, EmployeeDataView.DetailedDataView { }
     public interface EmployeeCompleteDataView extends CompleteDataView, EmployeeBaseDataView { }
 
