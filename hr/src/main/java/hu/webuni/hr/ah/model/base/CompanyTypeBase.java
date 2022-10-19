@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.model;
+package hu.webuni.hr.ah.model.base;
 
 import java.util.Arrays;
 import java.util.List;

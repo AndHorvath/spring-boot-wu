@@ -1,4 +1,7 @@
-package hu.webuni.hr.ah.model;
+package hu.webuni.hr.ah.model.sample;
+
+import hu.webuni.hr.ah.model.Position;
+import hu.webuni.hr.ah.model.base.Qualification;
 
 import java.util.ArrayList;
 import java.util.List;

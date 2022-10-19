@@ -1,5 +1,7 @@
 package hu.webuni.hr.ah.model;
 
+import hu.webuni.hr.ah.model.base.Qualification;
+
 import javax.persistence.*;
 
 @Entity

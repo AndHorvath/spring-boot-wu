@@ -14,7 +14,7 @@ public class CompanyDto {
     @JsonView(CompanyDataView.IdentifierView.class)
     private final long id;
 
-    @Size(min = 5, max = 5, message = "{companyDto.registrationNumber.size}")
+    @Size(min = 5, max = 5, message = "{dto.CompanyDto.registrationNumber.Size.message}")
     @JsonView(CompanyDataView.BaseDataView.class)
     private final String registrationNumber;
 

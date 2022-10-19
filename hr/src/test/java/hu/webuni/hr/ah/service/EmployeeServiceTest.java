@@ -19,8 +19,8 @@ class EmployeeServiceTest {
     void setUp() {
         employeeServiceImplementation = employee -> 0;
 
-        employeeA = new Employee(1, "EmployeeA", LocalDateTime.now().minusMonths(18).minusDays(1), "PositionA", 100, null);
-        employeeB = new Employee(2, "EmployeeB", LocalDateTime.now().minusMonths(18).plusDays(1), "PositionB", 1000, null);
+        employeeA = new Employee(1, "EmployeeA", LocalDateTime.now().minusMonths(18).minusDays(1), null, 100, null);
+        employeeB = new Employee(2, "EmployeeB", LocalDateTime.now().minusMonths(18).plusDays(1), null, 1000, null);
     }
 
     @Test

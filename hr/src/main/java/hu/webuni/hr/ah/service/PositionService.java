@@ -1,15 +1,17 @@
 package hu.webuni.hr.ah.service;
 
-import hu.webuni.hr.ah.model.PageResult;
-import hu.webuni.hr.ah.model.Position;
-import hu.webuni.hr.ah.model.Qualification;
-import hu.webuni.hr.ah.model.TestPosition;
+import hu.webuni.hr.ah.model.*;
+import hu.webuni.hr.ah.model.base.Qualification;
+import hu.webuni.hr.ah.model.sample.TestPosition;
+import hu.webuni.hr.ah.repository.CompanyRepository;
+import hu.webuni.hr.ah.repository.EmployeeRepository;
 import hu.webuni.hr.ah.repository.PositionRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,12 @@ public class PositionService {
 
     @Autowired
     private PositionRepository positionRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Autowired
     private DataObjectIdentifierValidator identifierValidator;
@@ -54,6 +62,20 @@ public class PositionService {
         return positionRepository.findByMinimumSalaryGreaterThanEqual(minimumSalary);
     }
 
+    public List<Position> getPositionsByCompany(long companyId) {
+        validateParameter(companyId, companyRepository);
+        return positionRepository.findByCompany(companyId);
+    }
+
+    public List<Employee> getEmployeesByPosition(long positionId) {
+        validateParameter(positionId, positionRepository);
+        return positionRepository.findEmployeesByPosition(positionId);
+    }
+
+    public List<Employee> getEmployeesByPositionName(String positionNamePart) {
+        return positionRepository.findEmployeesByPositionName(createPatternForQuery(positionNamePart));
+    }
+
     @Transactional
     public List<Position> setTestData() {
         initializeTestData();
@@ -67,25 +89,27 @@ public class PositionService {
 
     @Transactional
     public Position updatePosition(long idToUpdate, Position position) {
-        validateParameter(idToUpdate);
+        validateParameter(idToUpdate, positionRepository);
         return positionRepository.save(position.createCopyWithId(idToUpdate));
     }
 
     @Transactional
     public void deletePositions() {
+        prepareEmployeesForRemovePositions();
         positionRepository.deleteAll();
     }
 
     @Transactional
     public void deletePositionById (long id) {
-        validateParameter(id);
+        validateParameter(id, positionRepository);
+        prepareEmployeesForRemovePosition(id);
         positionRepository.deleteById(id);
     }
 
     // --- private methods ----------------------------------------------------
 
-    private void validateParameter(long id) {
-        identifierValidator.validateIdentifierExistence(positionRepository, id);
+    private void validateParameter(long id, JpaRepository<?, Long> repository) {
+        identifierValidator.validateIdentifierExistence(repository, id);
     }
 
     private void initializeTestData() {
@@ -97,5 +121,22 @@ public class PositionService {
         if (!getPositions().isEmpty()) {
             deletePositions();
         }
+    }
+
+    private void prepareEmployeesForRemovePositions() {
+        getPositions().forEach(position -> prepareEmployeesForRemovePosition(position.getId()));
+    }
+
+    private void prepareEmployeesForRemovePosition(long positionId) {
+        getEmployeesByPosition(positionId).forEach(this::prepareEmployeeForRemovePosition);
+    }
+
+    private void prepareEmployeeForRemovePosition(Employee employee) {
+        employee.setPosition(null);
+        employeeRepository.save(employee);
+    }
+
+    private String createPatternForQuery(String namePart) {
+        return "%" + namePart + "%";
     }
 }

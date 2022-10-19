@@ -21,9 +21,9 @@ public class EmployeeDto {
     @JsonView(EmployeeDataView.BaseDataView.class)
     private LocalDateTime dateOfEntry;
 
-    @NotBlank
+    @NotNull
     @JsonView(EmployeeDataView.BaseDataView.class)
-    private String position;
+    private PositionDto position;
 
     @Positive
     @JsonView(EmployeeDataView.BaseDataView.class)
@@ -34,7 +34,8 @@ public class EmployeeDto {
 
     // --- constructors -------------------------------------------------------
 
-    public EmployeeDto(long id, String name, LocalDateTime dateOfEntry, String position, int salary, CompanyDto company) {
+    public EmployeeDto(long id, String name, LocalDateTime dateOfEntry,
+                       PositionDto position, int salary, CompanyDto company) {
         this.id = id;
         this.name = name;
         this.dateOfEntry = dateOfEntry;
@@ -48,7 +49,7 @@ public class EmployeeDto {
     public long getId() { return id; }
     public String getName() { return name; }
     public LocalDateTime getDateOfEntry() {	return dateOfEntry;	}
-    public String getPosition() { return position; }
+    public PositionDto getPosition() { return position; }
     public int getSalary() { return salary;	}
     public CompanyDto getCompany() { return company; }
 

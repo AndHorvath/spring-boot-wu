@@ -26,7 +26,7 @@ class SalaryServiceTest {
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
+        employee = new Employee(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000, null);
     }
 
     @Test

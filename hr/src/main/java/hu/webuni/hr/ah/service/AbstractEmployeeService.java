@@ -1,9 +1,11 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.*;
+import hu.webuni.hr.ah.model.sample.TestEmployee;
 import hu.webuni.hr.ah.repository.CompanyRepository;
 import hu.webuni.hr.ah.repository.CompanyTypeRepository;
 import hu.webuni.hr.ah.repository.EmployeeRepository;
+import hu.webuni.hr.ah.repository.PositionRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private PositionRepository positionRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -109,6 +114,21 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         if (!employeeRepository.findAll().isEmpty()) {
             employeeRepository.deleteAll();
         }
+    }
+
+    private void synchronizePositionWithDatabase(Employee employee) {
+        if (hasPositionWithId(employee)) {
+            employee.setPosition(getPositionById(employee.getId()));
+        }
+    }
+
+    private boolean hasPositionWithId(Employee employee) {
+        return employee.getPosition() != null
+            && employee.getPosition().getId() != 0;
+    }
+
+    private Position getPositionById(long id) {
+        return positionRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
 
     private void synchronizeCompanyWithDatabase(Employee employee) {

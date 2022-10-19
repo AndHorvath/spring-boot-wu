@@ -14,7 +14,10 @@ public class Employee {
 
     private String name;
     private LocalDateTime dateOfEntry;
-    private String position;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private Position position;
+
     private int salary;
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -24,14 +27,14 @@ public class Employee {
 
     public Employee() { }
 
-    public Employee(String name, LocalDateTime dateOfEntry, String position, int salary) {
+    public Employee(String name, LocalDateTime dateOfEntry, Position position, int salary) {
         this.name = name;
         this.dateOfEntry = dateOfEntry;
         this.position = position;
         this.salary = salary;
     }
 
-    public Employee(long id, String name, LocalDateTime dateOfEntry, String position, int salary, Company company) {
+    public Employee(long id, String name, LocalDateTime dateOfEntry, Position position, int salary, Company company) {
         this.id = id;
         this.name = name;
         this.dateOfEntry = dateOfEntry;
@@ -54,14 +57,14 @@ public class Employee {
     public long getId() { return id; }
     public String getName() { return name; }
     public LocalDateTime getDateOfEntry() { return dateOfEntry; }
-    public String getPosition() { return position; }
+    public Position getPosition() { return position; }
     public int getSalary() { return salary; }
     public Company getCompany() { return company; }
 
     public void setId(long id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setDateOfEntry(LocalDateTime dateOfEntry) { this.dateOfEntry = dateOfEntry; }
-    public void setPosition(String position) { this.position = position; }
+    public void setPosition(Position position) { this.position = position; }
     public void setSalary(int salary) { this.salary = salary; }
     public void setCompany(Company company) { this.company = company; }
 

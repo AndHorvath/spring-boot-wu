@@ -1,7 +1,7 @@
 package hu.webuni.hr.ah.web;
 
 import hu.webuni.hr.ah.model.Employee;
-import hu.webuni.hr.ah.model.TestEmployee;
+import hu.webuni.hr.ah.model.sample.TestEmployee;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

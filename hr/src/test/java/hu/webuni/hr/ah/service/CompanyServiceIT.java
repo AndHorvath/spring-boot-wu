@@ -33,11 +33,11 @@ class CompanyServiceIT {
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), "Position", 1000, null);
+        employee = new Employee(1, "Employee", LocalDateTime.of(2010, 10, 20, 0, 0), null, 1000, null);
 
         company = new Company(1, "AA-11", "Company", "Address", null, List.of(employee));
 
-        dummyEmployee = new Employee(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), "D", 1, null);
+        dummyEmployee = new Employee(0, "D", LocalDateTime.of(1, 1, 1, 1, 1), null, 1, null);
         dummyCompany = new Company(0, "DDDDD", "D", "D", null, List.of(dummyEmployee));
     }
 
