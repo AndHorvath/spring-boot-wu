@@ -10,12 +10,14 @@ import hu.webuni.hr.ah.view.PageDataView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -60,10 +62,10 @@ public class EmployeeController {
         return employeeMapper.employeesToDtos(employeeService.getEmployeesOverSalaryLimit(salaryLimit));
     }
 
-    @GetMapping(params = "position")
+    @GetMapping(params = "positionName")
     @JsonView(EmployeeDataView.DetailedDataView.class)
-    public List<EmployeeDto> getEmployeesByPosition(@RequestParam String position) {
-        return employeeMapper.employeesToDtos(employeeService.getEmployeesByPosition(position));
+    public List<EmployeeDto> getEmployeesByPosition(@RequestParam String positionName) {
+        return employeeMapper.employeesToDtos(employeeService.getEmployeesByPosition(positionName));
     }
 
     @GetMapping(params = "nameStart")

@@ -57,8 +57,8 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         return employeeRepository.findBySalaryGreaterThan(salaryLimit);
     }
 
-    public List<Employee> getEmployeesByPosition(String position) {
-        return employeeRepository.findByPosition(position);
+    public List<Employee> getEmployeesByPosition(String positionName) {
+        return employeeRepository.findByPosition(positionName);
     }
 
     public List<Employee> getEmployeesByNameStart(String nameStart) {
@@ -77,14 +77,14 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     @Transactional
     public Employee saveEmployee(Employee employee) {
-        synchronizeCompanyWithDatabase(employee);
+        synchronizeRelatedEntitiesWithDatabase(employee);
         return employeeRepository.save(employee);
     }
 
     @Transactional
     public Employee updateEmployee(long idToUpdate, Employee employee) {
         validateParameter(idToUpdate);
-        synchronizeCompanyWithDatabase(employee);
+        synchronizeRelatedEntitiesWithDatabase(employee);
         return employeeRepository.save(employee.createCopyWithId(idToUpdate));
     }
 
@@ -116,9 +116,14 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         }
     }
 
+    private void synchronizeRelatedEntitiesWithDatabase(Employee employee) {
+        synchronizePositionWithDatabase(employee);
+        synchronizeCompanyWithDatabase(employee);
+    }
+
     private void synchronizePositionWithDatabase(Employee employee) {
         if (hasPositionWithId(employee)) {
-            employee.setPosition(getPositionById(employee.getId()));
+            employee.setPosition(getPositionById(employee.getPosition().getId()));
         }
     }
 
@@ -135,9 +140,11 @@ public abstract class AbstractEmployeeService implements EmployeeService {
         if (hasCompanyWithId(employee)) {
             employee.setCompany(getCompanyById(employee.getCompany().getId()));
         } else if (hasCompanyTypeWithId(employee)) {
-            employee.getCompany().setCompanyType(getCompanyTypeById(employee.getCompany().getCompanyType().getId()));
+            employee.getCompany()
+                .setCompanyType(getCompanyTypeById(employee.getCompany().getCompanyType().getId()));
         } else if (hasCompanyTypeWithExistingName(employee)) {
-            employee.getCompany().setCompanyType(getCompanyTypeByName(employee.getCompany().getCompanyType().getName()));
+            employee.getCompany()
+                .setCompanyType(getCompanyTypeByName(employee.getCompany().getCompanyType().getName()));
         }
     }
 

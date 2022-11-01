@@ -6,8 +6,6 @@ import hu.webuni.hr.ah.validation.QualificationSubset;
 import hu.webuni.hr.ah.view.PositionDataView;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 public class PositionDto {
 
@@ -20,7 +18,6 @@ public class PositionDto {
     @JsonView(PositionDataView.BaseDataView.class)
     private String name;
 
-    @NotNull
     @QualificationSubset(anyOf = {
         Qualification.NONE,
         Qualification.ADVANCED_LEVEL, Qualification.COLLAGE,
@@ -29,7 +26,6 @@ public class PositionDto {
     @JsonView(PositionDataView.CompleteDataView.class)
     private Qualification requiredQualification;
 
-    @Positive
     @JsonView(PositionDataView.CompleteDataView.class)
     private int minimumSalary;
 

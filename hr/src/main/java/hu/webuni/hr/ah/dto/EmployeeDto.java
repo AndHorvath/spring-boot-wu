@@ -3,6 +3,7 @@ package hu.webuni.hr.ah.dto;
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.view.EmployeeDataView;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
@@ -21,7 +22,7 @@ public class EmployeeDto {
     @JsonView(EmployeeDataView.BaseDataView.class)
     private LocalDateTime dateOfEntry;
 
-    @NotNull
+    @Valid
     @JsonView(EmployeeDataView.BaseDataView.class)
     private PositionDto position;
 
