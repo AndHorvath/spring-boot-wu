@@ -1,6 +1,7 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Employee;
+import hu.webuni.hr.ah.service.employee.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

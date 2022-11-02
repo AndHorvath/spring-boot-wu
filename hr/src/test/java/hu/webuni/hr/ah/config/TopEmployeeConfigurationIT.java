@@ -1,6 +1,7 @@
 package hu.webuni.hr.ah.config;
 
-import hu.webuni.hr.ah.service.TopEmployeeService;
+import hu.webuni.hr.ah.config.employee.EmployeeConfiguration;
+import hu.webuni.hr.ah.service.employee.TopEmployeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

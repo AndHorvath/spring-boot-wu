@@ -1,6 +1,7 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Employee;
+import hu.webuni.hr.ah.service.employee.SmartEmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

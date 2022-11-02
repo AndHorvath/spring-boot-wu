@@ -1,11 +1,11 @@
-package hu.webuni.hr.ah.config;
+package hu.webuni.hr.ah.config.employee;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import hu.webuni.hr.ah.service.DefaultEmployeeService;
-import hu.webuni.hr.ah.service.EmployeeService;
+import hu.webuni.hr.ah.service.employee.DefaultEmployeeService;
+import hu.webuni.hr.ah.service.employee.EmployeeService;
 
 @Configuration
 @Profile("!smart & !advanced & !top")

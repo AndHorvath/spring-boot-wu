@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.dto.EmployeeDto;
 import hu.webuni.hr.ah.dto.PageResultDto;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
-import hu.webuni.hr.ah.service.AbstractEmployeeService;
+import hu.webuni.hr.ah.service.employee.AbstractEmployeeService;
 import hu.webuni.hr.ah.view.EmployeeDataView;
 import hu.webuni.hr.ah.view.PageDataView;
 import org.springframework.beans.factory.annotation.Autowired;

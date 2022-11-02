@@ -1,6 +1,7 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.Employee;
+import hu.webuni.hr.ah.service.employee.AbstractEmployeeService;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

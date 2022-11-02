@@ -1,5 +1,6 @@
 package hu.webuni.hr.ah.service;
 
+import hu.webuni.hr.ah.service.employee.AbstractEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

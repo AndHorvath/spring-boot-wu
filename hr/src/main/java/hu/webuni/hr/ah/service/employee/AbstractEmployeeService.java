@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.service;
+package hu.webuni.hr.ah.service.employee;
 
 import hu.webuni.hr.ah.model.*;
 import hu.webuni.hr.ah.model.sample.TestEmployee;
