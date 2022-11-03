@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.web;
+package hu.webuni.hr.ah.web.employee;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.dto.EmployeeDto;

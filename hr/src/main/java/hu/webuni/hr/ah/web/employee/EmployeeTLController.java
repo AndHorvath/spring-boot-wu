@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.web;
+package hu.webuni.hr.ah.web.employee;
 
 import hu.webuni.hr.ah.model.Employee;
 import hu.webuni.hr.ah.model.sample.TestEmployee;
