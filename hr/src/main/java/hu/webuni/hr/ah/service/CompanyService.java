@@ -58,8 +58,12 @@ public class CompanyService {
         return companyRepository.findDistinctByEmployeesSalaryGreaterThan(salaryLimit);
     }
 
-    public List<Company> getCompaniesWithEmployeesOverLimit(long employeeLimit) {
+    public List<Company> getCompaniesWithEmployeesOverEmployeeLimit(long employeeLimit) {
         return companyRepository.findDistinctByNumberOfEmployeesGreaterThan(employeeLimit);
+    }
+
+    public List<Company> getCompaniesWithPosition(String positionNamePart) {
+        return companyRepository.findByPosition(createPatternForQuery(positionNamePart));
     }
 
     public List<Object[]> getAverageSalariesOfPositionsByCompanyId(long companyId) {
@@ -266,5 +270,9 @@ public class CompanyService {
 
     private Employee getEmployeeById(long id) {
         return employeeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+    }
+
+    private String createPatternForQuery(String namePart) {
+        return "%" + namePart + "%";
     }
 }

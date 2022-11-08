@@ -69,8 +69,14 @@ public class CompanyController {
 
     @GetMapping(params = "employeeLimit")
     @JsonView(CompanyDataView.DetailedDataView.class)
-    public List<CompanyDto> getCompaniesWithEmployeesOverLimit(@RequestParam long employeeLimit) {
-        return companyMapper.companiesToDtos(companyService.getCompaniesWithEmployeesOverLimit(employeeLimit));
+    public List<CompanyDto> getCompaniesWithEmployeesOverEmployeeLimit(@RequestParam long employeeLimit) {
+        return companyMapper.companiesToDtos(companyService.getCompaniesWithEmployeesOverEmployeeLimit(employeeLimit));
+    }
+
+    @GetMapping(params = "positionName")
+    @JsonView(CompanyDataView.CompleteDataView.class)
+    public List<CompanyDto> getCompaniesWithPosition(@RequestParam String positionName) {
+        return companyMapper.companiesToDtos(companyService.getCompaniesWithPosition(positionName));
     }
 
     @GetMapping("/test")

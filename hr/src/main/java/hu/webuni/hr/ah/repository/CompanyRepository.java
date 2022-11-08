@@ -17,6 +17,12 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     List<Company> findDistinctByNumberOfEmployeesGreaterThan(long employeeLimit);
 
     @Query(
+        "SELECT DISTINCT c FROM Company c JOIN c.employees e JOIN e.position p " +
+        "WHERE c.id = e.company.id AND e.position.id = p.id AND UPPER(p.name) LIKE UPPER(:positionNamePattern)"
+    )
+    List<Company> findByPosition(String positionNamePattern);
+
+    @Query(
         "SELECT e.position, AVG(e.salary) FROM Company c JOIN c.employees e " +
         "GROUP BY c.id, e.position HAVING c.id = :companyId ORDER BY AVG(e.salary) DESC"
     )
