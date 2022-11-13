@@ -5,6 +5,7 @@ import hu.webuni.hr.ah.model.sample.TestCompany;
 import hu.webuni.hr.ah.repository.CompanyRepository;
 import hu.webuni.hr.ah.repository.CompanyTypeRepository;
 import hu.webuni.hr.ah.repository.EmployeeRepository;
+import hu.webuni.hr.ah.repository.PositionRepository;
 import hu.webuni.hr.ah.validation.DataObjectIdentifierValidator;
 import hu.webuni.hr.ah.validation.NonExistingIdentifierException;
 import hu.webuni.hr.ah.validation.NonUniqueIdentifierException;
@@ -30,6 +31,9 @@ public class CompanyService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private PositionRepository positionRepository;
 
     @Autowired
     private DataObjectIdentifierValidator identifierValidator;
@@ -234,6 +238,14 @@ public class CompanyService {
         long employeeId = employee.getId();
         if (employeeId != 0) {
             employees.set(employeeIndex, getEmployeeById(employeeId));
+        } else {
+            synchronizeEmployeePositionWithDatabase(employee);
+        }
+    }
+
+    private void synchronizeEmployeePositionWithDatabase(Employee employee) {
+        if (hasEmployeePositionWithId(employee)) {
+            employee.setPosition(getEmployeePositionById(employee.getPosition().getId()));
         }
     }
 
@@ -260,6 +272,11 @@ public class CompanyService {
             && getCompanyTypeByName(company.getCompanyType().getName()) != null;
     }
 
+    private boolean hasEmployeePositionWithId(Employee employee) {
+        return employee.getPosition() != null
+            && employee.getPosition().getId() != 0;
+    }
+
     private CompanyType getCompanyTypeById(long id) {
         return companyTypeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
@@ -270,6 +287,10 @@ public class CompanyService {
 
     private Employee getEmployeeById(long id) {
         return employeeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+    }
+
+    private Position getEmployeePositionById(long id) {
+        return positionRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
     }
 
     private String createPatternForQuery(String namePart) {
