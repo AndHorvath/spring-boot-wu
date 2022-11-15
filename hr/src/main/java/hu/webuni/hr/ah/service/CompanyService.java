@@ -187,18 +187,21 @@ public class CompanyService {
     }
 
     private Company prepareCompanyForSave(long companyId, Employee employee) {
-        Company companyToUpdate = getCompanyById(companyId);
+        synchronizeEmployeePositionWithDatabase(employee);
         synchronizeDatabaseWithEmployee(employee);
+
+        Company companyToUpdate = getCompanyById(companyId);
         companyToUpdate.addEmployee(employee);
         return companyToUpdate;
     }
 
     private Company prepareCompanyForSave(long companyId, List<Employee> employees) {
+        employees.forEach(this::synchronizeEmployeePositionWithDatabase);
+        employees.forEach(this::synchronizeDatabaseWithEmployee);
+
         Company companyToUpdate = getCompanyById(companyId);
         prepareCompanyForRemoveEmployments(companyToUpdate);
         companyToUpdate.clearEmployeeList();
-
-        employees.forEach(this::synchronizeDatabaseWithEmployee);
         companyToUpdate.addEmployees(employees);
         return companyToUpdate;
     }
