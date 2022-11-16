@@ -23,8 +23,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     List<Company> findByPosition(String positionNamePattern);
 
     @Query(
-        "SELECT e.position, AVG(e.salary) FROM Company c JOIN c.employees e " +
-        "GROUP BY c.id, e.position HAVING c.id = :companyId ORDER BY AVG(e.salary) DESC"
+        "SELECT e.position.name, AVG(e.salary) FROM Company c JOIN c.employees e " +
+        "GROUP BY c.id, e.position.name HAVING c.id = :companyId ORDER BY AVG(e.salary) DESC"
     )
     List<Object[]> findAverageSalariesOfPositionsByCompanyId(long companyId);
 }
