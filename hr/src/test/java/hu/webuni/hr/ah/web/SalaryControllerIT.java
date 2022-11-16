@@ -1,7 +1,7 @@
 package hu.webuni.hr.ah.web;
 
 import hu.webuni.hr.ah.dto.EmployeeDto;
-import hu.webuni.hr.ah.dto.EmployeeSalaryConditionDto;
+import hu.webuni.hr.ah.dto.salary.EmployeeSalaryConditionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

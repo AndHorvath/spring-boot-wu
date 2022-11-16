@@ -1,6 +1,9 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.*;
+import hu.webuni.hr.ah.model.salary.CompanySalaryCondition;
+import hu.webuni.hr.ah.model.salary.EmployeeSalaryCondition;
+import hu.webuni.hr.ah.model.salary.PositionSalaryCondition;
 import hu.webuni.hr.ah.service.employee.AbstractEmployeeService;
 import hu.webuni.hr.ah.service.employee.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;

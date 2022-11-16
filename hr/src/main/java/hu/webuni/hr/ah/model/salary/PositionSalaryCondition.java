@@ -1,21 +1,15 @@
-package hu.webuni.hr.ah.dto;
+package hu.webuni.hr.ah.model.salary;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import hu.webuni.hr.ah.view.SalaryDataView;
-
-public class PositionSalaryConditionDto {
+public class PositionSalaryCondition {
 
     // --- attributes ---------------------------------------------------------
 
-    @JsonView(SalaryDataView.PositionBaseDataView.class)
     private String designation;
-
-    @JsonView(SalaryDataView.PositionCompleteDataView.class)
     private double averageSalary;
 
     // --- constructors -------------------------------------------------------
 
-    public PositionSalaryConditionDto(String designation, double averageSalary) {
+    public PositionSalaryCondition(String designation, double averageSalary) {
         this.designation = designation;
         this.averageSalary = averageSalary;
     }

@@ -1,7 +1,8 @@
-package hu.webuni.hr.ah.dto;
+package hu.webuni.hr.ah.dto.salary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import hu.webuni.hr.ah.dto.CompanyDto;
 import hu.webuni.hr.ah.view.CompanyDataView;
 import hu.webuni.hr.ah.view.SalaryDataView;
 

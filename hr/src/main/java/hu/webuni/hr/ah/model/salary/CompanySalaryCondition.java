@@ -1,4 +1,6 @@
-package hu.webuni.hr.ah.model;
+package hu.webuni.hr.ah.model.salary;
+
+import hu.webuni.hr.ah.model.Company;
 
 import java.util.List;
 

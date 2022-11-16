@@ -1,9 +1,9 @@
 package hu.webuni.hr.ah.web;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import hu.webuni.hr.ah.dto.CompanySalaryConditionDto;
+import hu.webuni.hr.ah.dto.salary.CompanySalaryConditionDto;
 import hu.webuni.hr.ah.dto.EmployeeDto;
-import hu.webuni.hr.ah.dto.EmployeeSalaryConditionDto;
+import hu.webuni.hr.ah.dto.salary.EmployeeSalaryConditionDto;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
 import hu.webuni.hr.ah.mapper.SalaryConditionMapper;
 import hu.webuni.hr.ah.service.SalaryService;
