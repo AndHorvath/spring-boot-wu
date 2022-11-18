@@ -2,7 +2,7 @@ package hu.webuni.hr.ah.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.model.base.Qualification;
-import hu.webuni.hr.ah.validation.QualificationSubset;
+import hu.webuni.hr.ah.validation.qualification.QualificationSubset;
 import hu.webuni.hr.ah.view.PositionDataView;
 
 import javax.validation.constraints.NotBlank;

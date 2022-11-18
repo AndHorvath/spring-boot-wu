@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.validation;
+package hu.webuni.hr.ah.validation.qualification;
 
 import hu.webuni.hr.ah.model.base.Qualification;
 
