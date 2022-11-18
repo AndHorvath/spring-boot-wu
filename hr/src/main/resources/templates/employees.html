@@ -47,7 +47,7 @@
                     </td>
 
                     <td th:text="${employee.dateOfEntry}">date of entry</td>
-                    <td th:text="${employee.position}">position</td>
+                    <td th:text="${employee.position.name}">position</td>
                     <td th:text="${employee.salary}">salary</td>
 
                     <td>
@@ -65,7 +65,7 @@
             Id: <input th:field="*{id}"><br>
             Name: <input th:field="*{name}"><br>
             Date of entry: <input th:field="*{dateOfEntry}"><br>
-            Position: <input th:field="*{position}"><br>
+            Position: <input th:field="*{position.name}"><br>
             Salary: <input th:field="*{salary}"><br><br>
             Submit: <input type="submit" value="Add employee">
         </form>

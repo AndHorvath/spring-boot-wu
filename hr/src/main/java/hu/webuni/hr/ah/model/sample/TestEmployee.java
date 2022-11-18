@@ -25,4 +25,16 @@ public class TestEmployee {
             new Employee("EmployeeJ", LocalDateTime.of(2011, 10, 20, 0, 0), testPositionList.get(4), 1900)
         ));
     }
+
+    public static List<Employee> initializeListWithIds() {
+        List<Employee> testList = initializeList();
+        testList.forEach(employee -> initializeId(testList, employee));
+        return testList;
+    }
+
+    // --- private methods ----------------------------------------------------
+
+    private static void initializeId(List<Employee> testList, Employee employee) {
+        employee.setId(testList.indexOf(employee));
+    }
 }

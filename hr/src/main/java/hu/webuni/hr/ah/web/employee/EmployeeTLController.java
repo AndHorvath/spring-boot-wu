@@ -84,21 +84,21 @@ public class EmployeeTLController {
     // --- private methods ----------------------------------------------------
 
     private void initializeTestData() {
-        employees = TestEmployee.initializeList();
+        employees = TestEmployee.initializeListWithIds();
     }
 
     private Employee getEmployeeById(long id) {
         return employees.stream()
             .filter(employee -> employee.getId() == id)
             .findAny()
-            .orElseThrow(createNoEmployeeException());
+            .orElseThrow(createNoEmployeeException(id));
     }
 
     private int getIndexByEmployeeId(long id) {
         return employees.indexOf(getEmployeeById(id));
     }
 
-    private Supplier<IllegalStateException> createNoEmployeeException() {
-        return () -> new IllegalStateException("No employee with specified ID in database.");
+    private Supplier<IllegalStateException> createNoEmployeeException(long id) {
+        return () -> new IllegalStateException("No employee with specified ID in memory: " + id);
     }
 }
