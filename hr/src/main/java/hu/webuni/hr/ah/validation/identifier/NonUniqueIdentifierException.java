@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.validation;
+package hu.webuni.hr.ah.validation.identifier;
 
 import hu.webuni.hr.ah.model.Company;
 import hu.webuni.hr.ah.model.CompanyType;

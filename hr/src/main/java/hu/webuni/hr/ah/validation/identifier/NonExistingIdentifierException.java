@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.validation;
+package hu.webuni.hr.ah.validation.identifier;
 
 public class NonExistingIdentifierException extends InvalidIdentifierException {
 

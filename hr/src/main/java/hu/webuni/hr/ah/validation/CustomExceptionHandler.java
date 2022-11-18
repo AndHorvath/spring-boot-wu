@@ -1,6 +1,8 @@
 package hu.webuni.hr.ah.validation;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import hu.webuni.hr.ah.validation.identifier.NonExistingIdentifierException;
+import hu.webuni.hr.ah.validation.identifier.NonUniqueIdentifierException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

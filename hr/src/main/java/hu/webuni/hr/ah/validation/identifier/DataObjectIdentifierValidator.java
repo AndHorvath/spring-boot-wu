@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.validation;
+package hu.webuni.hr.ah.validation.identifier;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
