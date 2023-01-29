@@ -1,9 +1,9 @@
 package hu.webuni.hr.ah.mapper;
 
 import hu.webuni.hr.ah.dto.CompanyTypeDto;
-import hu.webuni.hr.ah.dto.PageResultDto;
+import hu.webuni.hr.ah.dto.base.PageResultDto;
 import hu.webuni.hr.ah.model.CompanyType;
-import hu.webuni.hr.ah.model.PageResult;
+import hu.webuni.hr.ah.model.base.PageResult;
 import org.mapstruct.Mapper;
 
 import java.util.List;

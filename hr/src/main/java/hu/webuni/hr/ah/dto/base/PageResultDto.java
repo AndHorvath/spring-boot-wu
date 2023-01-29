@@ -1,7 +1,7 @@
-package hu.webuni.hr.ah.dto;
+package hu.webuni.hr.ah.dto.base;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import hu.webuni.hr.ah.view.PageDataView;
+import hu.webuni.hr.ah.view.base.PageDataView;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;

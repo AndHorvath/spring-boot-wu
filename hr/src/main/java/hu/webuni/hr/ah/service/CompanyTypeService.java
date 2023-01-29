@@ -1,6 +1,7 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.*;
+import hu.webuni.hr.ah.model.base.PageResult;
 import hu.webuni.hr.ah.model.sample.TestCompanyType;
 import hu.webuni.hr.ah.repository.CompanyRepository;
 import hu.webuni.hr.ah.repository.CompanyTypeRepository;

@@ -2,11 +2,11 @@ package hu.webuni.hr.ah.web.employee;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.dto.EmployeeDto;
-import hu.webuni.hr.ah.dto.PageResultDto;
+import hu.webuni.hr.ah.dto.base.PageResultDto;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
 import hu.webuni.hr.ah.service.employee.AbstractEmployeeService;
 import hu.webuni.hr.ah.view.EmployeeDataView;
-import hu.webuni.hr.ah.view.PageDataView;
+import hu.webuni.hr.ah.view.base.PageDataView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

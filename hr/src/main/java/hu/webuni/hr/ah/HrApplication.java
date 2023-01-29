@@ -1,7 +1,7 @@
 package hu.webuni.hr.ah;
 
 import hu.webuni.hr.ah.model.sample.TestEmployee;
-import hu.webuni.hr.ah.service.InitDbService;
+import hu.webuni.hr.ah.service.base.InitDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

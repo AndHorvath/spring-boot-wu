@@ -1,5 +1,8 @@
-package hu.webuni.hr.ah.service;
+package hu.webuni.hr.ah.service.base;
 
+import hu.webuni.hr.ah.service.CompanyService;
+import hu.webuni.hr.ah.service.CompanyTypeService;
+import hu.webuni.hr.ah.service.PositionService;
 import hu.webuni.hr.ah.service.employee.AbstractEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

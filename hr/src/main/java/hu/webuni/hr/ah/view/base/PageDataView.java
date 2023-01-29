@@ -1,4 +1,9 @@
-package hu.webuni.hr.ah.view;
+package hu.webuni.hr.ah.view.base;
+
+import hu.webuni.hr.ah.view.CompanyDataView;
+import hu.webuni.hr.ah.view.CompanyTypeDataView;
+import hu.webuni.hr.ah.view.EmployeeDataView;
+import hu.webuni.hr.ah.view.PositionDataView;
 
 public class PageDataView {
 

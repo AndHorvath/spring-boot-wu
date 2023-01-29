@@ -1,4 +1,4 @@
-package hu.webuni.hr.ah.model;
+package hu.webuni.hr.ah.model.base;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
