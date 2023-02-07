@@ -1,6 +1,7 @@
 package hu.webuni.hr.ah.service;
 
 import hu.webuni.hr.ah.model.*;
+import hu.webuni.hr.ah.model.base.PageResult;
 import hu.webuni.hr.ah.model.base.Qualification;
 import hu.webuni.hr.ah.model.sample.TestPosition;
 import hu.webuni.hr.ah.repository.CompanyRepository;
@@ -52,6 +53,10 @@ public class PositionService {
 
     public Position getPositionById(long id) {
         return positionRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+    }
+
+    public List<Position> getPositionsByName(String positionNamePart) {
+        return positionRepository.findByNameContainingIgnoreCase(positionNamePart);
     }
 
     public List<Position> getPositionsByRequiredQualification(String requiredQualification) {

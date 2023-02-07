@@ -2,13 +2,13 @@ package hu.webuni.hr.ah.web;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import hu.webuni.hr.ah.dto.EmployeeDto;
-import hu.webuni.hr.ah.dto.PageResultDto;
+import hu.webuni.hr.ah.dto.base.PageResultDto;
 import hu.webuni.hr.ah.dto.PositionDto;
 import hu.webuni.hr.ah.mapper.EmployeeMapper;
 import hu.webuni.hr.ah.mapper.PositionMapper;
 import hu.webuni.hr.ah.service.PositionService;
 import hu.webuni.hr.ah.view.EmployeeDataView;
-import hu.webuni.hr.ah.view.PageDataView;
+import hu.webuni.hr.ah.view.base.PageDataView;
 import hu.webuni.hr.ah.view.PositionDataView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -60,6 +60,12 @@ public class PositionController {
         return positionMapper.positionToDto(positionService.getPositionById(id));
     }
 
+    @GetMapping(params = "positionNamePart")
+    @JsonView(PositionDataView.CompleteDataView.class)
+    public List<PositionDto> getPositionsByName(@RequestParam String positionNamePart) {
+        return positionMapper.positionsToDtos(positionService.getPositionsByName(positionNamePart));
+    }
+
     @GetMapping(params = "requiredQualification")
     @JsonView(PositionDataView.CompleteDataView.class)
     public List<PositionDto> getPositionsByRequiredQualification(@RequestParam String requiredQualification) {
@@ -81,13 +87,13 @@ public class PositionController {
     }
 
     @GetMapping("/employee/{positionId}")
-    @JsonView(EmployeeDataView.DetailedDataView.class)
+    @JsonView(EmployeeDataView.CompletePositionDataView.class)
     public List<EmployeeDto> getEmployeesByPosition(@PathVariable long positionId) {
         return employeeMapper.employeesToDtos(positionService.getEmployeesByPosition(positionId));
     }
 
     @GetMapping(value = "/employee", params = "positionNamePart")
-    @JsonView(EmployeeDataView.DetailedDataView.class)
+    @JsonView(EmployeeDataView.CompletePositionDataView.class)
     public List<EmployeeDto> getEmployeesByPositionName(@RequestParam String positionNamePart) {
         return employeeMapper.employeesToDtos(positionService.getEmployeesByPositionName(positionNamePart));
     }

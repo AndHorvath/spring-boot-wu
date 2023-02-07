@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface PositionRepository extends JpaRepository<Position, Long> {
 
+    List<Position> findByNameContainingIgnoreCase(String positionNamePattern);
+
     List<Position> findByRequiredQualification(Qualification requiredQualification);
 
     List<Position> findByMinimumSalaryGreaterThanEqual(int minimumSalary);

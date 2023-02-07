@@ -5,5 +5,6 @@ public class EmployeeDataView {
     public interface IdentifierView { }
     public interface BaseDataView extends IdentifierView, PositionDataView.BaseDataView { }
     public interface DetailedDataView extends BaseDataView, CompanyDataView.IdentifierView { }
-    public interface CompleteDataView extends DetailedDataView, CompanyDataView.BaseDataView, PositionDataView.CompleteDataView { }
+    public interface CompletePositionDataView extends DetailedDataView, PositionDataView.CompleteDataView { }
+    public interface CompleteDataView extends CompletePositionDataView, CompanyDataView.BaseDataView { }
 }
