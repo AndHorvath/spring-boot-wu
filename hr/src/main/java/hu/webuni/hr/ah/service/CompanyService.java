@@ -56,7 +56,8 @@ public class CompanyService {
     }
 
     public Company getCompanyById(long id) {
-        return companyRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return companyRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, companyRepository));
     }
 
     public List<Company> getCompaniesWithEmployeesOverSalaryLimit(int salaryLimit) {
@@ -282,7 +283,8 @@ public class CompanyService {
     }
 
     private CompanyType getCompanyTypeById(long id) {
-        return companyTypeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return companyTypeRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, companyTypeRepository));
     }
 
     private CompanyType getCompanyTypeByName(String name) {
@@ -290,11 +292,13 @@ public class CompanyService {
     }
 
     private Employee getEmployeeById(long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return employeeRepository
+            .findById(id).orElseThrow(() -> new NonExistingIdentifierException(id, employeeRepository));
     }
 
     private Position getEmployeePositionById(long id) {
-        return positionRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return positionRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, positionRepository));
     }
 
     private String createPatternForQuery(String namePart) {

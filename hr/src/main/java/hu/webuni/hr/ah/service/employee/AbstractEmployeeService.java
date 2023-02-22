@@ -51,7 +51,8 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     public Employee getEmployeeById(long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return employeeRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, employeeRepository));
     }
 
     public List<Employee> getEmployeesOverSalaryLimit(int salaryLimit) {
@@ -134,7 +135,8 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     private Position getPositionById(long id) {
-        return positionRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return positionRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, positionRepository));
     }
 
     private void synchronizeCompanyWithDatabase(Employee employee) {
@@ -172,11 +174,13 @@ public abstract class AbstractEmployeeService implements EmployeeService {
     }
 
     private Company getCompanyById(long id) {
-        return companyRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return companyRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, companyRepository));
     }
 
     private CompanyType getCompanyTypeById(long id) {
-        return companyTypeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return companyTypeRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, companyTypeRepository));
     }
 
     private CompanyType getCompanyTypeByName(String name) {

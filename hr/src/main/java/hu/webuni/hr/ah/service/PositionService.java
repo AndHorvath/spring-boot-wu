@@ -52,7 +52,8 @@ public class PositionService {
     }
 
     public Position getPositionById(long id) {
-        return positionRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return positionRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, positionRepository));
     }
 
     public List<Position> getPositionsByName(String positionNamePart) {

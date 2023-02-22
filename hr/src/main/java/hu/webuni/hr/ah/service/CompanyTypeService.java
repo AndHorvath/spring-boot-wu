@@ -49,7 +49,8 @@ public class CompanyTypeService {
     }
 
     public CompanyType getCompanyTypeById(long id) {
-        return companyTypeRepository.findById(id).orElseThrow(() -> new NonExistingIdentifierException(id));
+        return companyTypeRepository.findById(id)
+            .orElseThrow(() -> new NonExistingIdentifierException(id, companyTypeRepository));
     }
 
     public CompanyType getCompanyTypeByCompanyId(long companyId) {

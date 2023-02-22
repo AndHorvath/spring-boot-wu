@@ -16,7 +16,7 @@ public class DataObjectIdentifierValidator {
 
     public void validateIdentifierExistence(JpaRepository<?, Long> repository, long id) {
         if (!repository.existsById(id)) {
-            throw new NonExistingIdentifierException(id);
+            throw new NonExistingIdentifierException(id, repository);
         }
     }
 }
