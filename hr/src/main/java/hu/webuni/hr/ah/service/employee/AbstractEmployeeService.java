@@ -109,7 +109,7 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 
     private void initializeTestData() {
         initializeRepository();
-        TestEmployee.initializeList().forEach(this::saveEmployee);
+        TestEmployee.initializeBaseList().forEach(this::saveEmployee);
     }
 
     private void initializeRepository() {

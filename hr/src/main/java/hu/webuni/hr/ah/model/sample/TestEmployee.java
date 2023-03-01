@@ -27,9 +27,15 @@ public class TestEmployee {
     }
 
     public static List<Employee> initializeListWithIds() {
-        List<Employee> testList = initializeList();
-        testList.forEach(employee -> initializeId(testList, employee));
-        return testList;
+        List<Employee> employeeListWithIds = initializeList();
+        employeeListWithIds.forEach(employee -> initializeId(employeeListWithIds, employee));
+        return employeeListWithIds;
+    }
+
+    public static List<Employee> initializeBaseList() {
+        List<Employee> employeeBaseList = initializeList();
+        employeeBaseList.forEach(Employee::deleteEmployment);
+        return employeeBaseList;
     }
 
     // --- private methods ----------------------------------------------------
