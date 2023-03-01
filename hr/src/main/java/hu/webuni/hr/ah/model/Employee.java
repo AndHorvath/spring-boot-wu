@@ -88,6 +88,11 @@ public class Employee {
         company = null;
     }
 
+    public void deletePosition() {
+        position = null;
+        salary = 0;
+    }
+
     @Override
     public String toString() {
         return "Employee [name=" + name + ", dateOfEntry=" + dateOfEntry + ", salary=" + salary + "]";
